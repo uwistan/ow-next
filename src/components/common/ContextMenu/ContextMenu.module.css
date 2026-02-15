@@ -1,0 +1,102 @@
+/* ── ContextMenu ───────────────────────────────────────────────────── */
+
+.menu {
+  position: fixed;
+  min-width: 200px;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  z-index: 1000;
+}
+
+/* ── Menu item ─────────────────────────────────────────────────────── */
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.item:hover {
+  background: var(--color-gray-100);
+  color: var(--color-black);
+}
+
+.itemDanger {
+  color: #e74c3c;
+}
+
+.itemDanger:hover {
+  color: #c0392b;
+  background: var(--color-gray-100);
+}
+
+.itemIcon {
+  display: flex;
+  width: 16px;
+  color: var(--color-gray-500);
+  flex-shrink: 0;
+}
+
+.itemLabel {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemChevron {
+  margin-left: auto;
+  display: flex;
+  color: var(--color-gray-500);
+  flex-shrink: 0;
+}
+
+.itemCheckbox {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--color-gray-400);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.itemCheckboxChecked {
+  background: var(--color-black);
+  border-color: var(--color-black);
+}
+
+.checkIcon {
+  color: var(--color-white);
+}
+
+/* ── Divider ───────────────────────────────────────────────────────── */
+
+.divider {
+  height: 1px;
+  background: var(--color-gray-200);
+  margin: 4px 0;
+}
+
+/* ── Submenu ────────────────────────────────────────────────────────── */
+
+.submenu {
+  position: fixed;
+  min-width: 200px;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 4px;
+  z-index: 1001;
+}

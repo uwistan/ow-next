@@ -1,0 +1,80 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  background: var(--color-white);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm);
+  box-shadow: var(--box-shadow);
+}
+
+.inputRow {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.textarea {
+  flex: 1;
+  font-family: var(--font-family-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-black);
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  line-height: var(--line-height-normal);
+  padding: 0;
+}
+
+.textarea::placeholder {
+  color: var(--color-gray-400);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.controlGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.pillGroup {
+  display: flex;
+  gap: 2px;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+
+.pill {
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-500);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.pill:hover {
+  color: var(--color-black);
+}
+
+.pill.pillActive {
+  background: var(--color-white);
+  color: var(--color-black);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pill.pillIcon {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

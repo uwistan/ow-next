@@ -1,0 +1,366 @@
+.button {
+  --radius: var(--radius-lg);
+  position: relative;
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  line-height: var(--line-height-normal);
+  letter-spacing: -0.011em;
+  max-width: 100%;
+
+  display: inline-flex;
+  padding: 1.5px;
+  overflow: hidden;
+  user-select: none;
+}
+
+.button:disabled,
+.button[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Sizes */
+.sm {
+  --radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+
+.md {
+  --radius: 16px;
+  font-size: var(--font-size-sm);
+}
+
+.sm .inner {
+  padding: var(--spacing-2xs) var(--spacing-sm);
+  height: 36px;
+
+  @media (max-width: 768px) {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-md);
+  }
+}
+
+.md .inner {
+  padding: 0.6rem 1rem;
+
+  @media (max-width: 768px) {
+    font-size: var(--font-size-md);
+  }
+}
+
+.inner {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+  width: 100%;
+  justify-content: center;
+  border-radius: calc(var(--radius) - 1.5px);
+}
+
+/* inner pseudo element needed to transition hover background */
+.inner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: -1;
+  background: var(--color-button-primary-hoverfill);
+  transition: opacity var(--transition-fast);
+}
+
+/* Variants */
+.primary {
+  color: var(--color-white);
+  box-shadow: 0px 4px 14px 1px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(
+    to top,
+    var(--color-button-primary-defaultoutlinelower),
+    var(--color-button-primary-defaultoutlineupper)
+  );
+}
+
+.primary .inner {
+  background: linear-gradient(
+    to top,
+    var(--color-button-primary-defaultfilllower),
+    var(--color-button-primary-defaultfillupper)
+  );
+}
+
+.primary:hover .inner::after {
+  opacity: 1;
+}
+
+.primary:active:not(:disabled),
+.primary.active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.primary:active:not(:disabled) .inner,
+.primary.active:not(:disabled) .inner {
+  opacity: 0.7;
+}
+
+/* Secondary */
+.secondary {
+  background: linear-gradient(
+    to top,
+    var(--color-button-secondary-defaultoutlinelower),
+    var(--color-button-secondary-defaultoutlineupper)
+  );
+  color: var(--color-button-secondary-defaulttext);
+  box-shadow: 0px 3px 6px -2px rgba(0, 0, 0, 0.07);
+}
+
+.secondary .inner {
+  background: linear-gradient(
+    to top,
+    var(--color-button-secondary-defaultbackgroundlower),
+    var(--color-button-secondary-defaultbackgroundupper)
+  );
+}
+
+.secondary .inner::after {
+  content: "";
+  background: var(--color-button-secondary-hoverfill);
+}
+
+.secondary:hover:not(:disabled) .inner::after {
+  opacity: 1;
+}
+
+.secondary:active:not(:disabled),
+.secondary.active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.secondary:active:not(:disabled) .inner,
+.secondary.active:not(:disabled) .inner {
+  opacity: 0.7;
+}
+
+/* Secondary danger variant */
+.secondary.danger {
+  color: var(--color-white);
+  background: linear-gradient(
+    to top,
+    var(--color-button-primary-defaultredoutlinelower),
+    var(--color-button-primary-defaultredoutlinelupper)
+  );
+}
+
+.secondary.danger .inner {
+  background: linear-gradient(
+    to top,
+    var(--color-button-primary-defaultredfilllower),
+    var(--color-button-primary-defaultredfillupper)
+  );
+}
+
+.secondary.danger .inner::after {
+  background: var(--color-button-primary-defaultredfillupper);
+}
+
+.secondary.danger:hover:not(:disabled) .inner::after {
+  opacity: 1;
+}
+
+/* Tertiary */
+.tertiary {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.03));
+}
+
+.tertiary .inner {
+  background: white;
+}
+
+.tertiary:hover:not(:disabled) .inner {
+  background-color: var(--color-gray-100);
+}
+
+.tertiary:active:not(:disabled),
+.tertiary.active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.tertiary:active:not(:disabled) .inner,
+.tertiary.active:not(:disabled) .inner {
+  background-color: var(--color-gray-200);
+}
+
+/* Text */
+.text {
+  background: transparent;
+  color: var(--color-black);
+}
+
+.text .inner {
+  background: transparent;
+  border: 1px solid transparent;
+  transition: background-color var(--transition-fast);
+}
+
+.text:hover:not(:disabled) .inner,
+.text.loading .inner {
+  background-color: var(--color-gray-100);
+}
+
+/* Active state (programmatically applied) should mimic hover visuals without press animation */
+.text.active:not(:disabled) {
+  transform: none;
+}
+
+.text.active:not(:disabled) .inner {
+  background-color: var(--color-gray-100);
+  border: 1px solid var(--color-gray-200);
+}
+
+.text:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.text:active:not(:disabled) .inner {
+  background-color: var(--color-gray-200);
+}
+
+/* Danger color - must come after all variant styles to ensure proper specificity */
+.primary.danger {
+  background: linear-gradient(
+    to top,
+    var(--color-button-primary-defaultredoutlinelower),
+    var(--color-button-primary-defaultredoutlinelupper)
+  );
+}
+
+.primary.danger .inner {
+  background: linear-gradient(
+    to top,
+    var(--color-button-primary-defaultredfilllower),
+    var(--color-button-primary-defaultredfillupper)
+  );
+  border-radius: calc(var(--radius) - 1.5px);
+}
+
+.primary.danger .inner::after {
+  content: "";
+  background: var(--color-button-primary-defaultredfillupper);
+}
+
+.primary.danger:hover:not(:disabled) .inner::after {
+  opacity: 1;
+}
+
+/* Shapes */
+.rounded {
+  border-radius: var(--radius-full);
+}
+
+.rectangular {
+  border-radius: var(--radius-md);
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  gap: 0.5em;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  width: 1.6em;
+  height: 1.7em;
+}
+
+.sm.iconOnly .inner {
+  padding: var(--spacing-2xs) !important;
+}
+
+.sm.iconOnly .icon svg {
+  width: 1.3em;
+  height: 1.3em;
+}
+
+.md.iconOnly .inner {
+  padding: var(--spacing-xs) !important;
+}
+
+.md.iconOnly .icon svg {
+  width: 1.4em;
+  height: 1.4em;
+}
+
+.icon.color-green {
+  color: #0bb715;
+}
+
+.icon.color-grey {
+  color: #7c7c7c;
+}
+
+.icon.color-red {
+  color: #de297a;
+}
+
+.icon.color-orange {
+  color: #ff6f01;
+}
+
+.icon.color-blue {
+  color: #2d70de;
+}
+
+/* Loading state */
+.loading {
+  /* No longer needed here, handled by spinner + contentHidden */
+}
+
+.iconLeft {
+  flex-direction: row-reverse;
+}
+
+.iconRight {
+  flex-direction: row;
+}
+
+.iconRight .icon svg {
+  width: auto;
+  height: auto;
+}
+
+/* New class to hide content but keep space */
+.contentHidden {
+  visibility: hidden;
+}
+
+.loadingSpinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ellipsisText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1;
+}

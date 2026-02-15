@@ -1,0 +1,90 @@
+/* ── Landing State (idle, no messages) ──────────────────────────── */
+
+.landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: var(--spacing-xl);
+  position: relative;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  width: 100%;
+  max-width: 680px;
+  margin-top: -60px;
+}
+
+.greeting {
+  font-family: var(--font-family-brand);
+  font-size: 28px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-black);
+  text-align: center;
+  line-height: var(--line-height-tight);
+  margin-bottom: 0;
+}
+
+.subgreeting {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  max-width: 440px;
+  margin-bottom: var(--spacing-xs);
+}
+
+/* ── Active Chat State ──────────────────────────────────────────── */
+
+.activeChat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.inputDock {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-xs) var(--spacing-sm) var(--spacing-sm);
+  background: linear-gradient(transparent, var(--color-white) 20%);
+  flex-shrink: 0;
+}
+
+/* ── History Button (bottom-left, near chat) ────────────────────── */
+
+.historyDock {
+  position: fixed;
+  bottom: var(--spacing-md);
+  left: var(--spacing-md);
+  z-index: 50;
+}
+
+.historyButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  background: var(--color-white);
+  color: var(--color-gray-600);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  border: var(--border-default);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all var(--transition-fast);
+}
+
+.historyButton:hover {
+  background: var(--color-gray-100);
+  color: var(--color-black);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}

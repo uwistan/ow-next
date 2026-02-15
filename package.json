@@ -1,0 +1,40 @@
+{
+  "name": "open-wonder-next",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "tokens:build": "node scripts/build-tokens.mjs",
+    "predev": "npm run tokens:build",
+    "prebuild": "npm run tokens:build"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.1.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "classnames": "^2.5.1",
+    "framer-motion": "^12.24.9",
+    "next": "^15.5.7",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
+  },
+  "devDependencies": {
+    "@csstools/postcss-global-data": "^3.0.0",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.2.1",
+    "@types/react-dom": "^19.2.1",
+    "@typescript-eslint/eslint-plugin": "^8.35.0",
+    "@typescript-eslint/parser": "^8.35.0",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^15.5.7",
+    "postcss": "^8.5.3",
+    "postcss-custom-media": "^11.0.5",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-nesting": "^13.0.1",
+    "postcss-preset-env": "^10.1.6",
+    "typescript": "^5.8.3"
+  }
+}

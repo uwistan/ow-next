@@ -1,0 +1,145 @@
+.canvas {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--color-gray-50);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: var(--border-default);
+  background: var(--color-white);
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-black);
+}
+
+.count {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-400);
+  flex: 1;
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  color: var(--color-gray-500);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  background: var(--color-gray-200);
+  color: var(--color-black);
+}
+
+/* ── Dot Grid Background ────────────────────────────────────────── */
+
+.dotGrid {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md);
+  background-image: radial-gradient(circle, var(--color-gray-300) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-gray-400);
+  font-size: var(--font-size-sm);
+}
+
+/* ── Compact Asset Grid ─────────────────────────────────────────── */
+
+.assetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.assetThumb {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.assetThumb:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.thumbImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Hover Overlay ──────────────────────────────────────────────── */
+
+.thumbOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, transparent 40%);
+  opacity: 0;
+  transition: opacity 150ms ease;
+  display: flex;
+  justify-content: flex-end;
+  padding: 6px;
+}
+
+.assetThumb:hover .thumbOverlay {
+  opacity: 1;
+}
+
+.dotsButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  align-self: flex-start;
+}
+
+.dotsButton:hover {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+/* ── Saved Badge ────────────────────────────────────────────────── */
+
+.savedBadge {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-signal-green-500);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
+}

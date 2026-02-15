@@ -1,0 +1,59 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Create View ────────────────────────────────────────────────── */
+
+.createView {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.fullLayout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.splitLayout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.chatPanelFull {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.chatPanel {
+  width: 33%;
+  min-width: 340px;
+  max-width: 440px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: var(--border-default);
+}
+
+.canvasPanel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ── Library View ───────────────────────────────────────────────── */
+
+.libraryView {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}

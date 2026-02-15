@@ -1,0 +1,238 @@
+/* ── Overlay & Backdrop ───────────────────────────────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-default);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+}
+
+/* ── Close Button ────────────────────────────────────────────────────── */
+
+.closeBtn {
+  position: absolute;
+  z-index: 2;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--transition-fast), opacity var(--transition-fast);
+}
+
+.closeBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Content Area (image + controls) ──────────────────────────────────── */
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  cursor: default;
+}
+
+.contentArea {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 80vw;
+  max-height: 70vh;
+}
+
+/* ── Asset (image/video) ───────────────────────────────────────────────── */
+
+.assetWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 80vw;
+  max-height: 70vh;
+}
+
+.assetImage,
+.assetVideo {
+  max-width: 80vw;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  pointer-events: auto;
+}
+
+/* ── Navigation Arrows ────────────────────────────────────────────────── */
+
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+  z-index: 2;
+}
+
+.navBtn:hover {
+  background: var(--color-white);
+  opacity: 1;
+}
+
+.navBtnLeft {
+  left: var(--spacing-xs);
+}
+
+.navBtnRight {
+  right: var(--spacing-xs);
+}
+
+/* ── Counter ──────────────────────────────────────────────────────────── */
+
+.counter {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: var(--color-white);
+  text-align: center;
+}
+
+/* ── Bottom Action Bar ─────────────────────────────────────────────────── */
+
+.actionBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-xs) 0;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  color: var(--color-white);
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-family-default);
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.actionBtnSaved {
+  color: var(--color-signal-green-500);
+}
+
+/* ── Modify Panel ─────────────────────────────────────────────────────── */
+
+.modifyBackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: default;
+}
+
+.modifyPanel {
+  position: absolute;
+  bottom: calc(var(--spacing-md) + 60px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 380px;
+  padding: 12px;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.modifyTitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.modifyForm {
+  display: flex;
+  gap: var(--spacing-xs);
+  align-items: center;
+}
+
+.modifyInput {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family-default);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.modifyInput:focus {
+  border-color: var(--color-gray-400);
+}
+
+.modifySendBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.modifySendBtn:hover {
+  opacity: 0.9;
+}
+
+.modifySendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

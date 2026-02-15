@@ -1,0 +1,141 @@
+.container {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md) var(--spacing-md);
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.message {
+  display: flex;
+  gap: var(--spacing-xs);
+  align-items: flex-start;
+}
+
+.avatar {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.botAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+}
+
+.bubble {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 85%;
+}
+
+.sender {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-500);
+}
+
+.content {
+  font-size: var(--font-size-sm);
+  color: var(--color-black);
+  line-height: var(--line-height-normal);
+}
+
+.user .bubble {
+  margin-left: auto;
+}
+
+.user .content {
+  background: var(--user-message-bubble-color);
+  color: var(--user-message-text-color);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-xs);
+}
+
+.assistant .content {
+  background: var(--color-gray-100);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-xs);
+}
+
+.user {
+  flex-direction: row-reverse;
+}
+
+.user .sender {
+  text-align: right;
+}
+
+/* ── Tags ────────────────────────────────────────────────────────── */
+
+.tags {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 4px;
+}
+
+.tag {
+  display: inline-flex;
+  padding: 1px 8px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ── Typing Indicator ────────────────────────────────────────────── */
+
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-gray-100);
+  border-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-xs);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gray-400);
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

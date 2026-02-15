@@ -1,0 +1,16 @@
+.container {
+  position: relative;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.view {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  will-change: transform, opacity;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,47 @@
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+  color: var(--color-gray-600);
+}
+
+.iconButton:hover {
+  color: var(--color-black);
+}
+
+.iconButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.sm {
+  width: 28px;
+  height: 28px;
+}
+
+.md {
+  width: 36px;
+  height: 36px;
+}
+
+/* Variants */
+.ghost {
+  background: transparent;
+}
+
+.ghost:hover {
+  background-color: var(--color-gray-200);
+}
+
+.filled {
+  background-color: var(--color-gray-100);
+}
+
+.filled:hover {
+  background-color: var(--color-gray-200);
+}

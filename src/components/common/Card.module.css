@@ -1,0 +1,30 @@
+.card {
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+}
+
+.default {
+  border: var(--border-default);
+}
+
+.outlined {
+  border: var(--border-default);
+  background: transparent;
+}
+
+.elevated {
+  border: var(--border-light);
+  box-shadow: var(--box-shadow);
+}
+
+.pad-sm {
+  padding: var(--spacing-sm);
+}
+
+.pad-md {
+  padding: var(--spacing-md);
+}
+
+.pad-lg {
+  padding: var(--spacing-lg);
+}
