@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   PaperPlaneRight,
@@ -13,9 +14,11 @@ import {
   VideoCamera,
   MagnifyingGlass,
   Check,
+  Plus,
 } from '@phosphor-icons/react';
 import cn from 'classnames';
 import { useChat, CreativeMode } from '@/lib/chat-context';
+import { useIsAdmin } from '@/lib/permissions';
 import {
   MOCK_BRAND_STYLES,
   MOCK_PRODUCT_STYLES,
@@ -279,6 +282,8 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
 function ImaginePickers() {
   const { state, dispatch } = useChat();
   const opts = state.imagineOptions;
+  const isAdmin = useIsAdmin();
+  const router = useRouter();
 
   return (
     <>
@@ -348,6 +353,15 @@ function ImaginePickers() {
             }
           />
         ))}
+        {isAdmin && (
+          <button
+            className={styles.chipButton}
+            onClick={() => router.push('/manage/styles/new')}
+          >
+            <Plus size={12} />
+            New Style
+          </button>
+        )}
       </div>
     </>
   );
@@ -360,6 +374,8 @@ function ProductPickers() {
   const opts = state.productOptions;
   const [search, setSearch] = useState('');
   const selectedIds = new Set(opts.selectedProducts.map((p) => p.id));
+  const isAdmin = useIsAdmin();
+  const router = useRouter();
 
   const visibleProducts = search
     ? MOCK_PRODUCTS.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
@@ -410,6 +426,15 @@ function ProductPickers() {
             {selectedIds.has(p.id) && <Check size={12} weight="bold" />}
           </button>
         ))}
+        {isAdmin && (
+          <button
+            className={styles.chipButton}
+            onClick={() => router.push('/manage/products/new')}
+          >
+            <Plus size={12} />
+            New Product
+          </button>
+        )}
       </div>
 
       <div className={styles.pickerRow}>
@@ -441,6 +466,8 @@ function CharacterPickers() {
   const { state, dispatch } = useChat();
   const opts = state.characterOptions;
   const selectedIds = new Set(opts.selectedCharacters.map((c) => c.id));
+  const isAdmin = useIsAdmin();
+  const router = useRouter();
 
   const toggleCharacter = (char: (typeof MOCK_CHARACTERS)[0]) => {
     if (selectedIds.has(char.id)) {
@@ -481,6 +508,15 @@ function CharacterPickers() {
           {selectedIds.has(c.id) && <Check size={12} weight="bold" />}
         </button>
       ))}
+      {isAdmin && (
+        <button
+          className={styles.chipButton}
+          onClick={() => router.push('/manage/characters/new')}
+        >
+          <Plus size={12} />
+          New Character
+        </button>
+      )}
     </div>
   );
 }

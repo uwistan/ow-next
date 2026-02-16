@@ -21,6 +21,7 @@ export interface GeneratedAsset {
   url: string;
   prompt: string;
   type: 'image' | 'video';
+  aspectRatio?: string;
   savedToLibrary: boolean;
   folderIds?: string[];
 }
@@ -55,6 +56,8 @@ export interface CreateOptions {
   brandStyle: string;
 }
 
+export type ManagePanelType = 'styles' | 'products' | 'shots' | 'characters' | null;
+
 export interface ChatState {
   activeView: ActiveView;
   mode: CreativeMode;
@@ -62,6 +65,7 @@ export interface ChatState {
   sessions: ChatSession[];
   canvasOpen: boolean;
   historyOpen: boolean;
+  activeManagePanel: ManagePanelType;
   imagineOptions: ImagineOptions;
   productOptions: ProductOptions;
   characterOptions: CharacterOptions;
@@ -88,7 +92,8 @@ type ChatAction =
   | { type: 'SET_CHARACTER_OPTIONS'; payload: Partial<CharacterOptions> }
   | { type: 'SET_CREATE_OPTIONS'; payload: Partial<CreateOptions> }
   | { type: 'LOAD_SESSIONS'; payload: ChatSession[] }
-  | { type: 'EXIT_MODE' };
+  | { type: 'EXIT_MODE' }
+  | { type: 'SET_MANAGE_PANEL'; payload: ManagePanelType };
 
 // ── Initial State ──────────────────────────────────────────────────────
 
@@ -99,6 +104,7 @@ const initialState: ChatState = {
   sessions: [],
   canvasOpen: false,
   historyOpen: false,
+  activeManagePanel: null,
   imagineOptions: {
     aspectRatio: '1:1',
     outputType: 'image',
@@ -322,6 +328,9 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
 
     case 'LOAD_SESSIONS':
       return { ...state, sessions: action.payload };
+
+    case 'SET_MANAGE_PANEL':
+      return { ...state, activeManagePanel: action.payload };
 
     default:
       return state;

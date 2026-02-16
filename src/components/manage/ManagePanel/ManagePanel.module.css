@@ -1,0 +1,208 @@
+/* ── ManagePanel (slide-over from right) ──────────────────────────── */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 500;
+}
+
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  max-width: 90vw;
+  background: var(--color-white);
+  border-left: var(--border-default);
+  display: flex;
+  flex-direction: column;
+  z-index: 501;
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Header ──────────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: var(--border-default);
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-black);
+  flex: 1;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  color: var(--color-gray-500);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.closeBtn:hover {
+  background: var(--color-gray-200);
+  color: var(--color-black);
+}
+
+/* ── Create Button ───────────────────────────────────────────────── */
+
+.createBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: var(--spacing-sm) var(--spacing-md) 0;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  background: var(--color-black);
+  color: var(--color-white);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.createBtn:hover {
+  opacity: 0.85;
+}
+
+/* ── List ─────────────────────────────────────────────────────────── */
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-sm) var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ── List Item ────────────────────────────────────────────────────── */
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  text-align: left;
+  width: 100%;
+}
+
+.listItem:hover {
+  background: var(--color-gray-100);
+}
+
+.listItemThumb {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-xs);
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--color-gray-100);
+}
+
+.listItemThumbRound {
+  border-radius: 50%;
+}
+
+.listItemInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.listItemName {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-black);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listItemMeta {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+}
+
+.listItemActions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.listItem:hover .listItemActions {
+  opacity: 1;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  color: var(--color-gray-500);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.actionBtn:hover {
+  background: var(--color-gray-200);
+  color: var(--color-black);
+}
+
+.actionBtnDanger:hover {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+/* ── Empty ────────────────────────────────────────────────────────── */
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: var(--spacing-xs);
+  color: var(--color-gray-400);
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+/* ── Preview grid (for styles & shots) ────────────────────────────── */
+
+.previewGrid {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.previewGridImg {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  object-fit: cover;
+}

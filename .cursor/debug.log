@@ -1,0 +1,397 @@
+{"location":"layout.tsx:AppLayout","message":"AppLayout rendered","data":{},"timestamp":1771158407289,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771158407299,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158407305,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158407306,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158407325,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771158407326,"hypothesisId":"E"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158407864,"hypothesisId":"C"}
+{"location":"layout.tsx:AppLayout","message":"AppLayout rendered","data":{},"timestamp":1771158412822,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158412825,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158412825,"hypothesisId":"B"}
+{"location":"layout.tsx:AppLayout","message":"AppLayout rendered","data":{},"timestamp":1771158412823,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158412830,"hypothesisId":"B"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771158412823,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771158412823,"hypothesisId":"A"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771158412830,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158412830,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771158412830,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158412824,"hypothesisId":"B"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158412853,"hypothesisId":"C"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158412824,"hypothesisId":"B"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158412854,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771158412866,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771158412867,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158412867,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158412867,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158412867,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158412867,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158412869,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771158412869,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158412869,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771158412869,"hypothesisId":"E"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158412882,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158412882,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"imagine"},"timestamp":1771158437854,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158437865,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158437865,"hypothesisId":"B"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"imagine"},"timestamp":1771158437865,"hypothesisId":"A"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158437865,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158437865,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158437866,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"imagine","hasSession":false},"timestamp":1771158437866,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158437873,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158437867,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"imagine","hasSession":false},"timestamp":1771158437867,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158437874,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158437875,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158437876,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158437876,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158437876,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158437876,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158437876,"hypothesisId":"D"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158437896,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158437896,"hypothesisId":"C"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":true},"timestamp":1771158438272,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":true},"timestamp":1771158438273,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":true},"timestamp":1771158438274,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":true},"timestamp":1771158438274,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158438375,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158438375,"hypothesisId":"D"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771158441117,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771158441117,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441118,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158441119,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441119,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158441119,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441120,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771158441120,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441121,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771158441121,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441122,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441122,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441122,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441122,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441123,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441123,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441123,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441123,"hypothesisId":"D"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158441142,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158441142,"hypothesisId":"C"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441152,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441152,"hypothesisId":"D"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"product"},"timestamp":1771158441798,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"product"},"timestamp":1771158441798,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441798,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158441798,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441798,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158441798,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441800,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"product","hasSession":false},"timestamp":1771158441800,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441800,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"product","hasSession":false},"timestamp":1771158441800,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441802,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158441802,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441803,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441803,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441803,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441804,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441804,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441804,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441804,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441804,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441804,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158441804,"hypothesisId":"D"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158441819,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158441819,"hypothesisId":"C"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158468702,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158468702,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158468704,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158468704,"hypothesisId":"B"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"product"},"timestamp":1771158470696,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"product"},"timestamp":1771158470696,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158470696,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158470696,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158470696,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158470696,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158470697,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"product","hasSession":false},"timestamp":1771158470697,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158470698,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"product","hasSession":false},"timestamp":1771158470698,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158470699,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158470699,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158470700,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158470700,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158470700,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158470700,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158470700,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158470700,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158470700,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158470700,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158470700,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158470700,"hypothesisId":"D"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":"characters"},"timestamp":1771158470714,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":"characters"},"timestamp":1771158470714,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"product"},"timestamp":1771158471514,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"product"},"timestamp":1771158471514,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158471515,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158471515,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158471515,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158471515,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158471516,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"product","hasSession":false},"timestamp":1771158471516,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158471516,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"product","hasSession":false},"timestamp":1771158471516,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158471517,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158471518,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158471518,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158471518,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158471519,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158471519,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158471519,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158471519,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158471519,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158471520,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158471520,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158471520,"hypothesisId":"D"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158471536,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158471536,"hypothesisId":"C"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158473714,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158473715,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158473715,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158473715,"hypothesisId":"B"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"product"},"timestamp":1771158560785,"hypothesisId":"A"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158560787,"hypothesisId":"B"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"product"},"timestamp":1771158560787,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158560787,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158560787,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158560787,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158560790,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"product","hasSession":false},"timestamp":1771158560790,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158560790,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"product","hasSession":false},"timestamp":1771158560790,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158560793,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158560793,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158560795,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158560795,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158560796,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158560796,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158560796,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158560796,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158560796,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158560796,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158560796,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158560796,"hypothesisId":"D"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":"characters"},"timestamp":1771158560817,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":"characters"},"timestamp":1771158560817,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"product"},"timestamp":1771158576287,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"product"},"timestamp":1771158576288,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158576288,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158576294,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158576289,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158576294,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158576289,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158576289,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158576295,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158576295,"hypothesisId":"D"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158576291,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158576295,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158576295,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158576295,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158576296,"hypothesisId":"D"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"product","hasSession":false},"timestamp":1771158576291,"hypothesisId":"E"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158576296,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158576296,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158576296,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158576296,"hypothesisId":"D"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158576291,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"product","hasSession":false},"timestamp":1771158576292,"hypothesisId":"E"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158576317,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158576317,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771158582028,"hypothesisId":"A"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771158582031,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158582033,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158582033,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158582034,"hypothesisId":"D"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771158582029,"hypothesisId":"A"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158582034,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158582034,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158582035,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158582035,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158582035,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158582035,"hypothesisId":"D"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158582029,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158582035,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158582035,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771158582035,"hypothesisId":"D"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158582029,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158582029,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771158582029,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158582031,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771158582031,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771158582031,"hypothesisId":"B"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158582055,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771158582055,"hypothesisId":"C"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160312260,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160312263,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160312266,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160312266,"hypothesisId":"B"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771160314306,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771160314307,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160314307,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160314307,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160314307,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160314307,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160314309,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771160314309,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160314309,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771160314309,"hypothesisId":"E"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":"characters"},"timestamp":1771160314331,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":"characters"},"timestamp":1771160314331,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771160315481,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771160315482,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160315482,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160315482,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160315482,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160315482,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160315483,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771160315483,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160315483,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771160315483,"hypothesisId":"E"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771160315498,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771160315498,"hypothesisId":"C"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160316890,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160316890,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160316891,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160316891,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160318102,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160318102,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160318102,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160318102,"hypothesisId":"B"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"create"},"timestamp":1771160318598,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"create"},"timestamp":1771160318598,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160318598,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160318598,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160318598,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160318599,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160318600,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"create","hasSession":false},"timestamp":1771160318600,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160318600,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"create","hasSession":false},"timestamp":1771160318600,"hypothesisId":"E"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160318605,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160318605,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160318605,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160318605,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160318605,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160318606,"hypothesisId":"D"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771160318623,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771160318624,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771160321059,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771160321059,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160321059,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160321059,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160321060,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160321060,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160321061,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771160321061,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160321061,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771160321061,"hypothesisId":"E"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160321063,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160321063,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160321063,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160321063,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160321063,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771160321063,"hypothesisId":"D"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771160321076,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771160321077,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"character"},"timestamp":1771160321679,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"character"},"timestamp":1771160321679,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160321680,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160321680,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160321680,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160321680,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160321681,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"character","hasSession":false},"timestamp":1771160321681,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160321681,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"character","hasSession":false},"timestamp":1771160321681,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160321683,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160321683,"hypothesisId":"B"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771160321698,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771160321699,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771160325393,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771160325394,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160325397,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160325398,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160325394,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160325394,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160325395,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771160325395,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160325396,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771160325396,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771160325397,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771160325397,"hypothesisId":"E"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771160325414,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771160325414,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"imagine"},"timestamp":1771227809575,"hypothesisId":"A"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227809586,"hypothesisId":"D"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"imagine"},"timestamp":1771227809578,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227809585,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227809586,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227809586,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227809586,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227809586,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227809586,"hypothesisId":"D"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227809578,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771227809579,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227809579,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771227809579,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227809580,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"imagine","hasSession":false},"timestamp":1771227809580,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227809580,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"imagine","hasSession":false},"timestamp":1771227809580,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227809584,"hypothesisId":"B"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771227809632,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771227809632,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771227811507,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771227811507,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227811507,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771227811507,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227811508,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771227811508,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227811509,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771227811509,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227811509,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771227811509,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227811512,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227811513,"hypothesisId":"B"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227811513,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227811513,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227811513,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227811513,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227811513,"hypothesisId":"D"}
+{"location":"StyleChip.tsx:portal","message":"StyleChip portal check","data":{"hasDocument":true,"showPreview":false},"timestamp":1771227811513,"hypothesisId":"D"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771227811531,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771227811531,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"library","mode":"idle"},"timestamp":1771227812279,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"library","mode":"idle"},"timestamp":1771227812279,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227812279,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771227812279,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227812279,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771227812280,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227812281,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771227812281,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227812281,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771227812281,"hypothesisId":"E"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771227812294,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771227812294,"hypothesisId":"C"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771227813530,"hypothesisId":"A"}
+{"location":"layout.tsx:AppShell","message":"AppShell rendered","data":{"activeView":"create","mode":"idle"},"timestamp":1771227813530,"hypothesisId":"A"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227813531,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771227813531,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227813531,"hypothesisId":"B"}
+{"location":"TopBar.tsx:render","message":"TopBar rendered","data":{"isAdmin":true},"timestamp":1771227813531,"hypothesisId":"B"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227813532,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771227813532,"hypothesisId":"E"}
+{"location":"permissions.ts:useIsAdmin","message":"useIsAdmin called","data":{"isAdmin":true},"timestamp":1771227813532,"hypothesisId":"B"}
+{"location":"ChatLanding.tsx:render","message":"ChatLanding rendered","data":{"mode":"idle","hasSession":false},"timestamp":1771227813532,"hypothesisId":"E"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771227813545,"hypothesisId":"C"}
+{"location":"layout.tsx:ManagePanelSwitch","message":"ManagePanelSwitch rendered","data":{"activeManagePanel":null},"timestamp":1771227813545,"hypothesisId":"C"}

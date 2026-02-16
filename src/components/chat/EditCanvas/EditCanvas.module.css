@@ -75,7 +75,7 @@
 
 .assetThumb {
   position: relative;
-  aspect-ratio: 1;
+  /* aspect-ratio set via inline style from asset data */
   overflow: hidden;
   border-radius: var(--radius-sm);
   cursor: pointer;

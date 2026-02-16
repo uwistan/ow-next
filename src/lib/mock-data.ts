@@ -23,6 +23,7 @@ export const MOCK_USER = {
   email: 'uwe@openwonder.io',
   avatarUrl: 'https://i.pravatar.cc/150?u=uwe',
   role: 'Designer',
+  isAdmin: true,
 };
 
 // ── Generated Images (Imagine) ─────────────────────────────────────

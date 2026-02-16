@@ -26,8 +26,16 @@ export default function EditCanvas() {
     assetId: string;
   } | null>(null);
 
+  /** Convert aspect ratio string like "16:9" to CSS value like "16/9" */
+  const getAspectCss = (ratio?: string) => {
+    if (!ratio) return '1';
+    const [w, h] = ratio.split(':');
+    return `${w}/${h}`;
+  };
+
   const handleModify = useCallback(
     (assetId: string, prompt: string) => {
+      const original = state.currentSession?.generatedAssets.find((a) => a.id === assetId);
       dispatch({
         type: 'ADD_GENERATED_ASSET',
         payload: {
@@ -35,11 +43,12 @@ export default function EditCanvas() {
           url: `https://picsum.photos/seed/mod${Date.now()}/600/600`,
           prompt: `Modified: ${prompt}`,
           type: 'image',
+          aspectRatio: original?.aspectRatio,
           savedToLibrary: false,
         },
       });
     },
-    [dispatch]
+    [dispatch, state.currentSession]
   );
 
   const handleSaveToLibrary = useCallback(
@@ -180,6 +189,7 @@ export default function EditCanvas() {
               <motion.div
                 key={asset.id}
                 className={styles.assetThumb}
+                style={{ aspectRatio: getAspectCss(asset.aspectRatio) }}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{

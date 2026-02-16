@@ -1,0 +1,136 @@
+/* ── ChatSessionHistory (inline in chat panel) ────────────────────── */
+
+.container {
+  flex-shrink: 0;
+  border-bottom: var(--border-default);
+  background: var(--color-white);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+.headerTitle {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.headerIcon {
+  color: var(--color-gray-400);
+}
+
+/* ── Scrollable row ──────────────────────────────────────────────── */
+
+.scrollRow {
+  display: flex;
+  gap: 6px;
+  padding: 0 var(--spacing-sm) var(--spacing-xs);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollRow::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Session Card ────────────────────────────────────────────────── */
+
+.sessionCard {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 6px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-gray-200);
+  background: var(--color-gray-50);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  max-width: 220px;
+}
+
+.sessionCard:hover {
+  background: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+}
+
+.sessionCardActive {
+  background: var(--color-black);
+  border-color: var(--color-black);
+}
+
+.sessionCardActive:hover {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-800);
+}
+
+/* ── Thumbnail cluster ───────────────────────────────────────────── */
+
+.thumbCluster {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.thumbImg {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-xs);
+  object-fit: cover;
+  border: 2px solid var(--color-white);
+}
+
+.thumbImg:not(:first-child) {
+  margin-left: -10px;
+}
+
+.sessionCardActive .thumbImg {
+  border-color: var(--color-black);
+}
+
+/* ── Session info ────────────────────────────────────────────────── */
+
+.sessionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.sessionTitle {
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sessionCardActive .sessionTitle {
+  color: var(--color-white);
+}
+
+.sessionMeta {
+  font-size: 10px;
+  color: var(--color-gray-400);
+  white-space: nowrap;
+}
+
+.sessionCardActive .sessionMeta {
+  color: var(--color-gray-400);
+}
+
+/* ── Empty state ─────────────────────────────────────────────────── */
+
+.empty {
+  padding: 0 var(--spacing-sm) var(--spacing-xs);
+  font-size: 12px;
+  color: var(--color-gray-400);
+}

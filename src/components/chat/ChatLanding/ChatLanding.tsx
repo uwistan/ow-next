@@ -1,11 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ClockCounterClockwise } from '@phosphor-icons/react';
 import ChatInput from '@/components/chat/ChatInput/ChatInput';
 import ChatMessages from '@/components/chat/ChatMessages/ChatMessages';
+import ChatSessionHistory from '@/components/chat/ChatSessionHistory/ChatSessionHistory';
 import FeatureCards from '@/components/chat/FeatureCards/FeatureCards';
 import { useChat, CreativeMode } from '@/lib/chat-context';
+import { useIsAdmin } from '@/lib/permissions';
 import { MOCK_IMAGES } from '@/lib/mock-data';
 import styles from './ChatLanding.module.css';
 
@@ -52,6 +55,47 @@ function detectMode(message: string): CreativeMode | null {
   return null;
 }
 
+/** Detect creation intents (admin-only) — returns a route or null */
+const CREATION_INTENTS: { patterns: RegExp[]; route: string }[] = [
+  {
+    patterns: [
+      /\b(create|add|new)\b.*\bcharacter\b/i,
+      /\bnew\s+character\b/i,
+    ],
+    route: '/manage/characters/new',
+  },
+  {
+    patterns: [
+      /\b(create|add|new)\b.*\bstyle\b/i,
+      /\bnew\s+(image\s+)?style\b/i,
+    ],
+    route: '/manage/styles/new',
+  },
+  {
+    patterns: [
+      /\b(create|add|new)\b.*\bproduct\b/i,
+      /\bnew\s+product\b/i,
+    ],
+    route: '/manage/products/new',
+  },
+  {
+    patterns: [
+      /\b(create|add|new)\b.*\bshot\s?(style|type)?\b/i,
+      /\bnew\s+shot\b/i,
+    ],
+    route: '/manage/shots/new',
+  },
+];
+
+function detectCreationIntent(message: string): string | null {
+  for (const { patterns, route } of CREATION_INTENTS) {
+    if (patterns.some((re) => re.test(message))) {
+      return route;
+    }
+  }
+  return null;
+}
+
 const MODE_HEADLINES: Record<CreativeMode, { greeting: string; sub: string }> = {
   idle: {
     greeting: 'Hey, I\u2019m your brand AI.',
@@ -78,11 +122,25 @@ const MODE_HEADLINES: Record<CreativeMode, { greeting: string; sub: string }> = 
 export default function ChatLanding() {
   const { state, dispatch } = useChat();
   const [isGenerating, setIsGenerating] = useState(false);
+  const isAdmin = useIsAdmin();
+  const router = useRouter();
 
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/9e12a5bc-bcf8-4863-ba85-1864bc6b6f1f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ChatLanding.tsx:render',message:'ChatLanding rendered',data:{mode:state.mode,hasSession:!!state.currentSession},timestamp:Date.now(),hypothesisId:'E'})}).catch(()=>{});
+  // #endregion
   const hasMessages = state.currentSession && state.currentSession.messages.length > 0;
   const headline = MODE_HEADLINES[state.mode];
 
   const handleSend = (message: string) => {
+    // Check for creation intents first (admin only)
+    if (isAdmin && state.mode === 'idle') {
+      const creationRoute = detectCreationIntent(message);
+      if (creationRoute) {
+        router.push(creationRoute);
+        return;
+      }
+    }
+
     // Auto-detect mode if currently idle
     if (state.mode === 'idle') {
       const detected = detectMode(message);
@@ -125,6 +183,7 @@ export default function ChatLanding() {
               url: randomImg.url,
               prompt: message,
               type: state.imagineOptions.outputType,
+              aspectRatio: state.imagineOptions.aspectRatio,
               savedToLibrary: false,
             },
           });
@@ -161,6 +220,7 @@ export default function ChatLanding() {
   // Active chat state
   return (
     <div className={styles.activeChat}>
+      <ChatSessionHistory />
       <ChatMessages
         messages={state.currentSession!.messages}
         isGenerating={isGenerating}
