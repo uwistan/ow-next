@@ -55,7 +55,7 @@ export default function StyleEditor({ styleId }: StyleEditorProps) {
                 className={styles.fieldInput}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Human-centered, Minimal, Bold"
+                placeholder="e.g. Photography, Illustration, Bold"
               />
             </div>
             <div className={styles.field}>

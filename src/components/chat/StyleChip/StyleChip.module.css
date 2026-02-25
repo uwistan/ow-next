@@ -34,9 +34,10 @@
   border-color: var(--color-black);
 }
 
-.chipActive:hover {
-  background: var(--color-gray-800);
-  border-color: var(--color-gray-800);
+.chipActive:hover,
+.chip.chipActive:hover {
+  background: var(--color-gray-800, #2a2a2a);
+  border-color: var(--color-gray-800, #2a2a2a);
   color: var(--color-white);
 }
 
@@ -46,6 +47,11 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+}
+
+.chipActive .thumbnail {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-sizing: border-box;
 }
 
 /* ── Hover preview card (rendered via portal) ──────────────────────── */

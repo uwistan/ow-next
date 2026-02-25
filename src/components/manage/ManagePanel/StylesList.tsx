@@ -13,23 +13,13 @@ export default function StylesList() {
 
   const handleClose = () => dispatch({ type: 'SET_MANAGE_PANEL', payload: null });
 
-  const handleCreate = () => {
-    handleClose();
-    router.push('/manage/styles/new');
-  };
-
   const handleEdit = (id: string) => {
     handleClose();
     router.push(`/manage/styles/${id}`);
   };
 
   return (
-    <ManagePanel
-      title="Manage Styles"
-      onClose={handleClose}
-      onCreateNew={handleCreate}
-      createLabel="New Style"
-    >
+    <ManagePanel title="Manage Styles" onClose={handleClose}>
       {MOCK_BRAND_STYLES.length === 0 ? (
         <div className={styles.empty}>
           <p>No styles yet</p>

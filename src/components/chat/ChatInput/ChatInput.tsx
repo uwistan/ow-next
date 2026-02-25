@@ -1,15 +1,18 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   PaperPlaneRight,
   X,
+  CaretDown,
   Sparkle,
   Package,
   UserCircle,
   PaintBrush,
+  ChatCircle,
   Image as ImageIcon,
   VideoCamera,
   MagnifyingGlass,
@@ -33,7 +36,7 @@ import styles from './ChatInput.module.css';
 
 interface ChatInputProps {
   className?: string;
-  onSend?: (message: string) => void;
+  onSend?: (message: string) => boolean | void;
 }
 
 interface InlineTag {
@@ -52,6 +55,7 @@ const MODE_META: Record<CreativeMode, { icon: React.ReactNode; label: string; co
   product: { icon: <Package size={14} weight="fill" />, label: 'Product', color: '#e67e22' },
   character: { icon: <UserCircle size={14} weight="fill" />, label: 'Character', color: '#2ecc71' },
   create: { icon: <PaintBrush size={14} weight="fill" />, label: 'Create', color: '#e74c3c' },
+  assistant: { icon: <ChatCircle size={14} weight="fill" />, label: 'Chat', color: '#9b59b6' },
 };
 
 const ASPECT_RATIOS = ['1:1', '16:9', '9:16', '4:3'] as const;
@@ -63,6 +67,12 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
   const [value, setValue] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { state, dispatch } = useChat();
+  const mode = state.mode;
+  const hasMessages = state.currentSession && state.currentSession.messages.length > 0;
+  const inImagineSessionView = mode === 'imagine' && hasMessages;
+  const lastUserMessage = state.currentSession?.messages
+    ?.filter((m) => m.role === 'user')
+    .pop();
 
   useEffect(() => {
     const el = textareaRef.current;
@@ -71,11 +81,21 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
     el.style.height = Math.min(el.scrollHeight, 160) + 'px';
   }, [value]);
 
+  useEffect(() => {
+    if (inImagineSessionView && lastUserMessage?.content) {
+      setValue(lastUserMessage.content);
+    }
+  }, [inImagineSessionView, state.currentSession?.id]);
+
+  const canSendImagine = mode !== 'imagine' || !!state.imagineOptions.brandStyle;
+  const canSend = value.trim() && canSendImagine;
+
   const handleSend = () => {
     const trimmed = value.trim();
     if (!trimmed) return;
-    onSend?.(trimmed);
-    setValue('');
+    if (mode === 'imagine' && !state.imagineOptions.brandStyle) return;
+    const accepted = onSend?.(trimmed);
+    if (accepted !== false) setValue('');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -85,25 +105,8 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
     }
   };
 
-  const clearMode = () => dispatch({ type: 'EXIT_MODE' });
-
-  const mode = state.mode;
-  const meta = MODE_META[mode];
-
-  /* Derive inline tags from current state */
+  /* Derive inline tags from current state (styles excluded – active state only in picker) */
   const inlineTags: InlineTag[] = [];
-
-  if (mode === 'imagine' && state.imagineOptions.brandStyle) {
-    const s = MOCK_BRAND_STYLES.find((x) => x.id === state.imagineOptions.brandStyle);
-    if (s) {
-      inlineTags.push({
-        id: `style-${s.id}`,
-        label: s.name,
-        category: 'style',
-        onRemove: () => dispatch({ type: 'SET_IMAGINE_OPTIONS', payload: { brandStyle: '' } }),
-      });
-    }
-  }
 
   if (mode === 'product') {
     for (const p of state.productOptions.selectedProducts) {
@@ -120,17 +123,6 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
             },
           }),
       });
-    }
-    if (state.productOptions.shotStyle) {
-      const s = MOCK_PRODUCT_STYLES.find((x) => x.id === state.productOptions.shotStyle);
-      if (s) {
-        inlineTags.push({
-          id: `pstyle-${s.id}`,
-          label: s.name,
-          category: 'style',
-          onRemove: () => dispatch({ type: 'SET_PRODUCT_OPTIONS', payload: { shotStyle: '' } }),
-        });
-      }
     }
   }
 
@@ -166,55 +158,25 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
         });
       }
     }
-    if (state.createOptions.brandStyle) {
-      const s = MOCK_BRAND_STYLES.find((x) => x.id === state.createOptions.brandStyle);
-      if (s) {
-        inlineTags.push({
-          id: `cstyle-${s.id}`,
-          label: s.name,
-          category: 'style',
-          onRemove: () => dispatch({ type: 'SET_CREATE_OPTIONS', payload: { brandStyle: '' } }),
-        });
-      }
-    }
   }
 
   const placeholder =
     mode === 'idle'
       ? 'Ask anything...'
       : mode === 'imagine'
-        ? 'Describe the image you want to create...'
+        ? state.imagineOptions.brandStyle
+          ? 'Describe the image you want to create...'
+          : 'Select a style first, then describe the image...'
         : mode === 'product'
           ? 'Describe the product shot...'
           : mode === 'character'
             ? 'Describe the scene with your characters...'
-            : 'Describe the ad you want to create...';
+            : mode === 'assistant'
+              ? 'Ask your brand assistant anything...'
+              : 'Describe the ad you want to create...';
 
   return (
     <div className={cn(styles.wrapper, className)}>
-      {/* Mode pill */}
-      <AnimatePresence>
-        {mode !== 'idle' && (
-          <motion.div
-            className={styles.modePill}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          >
-            <div className={styles.modePillInner}>
-              <span className={styles.modeIcon} style={{ color: meta.color }}>
-                {meta.icon}
-              </span>
-              <span className={styles.modeLabel}>{meta.label}</span>
-              <button className={styles.modeClose} onClick={clearMode}>
-                <X size={12} />
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Input area: inline tags + textarea */}
       <div className={styles.inputArea}>
         {inlineTags.length > 0 && (
@@ -245,18 +207,26 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
             rows={1}
           />
           <button
-            className={cn(styles.sendButton, value.trim() && styles.sendButtonActive)}
+            className={cn(
+              styles.sendButton,
+              mode === 'imagine' && styles.sendButtonText,
+              canSend && styles.sendButtonActive
+            )}
             onClick={handleSend}
-            disabled={!value.trim()}
+            disabled={!canSend}
           >
-            <PaperPlaneRight size={18} weight="fill" />
+            {mode === 'imagine'
+              ? inImagineSessionView
+                ? 'Create more'
+                : 'Create Images'
+              : <PaperPlaneRight size={18} weight="fill" />}
           </button>
         </div>
       </div>
 
-      {/* Picker bar (mode-specific visual chips) */}
+      {/* Picker bar (mode-specific visual chips; assistant has none) */}
       <AnimatePresence>
-        {mode !== 'idle' && (
+        {mode !== 'idle' && mode !== 'assistant' && (
           <motion.div
             className={styles.pickerBar}
             initial={{ opacity: 0, height: 0 }}
@@ -282,87 +252,122 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
 function ImaginePickers() {
   const { state, dispatch } = useChat();
   const opts = state.imagineOptions;
-  const isAdmin = useIsAdmin();
-  const router = useRouter();
+  const hasMessages = state.currentSession && state.currentSession.messages.length > 0;
+  const inSessionView = state.mode === 'imagine' && hasMessages;
+  const [formatOpen, setFormatOpen] = useState(false);
+  const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
+  const formatTriggerRef = useRef<HTMLButtonElement>(null);
+  const formatPopoverRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (formatOpen && formatTriggerRef.current) {
+      const rect = formatTriggerRef.current.getBoundingClientRect();
+      setPopoverPosition({
+        top: rect.bottom + 8,
+        left: rect.left,
+      });
+    }
+  }, [formatOpen]);
+
+  useEffect(() => {
+    if (!formatOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        formatTriggerRef.current?.contains(e.target as Node) ||
+        formatPopoverRef.current?.contains(e.target as Node)
+      ) {
+        return;
+      }
+      setFormatOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [formatOpen]);
+
+  const formatPopoverContent = formatOpen && (
+    <AnimatePresence>
+      <motion.div
+        ref={formatPopoverRef}
+        className={styles.formatSelectPopover}
+        style={{ top: popoverPosition.top, left: popoverPosition.left }}
+        initial={{ opacity: 0, y: -4 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -4 }}
+        transition={{ duration: 0.15 }}
+      >
+        <div className={styles.formatSelectContent}>
+          <div className={styles.imagineFormatBlock}>
+            <span className={styles.imagineFormatLabel}>Aspect Ratio</span>
+            <div className={styles.aspectRatioRow}>
+              {ASPECT_RATIOS.map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  className={cn(
+                    styles.aspectRatioBtn,
+                    opts.aspectRatio === r && styles.aspectRatioBtnActive
+                  )}
+                  onClick={() =>
+                    dispatch({ type: 'SET_IMAGINE_OPTIONS', payload: { aspectRatio: r } })
+                  }
+                >
+                  <span
+                    className={cn(
+                      styles.aspectRatioIcon,
+                      styles[`aspectRatioIcon_${r.replace(':', '_')}`]
+                    )}
+                  />
+                  <span className={styles.aspectRatioLabel}>{r}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
 
   return (
     <>
       <div className={styles.pickerRow}>
-        <div className={styles.pillGroup}>
-          {ASPECT_RATIOS.map((r) => (
-            <button
-              key={r}
-              className={cn(styles.pill, opts.aspectRatio === r && styles.pillActive)}
-              onClick={() => dispatch({ type: 'SET_IMAGINE_OPTIONS', payload: { aspectRatio: r } })}
-            >
-              {r}
-            </button>
+        <div className={styles.pickerRowLeft}>
+          {(inSessionView
+            ? MOCK_BRAND_STYLES.filter((s) => opts.brandStyle === s.id)
+            : MOCK_BRAND_STYLES
+          ).map((s) => (
+            <StyleChip
+              key={s.id}
+              name={s.name}
+              image={s.image}
+              description={s.description}
+              previews={s.previews}
+              isActive={opts.brandStyle === s.id}
+              onClick={() =>
+                dispatch({
+                  type: 'SET_IMAGINE_OPTIONS',
+                  payload: { brandStyle: opts.brandStyle === s.id ? '' : s.id },
+                })
+              }
+            />
           ))}
         </div>
-
-        <div className={styles.pickerDivider} />
-
-        <div className={styles.pillGroup}>
+        <div className={styles.formatSelectWrap}>
           <button
-            className={cn(styles.pill, styles.pillWithIcon, opts.outputType === 'image' && styles.pillActive)}
-            onClick={() => dispatch({ type: 'SET_IMAGINE_OPTIONS', payload: { outputType: 'image' } })}
+            ref={formatTriggerRef}
+            type="button"
+            className={styles.formatSelectTrigger}
+            onClick={() => setFormatOpen(!formatOpen)}
           >
-            <ImageIcon size={14} /> Image
-          </button>
-          <button
-            className={cn(styles.pill, styles.pillWithIcon, opts.outputType === 'video' && styles.pillActive)}
-            onClick={() => dispatch({ type: 'SET_IMAGINE_OPTIONS', payload: { outputType: 'video' } })}
-          >
-            <VideoCamera size={14} /> Video
+            <ImageIcon size={14} weight="duotone" />
+            <span>{opts.aspectRatio}</span>
+            <CaretDown size={12} weight="bold" />
           </button>
         </div>
-
-        {opts.outputType === 'video' && (
-          <>
-            <div className={styles.pickerDivider} />
-            <div className={styles.pillGroup}>
-              {VIDEO_DURATIONS.map((d) => (
-                <button
-                  key={d}
-                  className={cn(styles.pill, opts.duration === d && styles.pillActive)}
-                  onClick={() => dispatch({ type: 'SET_IMAGINE_OPTIONS', payload: { duration: d } })}
-                >
-                  {d}s
-                </button>
-              ))}
-            </div>
-          </>
-        )}
       </div>
 
-      <div className={styles.pickerRow}>
-        <span className={styles.pickerLabel}>Style</span>
-        {MOCK_BRAND_STYLES.map((s) => (
-          <StyleChip
-            key={s.id}
-            name={s.name}
-            image={s.image}
-            description={s.description}
-            previews={s.previews}
-            isActive={opts.brandStyle === s.id}
-            onClick={() =>
-              dispatch({
-                type: 'SET_IMAGINE_OPTIONS',
-                payload: { brandStyle: opts.brandStyle === s.id ? '' : s.id },
-              })
-            }
-          />
-        ))}
-        {isAdmin && (
-          <button
-            className={styles.chipButton}
-            onClick={() => router.push('/manage/styles/new')}
-          >
-            <Plus size={12} />
-            New Style
-          </button>
-        )}
-      </div>
+      {typeof document !== 'undefined' &&
+        formatPopoverContent &&
+        createPortal(formatPopoverContent, document.body)}
     </>
   );
 }
@@ -550,7 +555,6 @@ function CreatePickers() {
       </div>
 
       <div className={styles.pickerRow}>
-        <span className={styles.pickerLabel}>Style</span>
         {MOCK_BRAND_STYLES.map((s) => (
           <StyleChip
             key={s.id}

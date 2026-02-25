@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ClockCounterClockwise } from '@phosphor-icons/react';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { ClockCounterClockwise, X } from '@phosphor-icons/react';
 import ChatInput from '@/components/chat/ChatInput/ChatInput';
 import ChatMessages from '@/components/chat/ChatMessages/ChatMessages';
 import ChatSessionHistory from '@/components/chat/ChatSessionHistory/ChatSessionHistory';
-import FeatureCards from '@/components/chat/FeatureCards/FeatureCards';
+import EditCanvas from '@/components/chat/EditCanvas/EditCanvas';
+import ModeTabs from '@/components/chat/ModeTabs/ModeTabs';
 import { useChat, CreativeMode } from '@/lib/chat-context';
 import { useIsAdmin } from '@/lib/permissions';
 import { MOCK_IMAGES } from '@/lib/mock-data';
@@ -43,6 +45,10 @@ const MODE_KEYWORDS: { mode: CreativeMode; patterns: RegExp[] }[] = [
       /\b(ad|ads|advertisement|banner|campaign|story|post)\b/i,
       /\b(instagram|facebook|linkedin|youtube|social\s?media)\b/i,
     ],
+  },
+  {
+    mode: 'assistant',
+    patterns: [/\bassistant\b/i, /\bbrand\s+help\b/i, /\bguidelines\b/i],
   },
 ];
 
@@ -117,6 +123,10 @@ const MODE_HEADLINES: Record<CreativeMode, { greeting: string; sub: string }> = 
     greeting: 'Design ads that stay on brand.',
     sub: 'Choose a format, set the style, and describe the ad you need.',
   },
+  assistant: {
+    greeting: 'Your brand assistant is here.',
+    sub: 'Ask anything about your brand guidelines, assets, or content strategy.',
+  },
 };
 
 export default function ChatLanding() {
@@ -129,7 +139,15 @@ export default function ChatLanding() {
   fetch('http://127.0.0.1:7242/ingest/9e12a5bc-bcf8-4863-ba85-1864bc6b6f1f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ChatLanding.tsx:render',message:'ChatLanding rendered',data:{mode:state.mode,hasSession:!!state.currentSession},timestamp:Date.now(),hypothesisId:'E'})}).catch(()=>{});
   // #endregion
   const hasMessages = state.currentSession && state.currentSession.messages.length > 0;
-  const headline = MODE_HEADLINES[state.mode];
+  const effectiveMode = state.mode === 'idle' ? 'imagine' : state.mode;
+  const headline = MODE_HEADLINES[effectiveMode];
+
+  // Default to Imagine when landing with no messages
+  useEffect(() => {
+    if (!hasMessages && state.mode === 'idle') {
+      dispatch({ type: 'SET_MODE', payload: 'imagine' });
+    }
+  }, [hasMessages, state.mode, dispatch]);
 
   const handleSend = (message: string) => {
     // Check for creation intents first (admin only)
@@ -141,13 +159,14 @@ export default function ChatLanding() {
       }
     }
 
-    // Auto-detect mode if currently idle
+    // Auto-detect mode if currently idle (default to imagine)
+    const effectiveMode = state.mode === 'idle' ? (detectMode(message) ?? 'imagine') : state.mode;
     if (state.mode === 'idle') {
-      const detected = detectMode(message);
-      if (detected) {
-        dispatch({ type: 'SET_MODE', payload: detected });
-      }
+      dispatch({ type: 'SET_MODE', payload: effectiveMode });
     }
+
+    // Imagine mode requires a style to be selected
+    if (effectiveMode === 'imagine' && !state.imagineOptions.brandStyle) return false;
 
     const msg = {
       id: `msg-${Date.now()}`,
@@ -158,36 +177,40 @@ export default function ChatLanding() {
     dispatch({ type: 'SEND_MESSAGE', payload: msg });
     setIsGenerating(true);
 
-    // Use the mode that will be current after potential auto-detect
-    const activeMode = state.mode === 'idle' ? (detectMode(message) ?? 'idle') : state.mode;
-
     // Simulate assistant response
     setTimeout(() => {
       const response = {
         id: `msg-${Date.now()}`,
         role: 'assistant' as const,
-        content: getAssistantResponse(activeMode, message),
+        content: getAssistantResponse(effectiveMode, message),
         timestamp: new Date().toISOString(),
       };
       dispatch({ type: 'ADD_ASSISTANT_MESSAGE', payload: response });
       setIsGenerating(false);
 
-      // If in a creative mode, simulate generating an asset
-      if (activeMode !== 'idle') {
-        setTimeout(() => {
-          const randomImg = MOCK_IMAGES[Math.floor(Math.random() * MOCK_IMAGES.length)];
-          dispatch({
-            type: 'ADD_GENERATED_ASSET',
-            payload: {
-              id: `asset-${Date.now()}`,
-              url: randomImg.url,
-              prompt: message,
-              type: state.imagineOptions.outputType,
-              aspectRatio: state.imagineOptions.aspectRatio,
-              savedToLibrary: false,
-            },
-          });
-        }, 1500);
+      // If in a creative mode (not idle/assistant), simulate generating 4 assets
+      if (effectiveMode !== 'idle' && effectiveMode !== 'assistant') {
+        dispatch({ type: 'SET_GENERATING_IMAGES', payload: true });
+        const delays = [1500, 2000, 2500, 3000];
+        delays.forEach((delay, i) => {
+          setTimeout(() => {
+            const randomImg = MOCK_IMAGES[Math.floor(Math.random() * MOCK_IMAGES.length)];
+            dispatch({
+              type: 'ADD_GENERATED_ASSET',
+              payload: {
+                id: `asset-${Date.now()}-${i}`,
+                url: randomImg.url,
+                prompt: message,
+                type: state.imagineOptions.outputType,
+                aspectRatio: state.imagineOptions.aspectRatio,
+                savedToLibrary: false,
+              },
+            });
+            if (i === delays.length - 1) {
+              dispatch({ type: 'SET_GENERATING_IMAGES', payload: false });
+            }
+          }, delay);
+        });
       }
     }, 1200);
   };
@@ -202,33 +225,105 @@ export default function ChatLanding() {
     </button>
   );
 
-  // Landing / idle state
-  if (!hasMessages) {
-    return (
-      <div className={styles.landing}>
-        <div className={styles.content}>
-          <h1 className={styles.greeting}>{headline.greeting}</h1>
-          <p className={styles.subgreeting}>{headline.sub}</p>
-          <ChatInput onSend={handleSend} />
-          {state.mode === 'idle' && <FeatureCards />}
-        </div>
-        <div className={styles.historyDock}>{historyButton}</div>
-      </div>
-    );
-  }
+  const transition = { duration: 0.45, ease: [0.4, 0, 0.2, 1] };
 
-  // Active chat state
   return (
-    <div className={styles.activeChat}>
-      <ChatSessionHistory />
-      <ChatMessages
-        messages={state.currentSession!.messages}
-        isGenerating={isGenerating}
-      />
-      <div className={styles.inputDock}>
-        <ChatInput onSend={handleSend} />
-      </div>
+    <div className={styles.viewWrapper}>
       <div className={styles.historyDock}>{historyButton}</div>
+      <LayoutGroup>
+        <div className={styles.animateArea}>
+          <AnimatePresence mode="sync">
+            {!hasMessages ? (
+              <motion.div
+                key="landing"
+                className={styles.landing}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={transition}
+              >
+                <motion.div
+                  className={styles.landingHero}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -80 }}
+                  transition={transition}
+                >
+                  <h1 className={styles.greeting}>{headline.greeting}</h1>
+                  <p className={styles.subgreeting}>{headline.sub}</p>
+                  <ModeTabs />
+                </motion.div>
+                <motion.div layoutId="chat-input" layout className={styles.landingInputWrap}>
+                  <ChatInput onSend={handleSend} />
+                </motion.div>
+              </motion.div>
+            ) : state.mode === 'imagine' ? (
+              <motion.div
+                key="activeImagine"
+                className={`${styles.activeChat} ${styles.imagineView}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={transition}
+              >
+                <motion.div
+                  className={styles.imagineCanvasArea}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...transition, delay: 0.05 }}
+                >
+                  <EditCanvas embedded />
+                </motion.div>
+                <motion.div
+                  layoutId="chat-input"
+                  layout
+                  className={`${styles.inputDock} ${styles.inputDockFloating}`}
+                >
+                  <ChatInput onSend={handleSend} />
+                </motion.div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="activeChat"
+                className={styles.activeChat}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={transition}
+              >
+                <motion.div
+                  className={styles.chatContent}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...transition, delay: 0.05 }}
+                >
+                  <div className={styles.sessionHeader}>
+                    <span className={styles.sessionTitle}>
+                      {state.currentSession?.title ?? 'Chat'}
+                    </span>
+                    <button
+                      className={styles.newChatButton}
+                      onClick={() => dispatch({ type: 'EXIT_MODE' })}
+                      aria-label="Close chat and return to start"
+                    >
+                      <X size={14} />
+                      Close
+                    </button>
+                  </div>
+                  <ChatSessionHistory />
+                  <ChatMessages
+                    messages={state.currentSession!.messages}
+                    isGenerating={isGenerating}
+                  />
+                </motion.div>
+                <motion.div layoutId="chat-input" layout className={styles.inputDock}>
+                  <ChatInput onSend={handleSend} />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </LayoutGroup>
     </div>
   );
 }
@@ -243,6 +338,8 @@ function getAssistantResponse(mode: string, message: string): string {
       return `I'll create a character scene for: "${message}". Working on it now...`;
     case 'create':
       return `I'll design an ad based on: "${message}". Let me put that together...`;
+    case 'assistant':
+      return `I'd be happy to help with that! I know your brand inside and out — feel free to ask me anything about your guidelines, assets, or content strategy.`;
     default:
       return `I'd be happy to help with that! I know your brand inside and out — feel free to ask me anything about your guidelines, assets, or content strategy. Or use the shortcuts below to jump straight into creating.`;
   }

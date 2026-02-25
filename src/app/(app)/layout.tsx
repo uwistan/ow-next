@@ -12,19 +12,26 @@ import ProductsList from '@/components/manage/ManagePanel/ProductsList';
 import ShotsList from '@/components/manage/ManagePanel/ShotsList';
 import CharactersList from '@/components/manage/ManagePanel/CharactersList';
 import { ChatProvider, useChat } from '@/lib/chat-context';
+import { BrandProvider } from '@/lib/brand-context';
 import styles from './layout.module.css';
 
 function CreateView() {
   const { state } = useChat();
+  const hasImagineSession =
+    state.mode === 'imagine' &&
+    state.currentSession &&
+    state.currentSession.messages.length > 0;
+  const showSplitCanvas =
+    state.canvasOpen && !hasImagineSession;
 
   return (
     <div className={styles.createView}>
-      <div className={state.canvasOpen ? styles.splitLayout : styles.fullLayout}>
-        <div className={state.canvasOpen ? styles.chatPanel : styles.chatPanelFull}>
+      <div className={showSplitCanvas ? styles.splitLayout : styles.fullLayout}>
+        <div className={showSplitCanvas ? styles.chatPanel : styles.chatPanelFull}>
           <ChatLanding />
         </div>
         <AnimatePresence>
-          {state.canvasOpen && (
+          {showSplitCanvas && (
             <div className={styles.canvasPanel}>
               <EditCanvas />
             </div>
@@ -84,8 +91,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   fetch('http://127.0.0.1:7242/ingest/9e12a5bc-bcf8-4863-ba85-1864bc6b6f1f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'layout.tsx:AppLayout',message:'AppLayout rendered',data:{},timestamp:Date.now(),hypothesisId:'A'})}).catch(()=>{});
   // #endregion
   return (
-    <ChatProvider>
-      <AppShell />
-    </ChatProvider>
+    <BrandProvider>
+      <ChatProvider>
+        <AppShell />
+      </ChatProvider>
+    </BrandProvider>
   );
 }

@@ -51,26 +51,6 @@
   color: var(--color-black);
 }
 
-.newChatBtn {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  margin: var(--spacing-sm) var(--spacing-md) 0;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  background: var(--color-black);
-  color: var(--color-white);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  cursor: pointer;
-  transition: opacity var(--transition-fast);
-  flex-shrink: 0;
-}
-
-.newChatBtn:hover {
-  opacity: 0.85;
-}
-
 /* ── Filter Row ─────────────────────────────────────────────────── */
 
 .filterRow {

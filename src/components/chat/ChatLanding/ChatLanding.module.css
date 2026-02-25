@@ -1,3 +1,28 @@
+/* ── View Wrapper ───────────────────────────────────────────────── */
+
+.viewWrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+  min-height: 0;
+}
+
+.animateArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
+}
+
+.animateArea > * {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 /* ── Landing State (idle, no messages) ──────────────────────────── */
 
 .landing {
@@ -10,7 +35,7 @@
   position: relative;
 }
 
-.content {
+.landingHero {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,6 +43,16 @@
   width: 100%;
   max-width: 680px;
   margin-top: -60px;
+}
+
+.landingInputWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 680px;
+  margin-top: var(--spacing-md);
+  flex-shrink: 0;
 }
 
 .greeting {
@@ -49,12 +84,78 @@
   overflow: hidden;
 }
 
+.chatContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.imagineView {
+  background-image: radial-gradient(circle, var(--color-gray-300) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-color: var(--color-gray-50);
+}
+
+.imagineCanvasArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sessionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-gray-200);
+  flex-shrink: 0;
+}
+
+.sessionTitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.newChatButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-fast);
+}
+
+.newChatButton:hover {
+  background: var(--color-gray-200);
+  color: var(--color-black);
+}
+
 .inputDock {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
   padding: var(--spacing-xs) var(--spacing-sm) var(--spacing-sm);
   background: linear-gradient(transparent, var(--color-white) 20%);
   flex-shrink: 0;
+}
+
+.inputDockFloating {
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.92) 15%);
+  backdrop-filter: blur(8px);
 }
 
 /* ── History Button (bottom-left, near chat) ────────────────────── */

@@ -6,6 +6,7 @@ export const MOCK_BRANDS = [
     initials: 'AS',
     color: '#6466ff',
     description: 'Creative agency pushing boundaries in visual design.',
+    hasAssistant: true,
   },
   {
     id: 'brand-2',
@@ -13,6 +14,7 @@ export const MOCK_BRANDS = [
     initials: 'NL',
     color: '#24ff78',
     description: 'Tech startup focused on AI-driven solutions.',
+    hasAssistant: false,
   },
 ];
 
@@ -63,6 +65,7 @@ const CREATIVE_MODES = ['imagine', 'product', 'character', 'create'] as const;
 const ASPECT_RATIOS_LIB = ['1:1', '4:3', '3:4', '16:9', '9:16'] as const;
 const WIDTHS = [400, 600, 400, 800, 400] as const;
 const HEIGHTS = [400, 450, 530, 450, 710] as const;
+const STYLE_IDS = ['style-1', 'style-2'] as const; // Photography, Illustration
 
 export const MOCK_LIBRARY_ASSETS = Array.from({ length: 24 }, (_, i) => {
   const arIdx = i % ASPECT_RATIOS_LIB.length;
@@ -79,6 +82,7 @@ export const MOCK_LIBRARY_ASSETS = Array.from({ length: 24 }, (_, i) => {
     ][i],
     type: (i % 5 === 0 ? 'video' : 'image') as 'image' | 'video',
     folderId: MOCK_FOLDERS[i % MOCK_FOLDERS.length].id,
+    styleId: STYLE_IDS[i % STYLE_IDS.length],
     liked: i % 4 === 0,
     creativeMode: CREATIVE_MODES[i % CREATIVE_MODES.length],
     aspectRatio: ASPECT_RATIOS_LIB[arIdx],
@@ -147,7 +151,7 @@ export const MOCK_ACTIVITY = [
 export const MOCK_BRAND_STYLES = [
   {
     id: 'style-1',
-    name: 'Human-centered',
+    name: 'Photography',
     description: 'Warm, personal, lifestyle-oriented visuals',
     image: 'https://picsum.photos/seed/style-human/200/200',
     previews: [
@@ -158,24 +162,13 @@ export const MOCK_BRAND_STYLES = [
   },
   {
     id: 'style-2',
-    name: 'Machine-centered',
+    name: 'Illustration',
     description: 'Technical, precise, product-focused visuals',
     image: 'https://picsum.photos/seed/style-machine/200/200',
     previews: [
       'https://picsum.photos/seed/style-machine-1/400/300',
       'https://picsum.photos/seed/style-machine-2/400/300',
       'https://picsum.photos/seed/style-machine-3/400/300',
-    ],
-  },
-  {
-    id: 'style-3',
-    name: 'Minimalist',
-    description: 'Clean, spacious, typography-driven',
-    image: 'https://picsum.photos/seed/style-minimal/200/200',
-    previews: [
-      'https://picsum.photos/seed/style-minimal-1/400/300',
-      'https://picsum.photos/seed/style-minimal-2/400/300',
-      'https://picsum.photos/seed/style-minimal-3/400/300',
     ],
   },
 ];

@@ -4,7 +4,7 @@ import { createContext, useContext, useReducer, useEffect, ReactNode } from 'rea
 
 // ── Types ──────────────────────────────────────────────────────────────
 
-export type CreativeMode = 'idle' | 'imagine' | 'product' | 'character' | 'create';
+export type CreativeMode = 'idle' | 'imagine' | 'product' | 'character' | 'create' | 'assistant';
 export type ActiveView = 'create' | 'library';
 export type OutputType = 'image' | 'video';
 
@@ -65,6 +65,7 @@ export interface ChatState {
   sessions: ChatSession[];
   canvasOpen: boolean;
   historyOpen: boolean;
+  isGeneratingImages: boolean;
   activeManagePanel: ManagePanelType;
   imagineOptions: ImagineOptions;
   productOptions: ProductOptions;
@@ -93,7 +94,8 @@ type ChatAction =
   | { type: 'SET_CREATE_OPTIONS'; payload: Partial<CreateOptions> }
   | { type: 'LOAD_SESSIONS'; payload: ChatSession[] }
   | { type: 'EXIT_MODE' }
-  | { type: 'SET_MANAGE_PANEL'; payload: ManagePanelType };
+  | { type: 'SET_MANAGE_PANEL'; payload: ManagePanelType }
+  | { type: 'SET_GENERATING_IMAGES'; payload: boolean };
 
 // ── Initial State ──────────────────────────────────────────────────────
 
@@ -104,6 +106,7 @@ const initialState: ChatState = {
   sessions: [],
   canvasOpen: false,
   historyOpen: false,
+  isGeneratingImages: false,
   activeManagePanel: null,
   imagineOptions: {
     aspectRatio: '1:1',
@@ -161,12 +164,15 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
     }
 
     case 'EXIT_MODE':
-      // Full reset: go back to landing state, clear current session
+      // Full reset: go back to landing state, clear current session.
+      // Use the session's mode so the correct tab is active (Imagine → Imagine, Chat → Chat).
+      const exitMode = state.currentSession?.mode ?? 'imagine';
       return {
         ...state,
-        mode: 'idle',
+        mode: exitMode,
         currentSession: null,
         canvasOpen: false,
+        isGeneratingImages: false,
         imagineOptions: initialState.imagineOptions,
         productOptions: initialState.productOptions,
         characterOptions: initialState.characterOptions,
@@ -331,6 +337,9 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
 
     case 'SET_MANAGE_PANEL':
       return { ...state, activeManagePanel: action.payload };
+
+    case 'SET_GENERATING_IMAGES':
+      return { ...state, isGeneratingImages: action.payload };
 
     default:
       return state;

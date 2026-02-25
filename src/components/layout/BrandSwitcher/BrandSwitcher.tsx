@@ -3,19 +3,16 @@
 import cn from 'classnames';
 import { CaretUpDown } from '@phosphor-icons/react';
 import { useState } from 'react';
+import { useBrand } from '@/lib/brand-context';
+import { MOCK_BRANDS } from '@/lib/mock-data';
 import styles from './BrandSwitcher.module.css';
-
-const BRANDS = [
-  { id: 'brand-1', name: 'Acme Studio', initials: 'AS', color: '#6466ff' },
-  { id: 'brand-2', name: 'Nova Labs', initials: 'NL', color: '#24ff78' },
-];
 
 interface BrandSwitcherProps {
   collapsed?: boolean;
 }
 
 export default function BrandSwitcher({ collapsed }: BrandSwitcherProps) {
-  const [activeBrand, setActiveBrand] = useState(BRANDS[0]);
+  const { activeBrand, setActiveBrand } = useBrand();
   const [open, setOpen] = useState(false);
 
   return (
@@ -41,7 +38,7 @@ export default function BrandSwitcher({ collapsed }: BrandSwitcherProps) {
 
       {open && (
         <div className={styles.dropdown}>
-          {BRANDS.map((brand) => (
+          {MOCK_BRANDS.map((brand) => (
             <button
               key={brand.id}
               className={cn(

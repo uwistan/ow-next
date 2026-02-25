@@ -11,6 +11,7 @@ const MODE_LABELS: Record<CreativeMode, string> = {
   product: 'Product',
   character: 'Character',
   create: 'Create',
+  assistant: 'Chat',
 };
 
 /**

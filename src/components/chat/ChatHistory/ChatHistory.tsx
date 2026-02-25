@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Plus,
   X,
   Sparkle,
   Package,
@@ -14,6 +13,7 @@ import {
 } from '@phosphor-icons/react';
 import cn from 'classnames';
 import { useChat, CreativeMode } from '@/lib/chat-context';
+import { isModeVisible } from '@/lib/mode-visibility';
 import styles from './ChatHistory.module.css';
 
 const MODE_ICONS: Record<CreativeMode, React.ReactNode> = {
@@ -22,6 +22,7 @@ const MODE_ICONS: Record<CreativeMode, React.ReactNode> = {
   product: <Package size={14} />,
   character: <UserCircle size={14} />,
   create: <PaintBrush size={14} />,
+  assistant: <ChatCircle size={14} />,
 };
 
 const MODE_LABELS: Record<CreativeMode, string> = {
@@ -30,6 +31,7 @@ const MODE_LABELS: Record<CreativeMode, string> = {
   product: 'Product',
   character: 'Character',
   create: 'Create',
+  assistant: 'Chat',
 };
 
 const MODE_COLORS: Record<CreativeMode, string> = {
@@ -38,16 +40,22 @@ const MODE_COLORS: Record<CreativeMode, string> = {
   product: '#e67e22',
   character: '#2ecc71',
   create: '#e74c3c',
+  assistant: '#9b59b6',
 };
 
-const FILTER_OPTIONS: { id: CreativeMode | 'all'; label: string }[] = [
+const ALL_FILTER_OPTIONS: { id: CreativeMode | 'all'; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'idle', label: 'General' },
   { id: 'imagine', label: 'Imagine' },
   { id: 'product', label: 'Product' },
   { id: 'character', label: 'Character' },
   { id: 'create', label: 'Create' },
+  { id: 'assistant', label: 'Chat' },
 ];
+
+const FILTER_OPTIONS = ALL_FILTER_OPTIONS.filter(
+  (o) => o.id === 'all' || o.id === 'idle' || isModeVisible(o.id)
+);
 
 export default function ChatHistory() {
   const { state, dispatch } = useChat();
@@ -57,11 +65,6 @@ export default function ChatHistory() {
   );
 
   if (!state.historyOpen) return null;
-
-  const handleNewChat = () => {
-    dispatch({ type: 'NEW_CHAT' });
-    dispatch({ type: 'SET_HISTORY_OPEN', payload: false });
-  };
 
   const handleLoadSession = (id: string) => {
     dispatch({ type: 'LOAD_SESSION', payload: id });
@@ -112,11 +115,6 @@ export default function ChatHistory() {
             <X size={16} />
           </button>
         </div>
-
-        <button className={styles.newChatBtn} onClick={handleNewChat}>
-          <Plus size={16} />
-          New Chat
-        </button>
 
         {/* Filter pills */}
         <div className={styles.filterRow}>

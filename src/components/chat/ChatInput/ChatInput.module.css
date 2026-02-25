@@ -73,7 +73,7 @@
 
 .textRow {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: var(--spacing-xs);
 }
 
@@ -177,6 +177,13 @@
   cursor: default;
   transition: all var(--transition-fast);
   flex-shrink: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.sendButtonText {
+  width: auto;
+  padding: 0 14px;
 }
 
 .sendButtonActive {
@@ -192,7 +199,7 @@
 /* ── Picker Bar ─────────────────────────────────────────────────── */
 
 .pickerBar {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .pickerBarInner {
@@ -206,11 +213,26 @@
 .pickerRow {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-sm);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   padding-bottom: 2px;
+}
+
+.pickerRowLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.pickerRowLeft::-webkit-scrollbar {
+  display: none;
 }
 
 .pickerRow::-webkit-scrollbar {
@@ -333,7 +355,217 @@
   color: var(--color-gray-400);
 }
 
-/* ── Pill Group (Aspect Ratio, Toggle) ──────────────────────────── */
+/* ── Format Select (Aspect Ratio + Media Type in popover) ─────────── */
+
+.formatSelectWrap {
+  position: relative;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.formatSelectTrigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  background: var(--color-gray-100);
+  border: 1px solid var(--color-gray-200);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.formatSelectTrigger:hover {
+  background: var(--color-gray-200);
+  border-color: var(--color-gray-300);
+  color: var(--color-black);
+}
+
+.formatSelectPopover {
+  position: fixed;
+  z-index: 9999;
+  min-width: 280px;
+  padding: var(--spacing-sm);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.formatSelectContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+/* ── Imagine Format (inside popover) ─────────────────────────────── */
+
+.imagineFormatBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.imagineFormatLabel {
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.aspectRatioRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.aspectRatioBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.aspectRatioBtn:hover {
+  background: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+}
+
+.aspectRatioBtnActive {
+  background: var(--color-black);
+  border-color: var(--color-black);
+}
+
+.aspectRatioBtnActive:hover {
+  background: var(--color-gray-800);
+  border-color: var(--color-gray-800);
+}
+
+.aspectRatioIcon {
+  width: 24px;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--color-gray-300);
+  border: 1px solid var(--color-gray-400);
+  flex-shrink: 0;
+}
+
+.aspectRatioBtnActive .aspectRatioIcon {
+  background: var(--color-white);
+  border-color: var(--color-white);
+}
+
+/* Aspect ratio shapes: 1:1 square, 16:9 wide, 9:16 tall, 4:3 medium-wide */
+.aspectRatioIcon_1_1 {
+  width: 16px;
+  height: 16px;
+}
+
+.aspectRatioIcon_16_9 {
+  width: 24px;
+  height: 14px;
+}
+
+.aspectRatioIcon_9_16 {
+  width: 14px;
+  height: 24px;
+}
+
+.aspectRatioIcon_4_3 {
+  width: 20px;
+  height: 15px;
+}
+
+.aspectRatioLabel {
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-600);
+}
+
+.aspectRatioBtnActive .aspectRatioLabel {
+  color: var(--color-white);
+}
+
+/* Media type segmented control */
+.mediaTypeSegmented {
+  display: flex;
+  background: var(--color-gray-100);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  width: fit-content;
+}
+
+.mediaTypeBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-600);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.mediaTypeBtn:hover {
+  color: var(--color-black);
+}
+
+.mediaTypeBtnActive {
+  background: var(--color-white);
+  color: var(--color-black);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.mediaTypeBtnActive:hover {
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+/* Duration row (video) */
+.durationRow {
+  display: flex;
+  gap: 4px;
+}
+
+.durationBtn {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-600);
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.durationBtn:hover {
+  background: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+  color: var(--color-black);
+}
+
+.durationBtnActive {
+  background: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+/* ── Pill Group (legacy, used by other pickers) ───────────────────── */
 
 .pillGroup {
   display: flex;
