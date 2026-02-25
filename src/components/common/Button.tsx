@@ -189,12 +189,12 @@ export const Button = forwardRef<
   } else {
     const {
       type = 'button',
-      // @ts-ignore: href is not for button, destructure to remove
       href: _href,
-      // @ts-ignore: target is not for button, destructure to remove
       target: _target,
       ...buttonRest
-    } = restSpecific as HtmlButtonProps;
+    } = restSpecific as HtmlButtonProps & { href?: string; target?: string };
+    void _href;
+    void _target;
 
     renderedButton = (
       <button

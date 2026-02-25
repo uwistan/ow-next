@@ -8,19 +8,15 @@ import {
   PaperPlaneRight,
   X,
   CaretDown,
-  Sparkle,
   Package,
   UserCircle,
-  PaintBrush,
-  ChatCircle,
   Image as ImageIcon,
-  VideoCamera,
   MagnifyingGlass,
   Check,
   Plus,
 } from '@phosphor-icons/react';
 import cn from 'classnames';
-import { useChat, CreativeMode } from '@/lib/chat-context';
+import { useChat } from '@/lib/chat-context';
 import { useIsAdmin } from '@/lib/permissions';
 import {
   MOCK_BRAND_STYLES,
@@ -49,17 +45,7 @@ interface InlineTag {
 
 /* ── Constants ──────────────────────────────────────────────────────── */
 
-const MODE_META: Record<CreativeMode, { icon: React.ReactNode; label: string; color: string }> = {
-  idle: { icon: null, label: '', color: '' },
-  imagine: { icon: <Sparkle size={14} weight="fill" />, label: 'Imagine', color: 'var(--color-purplish-blue)' },
-  product: { icon: <Package size={14} weight="fill" />, label: 'Product', color: '#e67e22' },
-  character: { icon: <UserCircle size={14} weight="fill" />, label: 'Character', color: '#2ecc71' },
-  create: { icon: <PaintBrush size={14} weight="fill" />, label: 'Create', color: '#e74c3c' },
-  assistant: { icon: <ChatCircle size={14} weight="fill" />, label: 'Chat', color: '#9b59b6' },
-};
-
 const ASPECT_RATIOS = ['1:1', '16:9', '9:16', '4:3'] as const;
-const VIDEO_DURATIONS = [5, 10, 15] as const;
 
 /* ── Main Component ─────────────────────────────────────────────────── */
 
@@ -85,7 +71,7 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
     if (inImagineSessionView && lastUserMessage?.content) {
       setValue(lastUserMessage.content);
     }
-  }, [inImagineSessionView, state.currentSession?.id]);
+  }, [inImagineSessionView, state.currentSession?.id, lastUserMessage?.content]);
 
   const canSendImagine = mode !== 'imagine' || !!state.imagineOptions.brandStyle;
   const canSend = value.trim() && canSendImagine;

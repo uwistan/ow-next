@@ -225,7 +225,7 @@ export default function ChatLanding() {
     </button>
   );
 
-  const transition = { duration: 0.45, ease: [0.4, 0, 0.2, 1] };
+  const transition = { duration: 0.45, ease: [0.4, 0, 0.2, 1] as const };
 
   return (
     <div className={styles.viewWrapper}>

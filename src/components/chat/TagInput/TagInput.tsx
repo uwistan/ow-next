@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { X, MagnifyingGlass } from '@phosphor-icons/react';
-import cn from 'classnames';
 import styles from './TagInput.module.css';
 
 export interface TagItem {

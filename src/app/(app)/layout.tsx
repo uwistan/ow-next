@@ -94,6 +94,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <BrandProvider>
       <ChatProvider>
         <AppShell />
+        {children}
       </ChatProvider>
     </BrandProvider>
   );
