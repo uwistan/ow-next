@@ -49,6 +49,7 @@ export interface ProductOptions {
 
 export interface CharacterOptions {
   selectedCharacters: { id: string; name: string; role: string; image: string }[];
+  location: string;
 }
 
 export interface CreateOptions {
@@ -57,6 +58,7 @@ export interface CreateOptions {
 }
 
 export type ManagePanelType = 'styles' | 'products' | 'shots' | 'characters' | null;
+export type ManagerModalType = 'imageStyle' | 'products' | 'characters' | null;
 
 export interface ChatState {
   activeView: ActiveView;
@@ -67,10 +69,13 @@ export interface ChatState {
   historyOpen: boolean;
   isGeneratingImages: boolean;
   activeManagePanel: ManagePanelType;
+  activeManagerModal: ManagerModalType;
   imagineOptions: ImagineOptions;
   productOptions: ProductOptions;
   characterOptions: CharacterOptions;
   createOptions: CreateOptions;
+  /** When set, EditCanvas opens modify popover for the single asset with this prompt (from library Modify). */
+  pendingModifyPrompt: string | null;
 }
 
 // ── Actions ────────────────────────────────────────────────────────────
@@ -94,7 +99,10 @@ type ChatAction =
   | { type: 'SET_CREATE_OPTIONS'; payload: Partial<CreateOptions> }
   | { type: 'LOAD_SESSIONS'; payload: ChatSession[] }
   | { type: 'EXIT_MODE' }
+  | { type: 'OPEN_IMAGINE_FOR_MODIFY'; payload: { asset: GeneratedAsset; modifyPrompt?: string } }
+  | { type: 'CLEAR_PENDING_MODIFY' }
   | { type: 'SET_MANAGE_PANEL'; payload: ManagePanelType }
+  | { type: 'SET_MANAGER_MODAL'; payload: ManagerModalType }
   | { type: 'SET_GENERATING_IMAGES'; payload: boolean };
 
 // ── Initial State ──────────────────────────────────────────────────────
@@ -108,6 +116,7 @@ const initialState: ChatState = {
   historyOpen: false,
   isGeneratingImages: false,
   activeManagePanel: null,
+  activeManagerModal: null,
   imagineOptions: {
     aspectRatio: '1:1',
     outputType: 'image',
@@ -120,11 +129,13 @@ const initialState: ChatState = {
   },
   characterOptions: {
     selectedCharacters: [],
+    location: '',
   },
   createOptions: {
     adFormat: '',
     brandStyle: '',
   },
+  pendingModifyPrompt: null,
 };
 
 // ── Helpers ────────────────────────────────────────────────────────────
@@ -173,6 +184,7 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
         currentSession: null,
         canvasOpen: false,
         isGeneratingImages: false,
+        pendingModifyPrompt: null,
         imagineOptions: initialState.imagineOptions,
         productOptions: initialState.productOptions,
         characterOptions: initialState.characterOptions,
@@ -219,7 +231,7 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
 
     case 'ADD_GENERATED_ASSET': {
       if (!state.currentSession) return state;
-      const updatedAssets = [...state.currentSession.generatedAssets, action.payload];
+      const updatedAssets = [action.payload, ...state.currentSession.generatedAssets];
       const updatedSession = { ...state.currentSession, generatedAssets: updatedAssets };
       const updatedSessions = state.sessions.map((s) =>
         s.id === updatedSession.id ? updatedSession : s
@@ -302,6 +314,7 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
         currentSession: null,
         mode: 'idle',
         canvasOpen: false,
+        pendingModifyPrompt: null,
         imagineOptions: initialState.imagineOptions,
         productOptions: initialState.productOptions,
         characterOptions: initialState.characterOptions,
@@ -335,8 +348,39 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
     case 'LOAD_SESSIONS':
       return { ...state, sessions: action.payload };
 
+    case 'OPEN_IMAGINE_FOR_MODIFY': {
+      const { asset, modifyPrompt } =
+        'asset' in action.payload
+          ? action.payload as { asset: GeneratedAsset; modifyPrompt?: string }
+          : { asset: action.payload as GeneratedAsset, modifyPrompt: undefined };
+      const session: ChatSession = {
+        id: `session-modify-${Date.now()}`,
+        title: 'Modify image',
+        mode: 'imagine',
+        messages: [],
+        generatedAssets: [asset],
+        createdAt: new Date().toISOString(),
+      };
+      const updatedSessions = [session, ...state.sessions];
+      return {
+        ...state,
+        activeView: 'create',
+        mode: 'imagine',
+        currentSession: session,
+        sessions: updatedSessions,
+        canvasOpen: true,
+        pendingModifyPrompt: modifyPrompt ?? null,
+      };
+    }
+
+    case 'CLEAR_PENDING_MODIFY':
+      return { ...state, pendingModifyPrompt: null };
+
     case 'SET_MANAGE_PANEL':
       return { ...state, activeManagePanel: action.payload };
+
+    case 'SET_MANAGER_MODAL':
+      return { ...state, activeManagerModal: action.payload };
 
     case 'SET_GENERATING_IMAGES':
       return { ...state, isGeneratingImages: action.payload };

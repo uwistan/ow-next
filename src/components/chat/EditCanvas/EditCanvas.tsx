@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
-import { X, DownloadSimple, PencilSimple, FolderSimplePlus, PaperPlaneRight } from '@phosphor-icons/react';
+import { X, DownloadSimple, PencilSimple, PaperPlaneRight, Heart } from '@phosphor-icons/react';
 import { useChat } from '@/lib/chat-context';
 import { MOCK_FOLDERS } from '@/lib/mock-data';
 import styles from './EditCanvas.module.css';
@@ -18,6 +18,7 @@ export default function EditCanvas({ embedded }: EditCanvasProps = {}) {
   const [modifyPrompt, setModifyPrompt] = useState('');
   const [modifyAnchor, setModifyAnchor] = useState<{ top: number; left: number } | null>(null);
   const modifyPopoverRef = useRef<HTMLDivElement>(null);
+  const firstAssetThumbRef = useRef<HTMLDivElement>(null);
 
   /** Convert aspect ratio string like "16:9" to CSS value like "16/9" */
   const getAspectCss = (ratio?: string) => {
@@ -88,6 +89,28 @@ export default function EditCanvas({ embedded }: EditCanvasProps = {}) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [modifyAssetId]);
 
+  /** When opened from library Modify with a prompt, open the modify popover for the single asset */
+  useEffect(() => {
+    const prompt = state.pendingModifyPrompt;
+    if (!prompt) return;
+    const assets = state.currentSession?.generatedAssets ?? [];
+    if (assets.length !== 1) return;
+    const asset = assets[0];
+    setModifyAssetId(asset.id);
+    setModifyPrompt(prompt);
+    dispatch({ type: 'CLEAR_PENDING_MODIFY' });
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = firstAssetThumbRef.current;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          setModifyAnchor({ top: rect.bottom + 6, left: rect.left });
+        }
+      });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [state.pendingModifyPrompt, dispatch]);
+
   const submitModify = () => {
     if (modifyAssetId && modifyPrompt.trim()) {
       handleModify(modifyAssetId, modifyPrompt.trim());
@@ -135,6 +158,7 @@ export default function EditCanvas({ embedded }: EditCanvasProps = {}) {
             {assets.map((asset, i) => (
               <motion.div
                 key={asset.id}
+                ref={i === 0 ? firstAssetThumbRef : undefined}
                 className={styles.assetThumb}
                 style={{ aspectRatio: getAspectCss(asset.aspectRatio) }}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -169,8 +193,11 @@ export default function EditCanvas({ embedded }: EditCanvasProps = {}) {
                         handleSaveToLibrary(asset.id);
                       }}
                     >
-                      <FolderSimplePlus size={14} />
-                      Save to Library
+                      <Heart
+                        size={14}
+                        weight={asset.savedToLibrary ? 'fill' : 'regular'}
+                      />
+                      {asset.savedToLibrary ? 'Saved' : 'Save to Library'}
                     </button>
                     <button
                       type="button"
@@ -186,7 +213,11 @@ export default function EditCanvas({ embedded }: EditCanvasProps = {}) {
                     </button>
                   </div>
                 </div>
-                {asset.savedToLibrary && <div className={styles.savedBadge} />}
+                {asset.savedToLibrary && (
+                  <span className={styles.savedBadge} aria-label="Saved to library">
+                    <Heart size={16} weight="fill" />
+                  </span>
+                )}
               </motion.div>
             ))}
             {isGenerating &&

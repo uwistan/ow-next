@@ -251,15 +251,20 @@
   }
 }
 
-/* ── Saved Badge ────────────────────────────────────────────────── */
+/* ── Saved Badge (red heart in circle, like library) ───────────────── */
 
 .savedBadge {
   position: absolute;
-  bottom: 6px;
-  left: 6px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-signal-green-500);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
+  bottom: 8px;
+  left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  color: #e74c3c;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }

@@ -6,17 +6,15 @@ import {
   Palette,
   Package,
   UserCircle,
-  Megaphone,
   SignOut,
   Swatches,
-  Camera,
 } from '@phosphor-icons/react';
 import Avatar from '@/components/common/Avatar';
 import BrandSwitcher from '@/components/layout/BrandSwitcher/BrandSwitcher';
 import FlipToggle from '@/components/layout/FlipToggle/FlipToggle';
 import { MOCK_USER } from '@/lib/mock-data';
 import { useIsAdmin } from '@/lib/permissions';
-import { useChat, ManagePanelType } from '@/lib/chat-context';
+import { useChat, ManagePanelType, ManagerModalType } from '@/lib/chat-context';
 import styles from './TopBar.module.css';
 
 interface MenuItemDef {
@@ -27,6 +25,7 @@ interface MenuItemDef {
   danger?: boolean;
   adminOnly?: boolean;
   managePanel?: ManagePanelType;
+  managerModal?: ManagerModalType;
 }
 
 export default function TopBar() {
@@ -42,11 +41,9 @@ export default function TopBar() {
     { id: 'account', label: 'Account Settings', icon: <GearSix size={16} /> },
     { id: 'brand', label: 'Brand Settings', icon: <Palette size={16} /> },
     { id: 'divider-1', divider: true, adminOnly: true },
-    { id: 'styles', label: 'Manage Styles', icon: <Swatches size={16} />, adminOnly: true, managePanel: 'styles' },
-    { id: 'products', label: 'Manage Products', icon: <Package size={16} />, adminOnly: true, managePanel: 'products' },
-    { id: 'shots', label: 'Manage Shots', icon: <Camera size={16} />, adminOnly: true, managePanel: 'shots' },
-    { id: 'characters', label: 'Manage Characters', icon: <UserCircle size={16} />, adminOnly: true, managePanel: 'characters' },
-    { id: 'ads', label: 'Manage Ads', icon: <Megaphone size={16} />, adminOnly: true },
+    { id: 'styles', label: 'Image Styles', icon: <Swatches size={16} />, adminOnly: true, managerModal: 'imageStyle' },
+    { id: 'products', label: 'Manage Products', icon: <Package size={16} />, adminOnly: true, managerModal: 'products' },
+    { id: 'characters', label: 'Manage Characters', icon: <UserCircle size={16} />, adminOnly: true, managerModal: 'characters' },
     { id: 'divider-2', divider: true },
     { id: 'logout', label: 'Sign Out', icon: <SignOut size={16} />, danger: true },
   ], []);
@@ -70,7 +67,9 @@ export default function TopBar() {
 
   const handleItemClick = (item: MenuItemDef) => {
     setUserMenuOpen(false);
-    if (item.managePanel) {
+    if (item.managerModal) {
+      dispatch({ type: 'SET_MANAGER_MODAL', payload: item.managerModal });
+    } else if (item.managePanel) {
       dispatch({ type: 'SET_MANAGE_PANEL', payload: item.managePanel });
     }
   };

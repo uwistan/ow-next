@@ -1,31 +1,28 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   PaperPlaneRight,
   X,
   CaretDown,
-  Package,
-  UserCircle,
   Image as ImageIcon,
-  MagnifyingGlass,
   Check,
-  Plus,
 } from '@phosphor-icons/react';
 import cn from 'classnames';
 import { useChat } from '@/lib/chat-context';
+import { setMentionMode } from '@/lib/mention-mode';
 import { useIsAdmin } from '@/lib/permissions';
 import {
   MOCK_BRAND_STYLES,
+  MOCK_IMAGE_STYLES,
   MOCK_PRODUCT_STYLES,
-  MOCK_PRODUCTS,
-  MOCK_CHARACTERS,
+  MOCK_CHARACTER_LOCATIONS,
   MOCK_AD_TEMPLATES,
 } from '@/lib/mock-data';
 import StyleChip from '@/components/chat/StyleChip/StyleChip';
+import PromptEditor, { type PromptEditorRef } from '@/components/chat/ChatInput/PromptEditor';
 import styles from './ChatInput.module.css';
 
 /* ── Types ──────────────────────────────────────────────────────────── */
@@ -49,16 +46,30 @@ const ASPECT_RATIOS = ['1:1', '16:9', '9:16', '4:3'] as const;
 
 /* ── Main Component ─────────────────────────────────────────────────── */
 
+const usePromptEditor = (mode: string) =>
+  ['imagine', 'assistant', 'product', 'character'].includes(mode);
+
 export default function ChatInput({ className, onSend }: ChatInputProps) {
   const [value, setValue] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const promptEditorRef = useRef<PromptEditorRef>(null);
   const { state, dispatch } = useChat();
   const mode = state.mode;
   const hasMessages = state.currentSession && state.currentSession.messages.length > 0;
-  const inImagineSessionView = mode === 'imagine' && hasMessages;
+  const hasAssets = state.currentSession && state.currentSession.generatedAssets.length > 0;
+  const inImageSessionView =
+    (mode === 'imagine' || mode === 'product' || mode === 'character') &&
+    state.currentSession &&
+    (hasMessages || hasAssets);
   const lastUserMessage = state.currentSession?.messages
     ?.filter((m) => m.role === 'user')
     .pop();
+  const usePromptEditorFor = usePromptEditor(mode);
+  const [promptEditorEmpty, setPromptEditorEmpty] = useState(true);
+
+  useEffect(() => {
+    setMentionMode(mode);
+  }, [mode]);
 
   useEffect(() => {
     const el = textareaRef.current;
@@ -68,21 +79,52 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
   }, [value]);
 
   useEffect(() => {
-    if (inImagineSessionView && lastUserMessage?.content) {
-      setValue(lastUserMessage.content);
+    if (usePromptEditorFor && inImageSessionView && lastUserMessage?.content) {
+      promptEditorRef.current?.setContent(lastUserMessage.content);
     }
-  }, [inImagineSessionView, state.currentSession?.id, lastUserMessage?.content]);
+  }, [usePromptEditorFor, inImageSessionView, state.currentSession?.id, lastUserMessage?.content]);
 
-  const canSendImagine = mode !== 'imagine' || !!state.imagineOptions.brandStyle;
-  const canSend = value.trim() && canSendImagine;
+  const canSendRequirement =
+    mode === 'imagine'
+      ? !!state.imagineOptions.brandStyle
+      : mode === 'product'
+        ? !!state.productOptions.shotStyle
+        : mode === 'character'
+          ? !!state.characterOptions.location
+          : true;
+  const canSendTextarea = value.trim() && canSendRequirement;
+  const canSendPromptEditor = !promptEditorEmpty && canSendRequirement;
+  const canSend = usePromptEditorFor ? canSendPromptEditor : canSendTextarea;
 
-  const handleSend = () => {
-    const trimmed = value.trim();
-    if (!trimmed) return;
+  const handleSend = useCallback(() => {
     if (mode === 'imagine' && !state.imagineOptions.brandStyle) return;
-    const accepted = onSend?.(trimmed);
-    if (accepted !== false) setValue('');
-  };
+    if (mode === 'product' && !state.productOptions.shotStyle) return;
+    if (mode === 'character' && !state.characterOptions.location) return;
+    if (usePromptEditorFor) {
+      const text = promptEditorRef.current?.getText() ?? '';
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      const accepted = onSend?.(trimmed);
+      if (accepted !== false) {
+        const keepForIteration =
+          mode === 'imagine' || mode === 'product' || mode === 'character';
+        if (!keepForIteration) {
+          promptEditorRef.current?.setContent('');
+        }
+      }
+    } else {
+      const trimmed = value.trim();
+      if (!trimmed) return;
+      const accepted = onSend?.(trimmed);
+      if (accepted !== false) {
+        const keepForIteration =
+          mode === 'imagine' || mode === 'product' || mode === 'character';
+        if (!keepForIteration) {
+          setValue('');
+        }
+      }
+    }
+  }, [mode, state.imagineOptions.brandStyle, state.productOptions.shotStyle, state.characterOptions.location, usePromptEditorFor, value, onSend]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -91,46 +133,8 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
     }
   };
 
-  /* Derive inline tags from current state (styles excluded – active state only in picker) */
+  /* Derive inline tags from current state (product/character use PromptEditor; create mode uses tags) */
   const inlineTags: InlineTag[] = [];
-
-  if (mode === 'product') {
-    for (const p of state.productOptions.selectedProducts) {
-      inlineTags.push({
-        id: `prod-${p.id}`,
-        label: p.name,
-        image: p.image,
-        category: 'product',
-        onRemove: () =>
-          dispatch({
-            type: 'SET_PRODUCT_OPTIONS',
-            payload: {
-              selectedProducts: state.productOptions.selectedProducts.filter((x) => x.id !== p.id),
-            },
-          }),
-      });
-    }
-  }
-
-  if (mode === 'character') {
-    for (const c of state.characterOptions.selectedCharacters) {
-      inlineTags.push({
-        id: `char-${c.id}`,
-        label: c.name,
-        image: c.image,
-        category: 'character',
-        onRemove: () =>
-          dispatch({
-            type: 'SET_CHARACTER_OPTIONS',
-            payload: {
-              selectedCharacters: state.characterOptions.selectedCharacters.filter(
-                (x) => x.id !== c.id
-              ),
-            },
-          }),
-      });
-    }
-  }
 
   if (mode === 'create') {
     if (state.createOptions.adFormat) {
@@ -148,18 +152,22 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
 
   const placeholder =
     mode === 'idle'
-      ? 'Ask anything...'
+      ? 'Choose a mode below to get started'
       : mode === 'imagine'
         ? state.imagineOptions.brandStyle
           ? 'Describe the image you want to create...'
-          : 'Select a style first, then describe the image...'
+          : 'Select a brand style below, then describe the image you want'
         : mode === 'product'
-          ? 'Describe the product shot...'
+          ? state.productOptions.shotStyle
+            ? 'Add products with @ and describe the scene...'
+            : 'Select a shot style below, then add products with @'
           : mode === 'character'
-            ? 'Describe the scene with your characters...'
+            ? state.characterOptions.location
+              ? 'Add characters with @ and describe the scene...'
+              : 'Select a location below, then add characters with @'
             : mode === 'assistant'
-              ? 'Ask your brand assistant anything...'
-              : 'Describe the ad you want to create...';
+              ? 'Ask me anything about your brand'
+              : 'Select a format below, then describe the ad you want to create';
 
   return (
     <div className={cn(styles.wrapper, className)}>
@@ -183,15 +191,25 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
         )}
 
         <div className={styles.textRow}>
-          <textarea
-            ref={textareaRef}
-            className={styles.textarea}
-            placeholder={placeholder}
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            rows={1}
-          />
+          {usePromptEditorFor ? (
+            <PromptEditor
+              ref={promptEditorRef}
+              placeholder={placeholder}
+              onSend={handleSend}
+              onContentChange={setPromptEditorEmpty}
+              content={inImageSessionView && lastUserMessage?.content ? lastUserMessage.content : undefined}
+            />
+          ) : (
+            <textarea
+              ref={textareaRef}
+              className={styles.textarea}
+              placeholder={placeholder}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              rows={1}
+            />
+          )}
           <button
             className={cn(
               styles.sendButton,
@@ -202,7 +220,7 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
             disabled={!canSend}
           >
             {mode === 'imagine'
-              ? inImagineSessionView
+              ? inImageSessionView
                 ? 'Create more'
                 : 'Create Images'
               : <PaperPlaneRight size={18} weight="fill" />}
@@ -210,25 +228,17 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
         </div>
       </div>
 
-      {/* Picker bar (mode-specific visual chips; assistant has none) */}
-      <AnimatePresence>
-        {mode !== 'idle' && mode !== 'assistant' && (
-          <motion.div
-            className={styles.pickerBar}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          >
-            <div className={styles.pickerBarInner}>
-              {mode === 'imagine' && <ImaginePickers />}
-              {mode === 'product' && <ProductPickers />}
-              {mode === 'character' && <CharacterPickers />}
-              {mode === 'create' && <CreatePickers />}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Picker bar (mode-specific visual chips; assistant shows empty placeholder for consistent height) */}
+      {mode !== 'idle' && (
+        <div className={styles.pickerBar}>
+          <div className={styles.pickerBarInner}>
+            {mode === 'imagine' && <ImaginePickers />}
+            {mode === 'product' && <ProductPickers />}
+            {mode === 'character' && <CharacterPickers />}
+            {mode === 'create' && <CreatePickers />}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -319,7 +329,7 @@ function ImaginePickers() {
         <div className={styles.pickerRowLeft}>
           {(inSessionView
             ? MOCK_BRAND_STYLES.filter((s) => opts.brandStyle === s.id)
-            : MOCK_BRAND_STYLES
+            : MOCK_IMAGE_STYLES
           ).map((s) => (
             <StyleChip
               key={s.id}
@@ -363,91 +373,26 @@ function ImaginePickers() {
 function ProductPickers() {
   const { state, dispatch } = useChat();
   const opts = state.productOptions;
-  const [search, setSearch] = useState('');
-  const selectedIds = new Set(opts.selectedProducts.map((p) => p.id));
-  const isAdmin = useIsAdmin();
-  const router = useRouter();
-
-  const visibleProducts = search
-    ? MOCK_PRODUCTS.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()))
-    : MOCK_PRODUCTS;
-
-  const toggleProduct = (prod: (typeof MOCK_PRODUCTS)[0]) => {
-    if (selectedIds.has(prod.id)) {
-      dispatch({
-        type: 'SET_PRODUCT_OPTIONS',
-        payload: {
-          selectedProducts: opts.selectedProducts.filter((p) => p.id !== prod.id),
-        },
-      });
-    } else {
-      dispatch({
-        type: 'SET_PRODUCT_OPTIONS',
-        payload: {
-          selectedProducts: [...opts.selectedProducts, prod],
-        },
-      });
-    }
-  };
 
   return (
-    <>
-      <div className={styles.pickerRow}>
-        <span className={styles.pickerLabel}>
-          <Package size={14} weight="bold" />
-        </span>
-        <div className={styles.searchChip}>
-          <MagnifyingGlass size={12} />
-          <input
-            className={styles.searchChipInput}
-            placeholder="Search products..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-        {visibleProducts.map((p) => (
-          <button
-            key={p.id}
-            className={cn(styles.chipButton, selectedIds.has(p.id) && styles.chipButtonActive)}
-            onClick={() => toggleProduct(p)}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={p.image} alt="" className={styles.chipImage} />
-            {p.name}
-            {selectedIds.has(p.id) && <Check size={12} weight="bold" />}
-          </button>
-        ))}
-        {isAdmin && (
-          <button
-            className={styles.chipButton}
-            onClick={() => router.push('/manage/products/new')}
-          >
-            <Plus size={12} />
-            New Product
-          </button>
-        )}
-      </div>
-
-      <div className={styles.pickerRow}>
-        <span className={styles.pickerLabel}>Shot</span>
-        {MOCK_PRODUCT_STYLES.map((s) => (
-          <StyleChip
-            key={s.id}
-            name={s.name}
-            image={s.image}
-            description={s.description}
-            previews={s.previews}
-            isActive={opts.shotStyle === s.id}
-            onClick={() =>
-              dispatch({
-                type: 'SET_PRODUCT_OPTIONS',
-                payload: { shotStyle: opts.shotStyle === s.id ? '' : s.id },
-              })
-            }
-          />
-        ))}
-      </div>
-    </>
+    <div className={styles.pickerRow}>
+      {MOCK_PRODUCT_STYLES.map((s) => (
+        <StyleChip
+          key={s.id}
+          name={s.name}
+          image={s.image}
+          description={s.description}
+          previews={s.previews}
+          isActive={opts.shotStyle === s.id}
+          onClick={() =>
+            dispatch({
+              type: 'SET_PRODUCT_OPTIONS',
+              payload: { shotStyle: opts.shotStyle === s.id ? '' : s.id },
+            })
+          }
+        />
+      ))}
+    </div>
   );
 }
 
@@ -456,58 +401,25 @@ function ProductPickers() {
 function CharacterPickers() {
   const { state, dispatch } = useChat();
   const opts = state.characterOptions;
-  const selectedIds = new Set(opts.selectedCharacters.map((c) => c.id));
-  const isAdmin = useIsAdmin();
-  const router = useRouter();
-
-  const toggleCharacter = (char: (typeof MOCK_CHARACTERS)[0]) => {
-    if (selectedIds.has(char.id)) {
-      dispatch({
-        type: 'SET_CHARACTER_OPTIONS',
-        payload: {
-          selectedCharacters: opts.selectedCharacters.filter((c) => c.id !== char.id),
-        },
-      });
-    } else {
-      dispatch({
-        type: 'SET_CHARACTER_OPTIONS',
-        payload: {
-          selectedCharacters: [...opts.selectedCharacters, char],
-        },
-      });
-    }
-  };
 
   return (
     <div className={styles.pickerRow}>
-      <span className={styles.pickerLabel}>
-        <UserCircle size={14} weight="bold" />
-      </span>
-      {MOCK_CHARACTERS.map((c) => (
-        <button
-          key={c.id}
-          className={cn(
-            styles.chipButton,
-            styles.chipButtonAvatar,
-            selectedIds.has(c.id) && styles.chipButtonActive
-          )}
-          onClick={() => toggleCharacter(c)}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={c.image} alt="" className={styles.chipAvatar} />
-          {c.name}
-          {selectedIds.has(c.id) && <Check size={12} weight="bold" />}
-        </button>
+      {MOCK_CHARACTER_LOCATIONS.map((s) => (
+        <StyleChip
+          key={s.id}
+          name={s.name}
+          image={s.image}
+          description={s.description}
+          previews={s.previews}
+          isActive={opts.location === s.id}
+          onClick={() =>
+            dispatch({
+              type: 'SET_CHARACTER_OPTIONS',
+              payload: { location: opts.location === s.id ? '' : s.id },
+            })
+          }
+        />
       ))}
-      {isAdmin && (
-        <button
-          className={styles.chipButton}
-          onClick={() => router.push('/manage/characters/new')}
-        >
-          <Plus size={12} />
-          New Character
-        </button>
-      )}
     </div>
   );
 }
@@ -541,7 +453,7 @@ function CreatePickers() {
       </div>
 
       <div className={styles.pickerRow}>
-        {MOCK_BRAND_STYLES.map((s) => (
+        {MOCK_IMAGE_STYLES.map((s) => (
           <StyleChip
             key={s.id}
             name={s.name}

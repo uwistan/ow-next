@@ -4,15 +4,10 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
-  CaretLeft,
-  CaretRight,
   DownloadSimple,
   PencilSimple,
-  FolderSimplePlus,
-  Check,
   PaperPlaneRight,
 } from '@phosphor-icons/react';
-import cn from 'classnames';
 import styles from './AssetLightbox.module.css';
 
 /* ── Types ──────────────────────────────────────────────────────────── */
@@ -39,7 +34,6 @@ export default function AssetLightbox({
   initialIndex,
   onClose,
   onModify,
-  onSaveToLibrary,
 }: AssetLightboxProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [showModifyPanel, setShowModifyPanel] = useState(false);
@@ -157,17 +151,6 @@ export default function AssetLightbox({
 
       <div ref={contentRef} className={styles.content}>
         <div className={styles.contentArea}>
-          {hasMultiple && canGoPrev && (
-            <button
-                type="button"
-                className={cn(styles.navBtn, styles.navBtnLeft)}
-                onClick={goPrev}
-              aria-label="Previous"
-            >
-              <CaretLeft size={24} />
-            </button>
-          )}
-
           <div className={styles.assetWrapper}>
             <AnimatePresence mode="wait">
               <motion.div
@@ -196,16 +179,6 @@ export default function AssetLightbox({
             </AnimatePresence>
           </div>
 
-          {hasMultiple && canGoNext && (
-            <button
-              type="button"
-              className={cn(styles.navBtn, styles.navBtnRight)}
-              onClick={goNext}
-              aria-label="Next"
-            >
-              <CaretRight size={24} />
-            </button>
-          )}
         </div>
 
         <div className={styles.counter}>
@@ -228,26 +201,6 @@ export default function AssetLightbox({
           >
             <PencilSimple size={16} />
             <span>Modify</span>
-          </button>
-          <button
-            type="button"
-            className={cn(
-              styles.actionBtn,
-              currentAsset.savedToLibrary && styles.actionBtnSaved
-            )}
-            onClick={() => onSaveToLibrary(currentAsset.id)}
-          >
-            {currentAsset.savedToLibrary ? (
-              <>
-                <Check size={16} weight="bold" />
-                <span>Saved</span>
-              </>
-            ) : (
-              <>
-                <FolderSimplePlus size={16} />
-                <span>Save to Library</span>
-              </>
-            )}
           </button>
         </div>
 

@@ -9,20 +9,22 @@ import ChatHistory from '@/components/chat/ChatHistory/ChatHistory';
 import LibraryView from '@/components/library/LibraryView/LibraryView';
 import StylesList from '@/components/manage/ManagePanel/StylesList';
 import ProductsList from '@/components/manage/ManagePanel/ProductsList';
-import ShotsList from '@/components/manage/ManagePanel/ShotsList';
 import CharactersList from '@/components/manage/ManagePanel/CharactersList';
+import ImageStyleModal from '@/components/manage/ManagerModal/ImageStyleModal';
+import ProductsModal from '@/components/manage/ManagerModal/ProductsModal';
+import CharactersModal from '@/components/manage/ManagerModal/CharactersModal';
 import { ChatProvider, useChat } from '@/lib/chat-context';
 import { BrandProvider } from '@/lib/brand-context';
 import styles from './layout.module.css';
 
 function CreateView() {
   const { state } = useChat();
-  const hasImagineSession =
-    state.mode === 'imagine' &&
+  const hasImageSession =
+    (state.mode === 'imagine' || state.mode === 'product' || state.mode === 'character') &&
     state.currentSession &&
-    state.currentSession.messages.length > 0;
+    (state.currentSession.messages.length > 0 || state.currentSession.generatedAssets.length > 0);
   const showSplitCanvas =
-    state.canvasOpen && !hasImagineSession;
+    state.canvasOpen && !hasImageSession;
 
   return (
     <div className={styles.createView}>
@@ -59,8 +61,18 @@ function ManagePanelSwitch() {
     <AnimatePresence>
       {state.activeManagePanel === 'styles' && <StylesList />}
       {state.activeManagePanel === 'products' && <ProductsList />}
-      {state.activeManagePanel === 'shots' && <ShotsList />}
       {state.activeManagePanel === 'characters' && <CharactersList />}
+    </AnimatePresence>
+  );
+}
+
+function ManagerModalSwitch() {
+  const { state } = useChat();
+  return (
+    <AnimatePresence>
+      {state.activeManagerModal === 'imageStyle' && <ImageStyleModal key="imageStyle" />}
+      {state.activeManagerModal === 'products' && <ProductsModal key="products" />}
+      {state.activeManagerModal === 'characters' && <CharactersModal key="characters" />}
     </AnimatePresence>
   );
 }
@@ -82,14 +94,12 @@ function AppShell() {
         {state.historyOpen && <ChatHistory />}
       </AnimatePresence>
       <ManagePanelSwitch />
+      <ManagerModalSwitch />
     </div>
   );
 }
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/9e12a5bc-bcf8-4863-ba85-1864bc6b6f1f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'layout.tsx:AppLayout',message:'AppLayout rendered',data:{},timestamp:Date.now(),hypothesisId:'A'})}).catch(()=>{});
-  // #endregion
   return (
     <BrandProvider>
       <ChatProvider>

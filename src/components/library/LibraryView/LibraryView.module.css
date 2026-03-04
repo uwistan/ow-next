@@ -133,35 +133,144 @@
   color: var(--color-gray-400);
 }
 
-/* Density toggle */
+/* Action menu (replaces density toggle) */
 
-.densityToggle {
-  display: flex;
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
+.actionMenuWrap {
+  position: relative;
   margin-left: auto;
 }
 
-.densityBtn {
+.actionMenuBtn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  color: var(--color-gray-400);
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  color: var(--color-gray-600);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
-.densityBtn:hover {
-  color: var(--color-gray-600);
+.actionMenuBtn:hover {
+  color: var(--color-black);
   background: var(--color-gray-50);
 }
 
-.densityBtnActive {
+.actionMenuBtn[aria-expanded='true'] {
   color: var(--color-black);
   background: var(--color-gray-100);
+}
+
+/* ── Filter Chips (Products / Characters inline sub-filters) ───────────── */
+
+.filterChips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  margin-left: var(--spacing-xs);
+}
+
+.filterChipWrap {
+  position: relative;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--color-gray-100);
+  border: 1px solid var(--color-gray-200);
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-600);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.filterChip:hover {
+  background: var(--color-gray-200);
+  color: var(--color-black);
+  border-color: var(--color-gray-300);
+}
+
+.filterChipActive {
+  background: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+.filterChipActive:hover {
+  background: var(--color-gray-800);
+  color: var(--color-white);
+  border-color: var(--color-gray-800);
+}
+
+.filterChipCaret {
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.filterDropdown {
+  position: fixed;
+  z-index: 500;
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  min-width: 180px;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.filterDropdownIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.filterDropdownThumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.filterDropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.filterDropdownItem:hover {
+  background: var(--color-gray-100);
+}
+
+.filterDropdownItemActive {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-black);
 }
 
 /* ── Grid Area ───────────────────────────────────────────────────────── */
@@ -241,13 +350,14 @@
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  padding: 2px 7px;
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.9);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(var(--color-purplish-blue-rgb), 0.15);
+  border: 1px solid rgba(var(--color-purplish-blue-rgb), 0.35);
   font-size: 10px;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-black);
-  backdrop-filter: blur(4px);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-purplish-blue);
+  pointer-events: none;
 }
 
 .heartBtn {
@@ -296,6 +406,68 @@
 .masonryDotsBtn:hover {
   background: var(--color-white);
   color: var(--color-black);
+}
+
+/* ── Modify prompt popover (library) ──────────────────────────────────── */
+
+.modifyPopover {
+  position: fixed;
+  z-index: 9999;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: 6px 8px;
+  min-width: 280px;
+  max-width: 400px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-gray-200);
+}
+
+.modifyInputRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modifyInput {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  background: var(--color-gray-50);
+}
+
+.modifyInput::placeholder {
+  color: var(--color-gray-400);
+}
+
+.modifyInput:focus {
+  outline: none;
+  background: var(--color-gray-100);
+}
+
+.modifySubmitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--color-black);
+  color: var(--color-white);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.modifySubmitBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.modifySubmitBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* ── Responsive ──────────────────────────────────────────────────────── */

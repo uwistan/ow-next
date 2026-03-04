@@ -8,7 +8,7 @@ import ChatInput from '@/components/chat/ChatInput/ChatInput';
 import ChatMessages from '@/components/chat/ChatMessages/ChatMessages';
 import ChatSessionHistory from '@/components/chat/ChatSessionHistory/ChatSessionHistory';
 import EditCanvas from '@/components/chat/EditCanvas/EditCanvas';
-import ModeTabs from '@/components/chat/ModeTabs/ModeTabs';
+import ModeBoxes from '@/components/chat/ModeBoxes/ModeBoxes';
 import { useChat, CreativeMode } from '@/lib/chat-context';
 import { useIsAdmin } from '@/lib/permissions';
 import { MOCK_IMAGES } from '@/lib/mock-data';
@@ -139,6 +139,10 @@ export default function ChatLanding() {
   fetch('http://127.0.0.1:7242/ingest/9e12a5bc-bcf8-4863-ba85-1864bc6b6f1f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ChatLanding.tsx:render',message:'ChatLanding rendered',data:{mode:state.mode,hasSession:!!state.currentSession},timestamp:Date.now(),hypothesisId:'E'})}).catch(()=>{});
   // #endregion
   const hasMessages = state.currentSession && state.currentSession.messages.length > 0;
+  const hasImageSessionView =
+    (state.mode === 'imagine' || state.mode === 'product' || state.mode === 'character') &&
+    state.currentSession &&
+    (state.currentSession.messages.length > 0 || state.currentSession.generatedAssets.length > 0);
   const effectiveMode = state.mode === 'idle' ? 'imagine' : state.mode;
   const headline = MODE_HEADLINES[effectiveMode];
 
@@ -165,8 +169,10 @@ export default function ChatLanding() {
       dispatch({ type: 'SET_MODE', payload: effectiveMode });
     }
 
-    // Imagine mode requires a style to be selected
+    // Imagine mode requires a brand style; product mode requires a shot style; character mode requires a location
     if (effectiveMode === 'imagine' && !state.imagineOptions.brandStyle) return false;
+    if (effectiveMode === 'product' && !state.productOptions.shotStyle) return false;
+    if (effectiveMode === 'character' && !state.characterOptions.location) return false;
 
     const msg = {
       id: `msg-${Date.now()}`,
@@ -233,31 +239,7 @@ export default function ChatLanding() {
       <LayoutGroup>
         <div className={styles.animateArea}>
           <AnimatePresence mode="sync">
-            {!hasMessages ? (
-              <motion.div
-                key="landing"
-                className={styles.landing}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={transition}
-              >
-                <motion.div
-                  className={styles.landingHero}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -80 }}
-                  transition={transition}
-                >
-                  <h1 className={styles.greeting}>{headline.greeting}</h1>
-                  <p className={styles.subgreeting}>{headline.sub}</p>
-                  <ModeTabs />
-                </motion.div>
-                <motion.div layoutId="chat-input" layout className={styles.landingInputWrap}>
-                  <ChatInput onSend={handleSend} />
-                </motion.div>
-              </motion.div>
-            ) : state.mode === 'imagine' ? (
+            {hasImageSessionView ? (
               <motion.div
                 key="activeImagine"
                 className={`${styles.activeChat} ${styles.imagineView}`}
@@ -281,6 +263,44 @@ export default function ChatLanding() {
                 >
                   <ChatInput onSend={handleSend} />
                 </motion.div>
+              </motion.div>
+            ) : !hasMessages ? (
+              <motion.div
+                key="landing"
+                className={styles.landing}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={transition}
+              >
+                <motion.div
+                  className={styles.landingHero}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -80 }}
+                  transition={transition}
+                >
+                  <h1 className={styles.greeting}>{headline.greeting}</h1>
+                  <p className={styles.subgreetingCombined}>
+                    {effectiveMode === 'product' && (
+                      <>
+                        Add products with <kbd className={styles.hintKbd}>@</kbd>, pick a shot
+                        style — and optionally add a few words to guide the shot.
+                      </>
+                    )}
+                    {effectiveMode === 'character' && (
+                      <>
+                        Add characters with <kbd className={styles.hintKbd}>@</kbd>, pick a
+                        location — and optionally add a few words to guide the scene.
+                      </>
+                    )}
+                    {effectiveMode !== 'product' && effectiveMode !== 'character' && headline.sub}
+                  </p>
+                </motion.div>
+                <motion.div layoutId="chat-input" layout className={styles.landingInputWrap}>
+                  <ChatInput onSend={handleSend} />
+                </motion.div>
+                <ModeBoxes />
               </motion.div>
             ) : (
               <motion.div

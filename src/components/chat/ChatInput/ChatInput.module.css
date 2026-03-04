@@ -1,6 +1,7 @@
+/* Flex column so input area stays at top, picker bar below – fixed heights prevent mode-switch jumping */
 .wrapper {
   width: 100%;
-  max-width: 680px;
+  max-width: 960px;
   background: var(--color-white);
   border: var(--border-default);
   border-radius: var(--radius-md);
@@ -8,6 +9,8 @@
   overflow: visible;
   position: relative;
   transition: box-shadow var(--transition-fast);
+  display: flex;
+  flex-direction: column;
 }
 
 .wrapper:focus-within {
@@ -57,12 +60,14 @@
 }
 
 /* ── Input Area (tags + textarea) ──────────────────────────────── */
-
+/* Fixed min-height to match Imagine mode – keeps input at same level across all modes */
 .inputArea {
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: var(--spacing-sm);
+  min-height: 68px;
+  flex-shrink: 0;
 }
 
 .tagsRow {
@@ -75,6 +80,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
+  min-height: 36px;
 }
 
 /* ── Inline Tags ────────────────────────────────────────────────── */
@@ -145,6 +151,66 @@
   opacity: 1;
 }
 
+/* Inline tag chips (Tiptap node views) – same look as .inlineTag */
+.inlineTagChip {
+  display: inline;
+  vertical-align: middle;
+}
+
+.inlineTagChipInner {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px 2px 4px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  line-height: var(--line-height-normal);
+}
+
+.inlineTagChipLabel {
+  /* inherit from parent */
+}
+
+/* ── Prompt Editor (Tiptap) ─────────────────────────────────────── */
+
+.promptEditorWrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+}
+
+.promptEditor {
+  flex: 1;
+  min-width: 0;
+}
+
+.promptEditor :global(.ProseMirror) {
+  font-family: var(--font-family-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-black);
+  background: transparent;
+  outline: none;
+  line-height: var(--line-height-normal);
+  padding: 0;
+  min-height: 36px;
+}
+
+.promptEditor :global(.ProseMirror p) {
+  margin: 0;
+}
+
+.promptEditor :global(.ProseMirror p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--color-gray-400);
+  pointer-events: none;
+  height: 0;
+}
+
 /* ── Textarea + Send ────────────────────────────────────────────── */
 
 .textarea {
@@ -158,12 +224,35 @@
   resize: none;
   line-height: var(--line-height-normal);
   padding: 0;
-  min-height: 21px;
+  min-height: 36px;
   max-height: 160px;
 }
 
 .textarea::placeholder {
   color: var(--color-gray-400);
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--color-gray-300);
+  background: transparent;
+  color: var(--color-gray-500);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.addButton:hover {
+  border-color: var(--color-gray-400);
+  color: var(--color-gray-700);
+  background: var(--color-gray-50);
 }
 
 .sendButton {
@@ -200,14 +289,23 @@
 
 .pickerBar {
   overflow: visible;
+  flex-shrink: 0;
+  width: 100%;
 }
 
+/* Fixed height based on Imagine – aligns all modes to same top level */
 .pickerBarInner {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
   gap: 6px;
   padding: var(--spacing-xs) var(--spacing-sm) var(--spacing-sm);
   border-top: 1px solid var(--color-gray-100);
+  height: 80px;
+  min-height: 80px;
+  flex-shrink: 0;
+  width: 100%;
 }
 
 .pickerRow {
@@ -218,6 +316,7 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   padding-bottom: 2px;
+  width: 100%;
 }
 
 .pickerRowLeft {
@@ -335,6 +434,10 @@
   transition: border-color var(--transition-fast);
 }
 
+.searchChipWide {
+  min-width: 200px;
+}
+
 .searchChip:focus-within {
   border-color: var(--color-gray-500);
   border-style: solid;
@@ -399,6 +502,121 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+}
+
+/* ── Mention Popover (Add / @-mention) ─────────────────────────────── */
+
+.mentionPopover {
+  position: fixed;
+  z-index: 9999;
+  min-width: 260px;
+  max-width: 320px;
+  max-height: 280px;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+
+.mentionPopoverSearch {
+  padding: 8px;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.mentionPopoverInput {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: var(--font-family-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-black);
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  outline: none;
+}
+
+.mentionPopoverInput:focus {
+  border-color: var(--color-gray-500);
+  background: var(--color-white);
+}
+
+.mentionPopoverInput::placeholder {
+  color: var(--color-gray-400);
+}
+
+.mentionPopoverList {
+  overflow-y: auto;
+  padding: 4px;
+  max-height: 220px;
+}
+
+.mentionPopoverEmpty {
+  padding: 16px;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+  text-align: center;
+}
+
+.mentionPopoverItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-family-default);
+  font-size: var(--font-size-sm);
+  color: var(--color-black);
+  transition: background var(--transition-fast);
+}
+
+.mentionPopoverItem:hover,
+.mentionPopoverItemActive {
+  background: var(--color-gray-100);
+}
+
+.mentionPopoverItemImage {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.mentionPopoverItemName {
+  flex: 1;
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mentionPopoverItemBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
+  flex-shrink: 0;
+}
+
+.mentionPopoverItemBadgeProduct {
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+}
+
+.mentionPopoverItemBadgeCharacter {
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
 }
 
 /* ── Imagine Format (inside popover) ─────────────────────────────── */

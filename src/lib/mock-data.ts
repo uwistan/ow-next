@@ -65,11 +65,17 @@ const CREATIVE_MODES = ['imagine', 'product', 'character', 'create'] as const;
 const ASPECT_RATIOS_LIB = ['1:1', '4:3', '3:4', '16:9', '9:16'] as const;
 const WIDTHS = [400, 600, 400, 800, 400] as const;
 const HEIGHTS = [400, 450, 530, 450, 710] as const;
-const STYLE_IDS = ['style-1', 'style-2'] as const; // Photography, Illustration
+const STYLE_IDS = ['style-1', 'style-2', 'style-3', 'style-4'] as const; // Photography, Illustration, Products, Characters
+
+const PRODUCT_IDS = ['prod-1', 'prod-2', 'prod-3', 'prod-4', 'prod-5', 'prod-6', 'prod-7', 'prod-8'] as const;
+const PRODUCT_STYLE_IDS = ['pstyle-1', 'pstyle-2', 'pstyle-3', 'pstyle-4', 'pstyle-5'] as const;
+const CHARACTER_IDS = ['char-1', 'char-2', 'char-3', 'char-4', 'char-5', 'char-6'] as const;
+const LOCATION_IDS = ['cloc-1', 'cloc-2', 'cloc-3', 'cloc-4', 'cloc-5'] as const;
 
 export const MOCK_LIBRARY_ASSETS = Array.from({ length: 24 }, (_, i) => {
   const arIdx = i % ASPECT_RATIOS_LIB.length;
-  return {
+  const styleId = STYLE_IDS[i % STYLE_IDS.length];
+  const base = {
     id: `asset-${i + 1}`,
     url: `https://picsum.photos/seed/lib${i + 1}/${WIDTHS[arIdx]}/${HEIGHTS[arIdx]}`,
     name: [
@@ -82,7 +88,7 @@ export const MOCK_LIBRARY_ASSETS = Array.from({ length: 24 }, (_, i) => {
     ][i],
     type: (i % 5 === 0 ? 'video' : 'image') as 'image' | 'video',
     folderId: MOCK_FOLDERS[i % MOCK_FOLDERS.length].id,
-    styleId: STYLE_IDS[i % STYLE_IDS.length],
+    styleId,
     liked: i % 4 === 0,
     creativeMode: CREATIVE_MODES[i % CREATIVE_MODES.length],
     aspectRatio: ASPECT_RATIOS_LIB[arIdx],
@@ -90,6 +96,21 @@ export const MOCK_LIBRARY_ASSETS = Array.from({ length: 24 }, (_, i) => {
       Date.now() - Math.floor(i / 4) * 86400000 - (i % 4) * 7200000
     ).toISOString(),
   };
+  if (styleId === 'style-3') {
+    return {
+      ...base,
+      productId: PRODUCT_IDS[i % PRODUCT_IDS.length],
+      productStyleId: PRODUCT_STYLE_IDS[i % PRODUCT_STYLE_IDS.length],
+    };
+  }
+  if (styleId === 'style-4') {
+    return {
+      ...base,
+      characterId: CHARACTER_IDS[i % CHARACTER_IDS.length],
+      locationId: LOCATION_IDS[i % LOCATION_IDS.length],
+    };
+  }
+  return base;
 });
 
 // ── Chat Messages ───────────────────────────────────────────────────
@@ -148,7 +169,16 @@ export const MOCK_ACTIVITY = [
 ];
 
 // ── Brand Styles ───────────────────────────────────────────────────
-export const MOCK_BRAND_STYLES = [
+export interface BrandStyle {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  previews: string[];
+  isImageStyle?: boolean;
+}
+
+export const MOCK_BRAND_STYLES: BrandStyle[] = [
   {
     id: 'style-1',
     name: 'Photography',
@@ -159,6 +189,7 @@ export const MOCK_BRAND_STYLES = [
       'https://picsum.photos/seed/style-human-2/400/300',
       'https://picsum.photos/seed/style-human-3/400/300',
     ],
+    isImageStyle: true,
   },
   {
     id: 'style-2',
@@ -170,8 +201,36 @@ export const MOCK_BRAND_STYLES = [
       'https://picsum.photos/seed/style-machine-2/400/300',
       'https://picsum.photos/seed/style-machine-3/400/300',
     ],
+    isImageStyle: true,
+  },
+  {
+    id: 'style-3',
+    name: 'Products',
+    description: 'Product-focused visuals, packshots and merchandise',
+    image: 'https://picsum.photos/seed/style-products/200/200',
+    previews: [
+      'https://picsum.photos/seed/style-products-1/400/300',
+      'https://picsum.photos/seed/style-products-2/400/300',
+      'https://picsum.photos/seed/style-products-3/400/300',
+    ],
+    isImageStyle: false,
+  },
+  {
+    id: 'style-4',
+    name: 'Characters',
+    description: 'Character portraits, testimonials and spokesperson visuals',
+    image: 'https://picsum.photos/seed/style-characters/200/200',
+    previews: [
+      'https://picsum.photos/seed/style-characters-1/400/300',
+      'https://picsum.photos/seed/style-characters-2/400/300',
+      'https://picsum.photos/seed/style-characters-3/400/300',
+    ],
+    isImageStyle: true,
   },
 ];
+
+/** Brand styles shown as image-style options in chat (Imagine/Create). Excludes e.g. Products. */
+export const MOCK_IMAGE_STYLES = MOCK_BRAND_STYLES.filter((s) => s.isImageStyle !== false);
 
 // ── Product Styles ─────────────────────────────────────────────────
 export const MOCK_PRODUCT_STYLES = [
@@ -223,6 +282,60 @@ export const MOCK_PRODUCT_STYLES = [
     previews: [
       'https://picsum.photos/seed/pstyle-closeup-1/400/300',
       'https://picsum.photos/seed/pstyle-closeup-2/400/300',
+    ],
+  },
+];
+
+// ── Character Locations ─────────────────────────────────────────────
+export const MOCK_CHARACTER_LOCATIONS = [
+  {
+    id: 'cloc-1',
+    name: 'Office',
+    description: 'Professional office setting, desk, meeting room',
+    image: 'https://picsum.photos/seed/cloc-office/200/200',
+    previews: [
+      'https://picsum.photos/seed/cloc-office-1/400/300',
+      'https://picsum.photos/seed/cloc-office-2/400/300',
+    ],
+  },
+  {
+    id: 'cloc-2',
+    name: 'Studio',
+    description: 'Clean studio backdrop, controlled lighting',
+    image: 'https://picsum.photos/seed/cloc-studio/200/200',
+    previews: [
+      'https://picsum.photos/seed/cloc-studio-1/400/300',
+      'https://picsum.photos/seed/cloc-studio-2/400/300',
+    ],
+  },
+  {
+    id: 'cloc-3',
+    name: 'Outdoor',
+    description: 'Natural light, outdoor setting, environmental context',
+    image: 'https://picsum.photos/seed/cloc-outdoor/200/200',
+    previews: [
+      'https://picsum.photos/seed/cloc-outdoor-1/400/300',
+      'https://picsum.photos/seed/cloc-outdoor-2/400/300',
+    ],
+  },
+  {
+    id: 'cloc-4',
+    name: 'Coffee Shop',
+    description: 'Casual café setting, warm atmosphere',
+    image: 'https://picsum.photos/seed/cloc-coffee/200/200',
+    previews: [
+      'https://picsum.photos/seed/cloc-coffee-1/400/300',
+      'https://picsum.photos/seed/cloc-coffee-2/400/300',
+    ],
+  },
+  {
+    id: 'cloc-5',
+    name: 'Interview',
+    description: 'Interview-style setup, testimonial or talking head',
+    image: 'https://picsum.photos/seed/cloc-interview/200/200',
+    previews: [
+      'https://picsum.photos/seed/cloc-interview-1/400/300',
+      'https://picsum.photos/seed/cloc-interview-2/400/300',
     ],
   },
 ];
