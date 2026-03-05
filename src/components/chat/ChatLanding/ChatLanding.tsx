@@ -8,6 +8,7 @@ import ChatInput from '@/components/chat/ChatInput/ChatInput';
 import ChatMessages from '@/components/chat/ChatMessages/ChatMessages';
 import ChatSessionHistory from '@/components/chat/ChatSessionHistory/ChatSessionHistory';
 import EditCanvas from '@/components/chat/EditCanvas/EditCanvas';
+import GenerationLoader from '@/components/chat/EditCanvas/GenerationLoader';
 import ModeBoxes from '@/components/chat/ModeBoxes/ModeBoxes';
 import { useChat, CreativeMode } from '@/lib/chat-context';
 import { useIsAdmin } from '@/lib/permissions';
@@ -143,6 +144,10 @@ export default function ChatLanding() {
     (state.mode === 'imagine' || state.mode === 'product' || state.mode === 'character') &&
     state.currentSession &&
     (state.currentSession.messages.length > 0 || state.currentSession.generatedAssets.length > 0);
+  const assets = state.currentSession?.generatedAssets ?? [];
+  const isGeneratingImages = state.isGeneratingImages;
+  const showFullViewportLoader =
+    hasImageSessionView && isGeneratingImages && assets.length === 0;
   const effectiveMode = state.mode === 'idle' ? 'imagine' : state.mode;
   const headline = MODE_HEADLINES[effectiveMode];
 
@@ -197,7 +202,7 @@ export default function ChatLanding() {
       // If in a creative mode (not idle/assistant), simulate generating 4 assets
       if (effectiveMode !== 'idle' && effectiveMode !== 'assistant') {
         dispatch({ type: 'SET_GENERATING_IMAGES', payload: true });
-        const delays = [1500, 2000, 2500, 3000];
+        const delays = [10000, 10500, 11000, 11500];
         delays.forEach((delay, i) => {
           setTimeout(() => {
             const randomImg = MOCK_IMAGES[Math.floor(Math.random() * MOCK_IMAGES.length)];
@@ -226,7 +231,7 @@ export default function ChatLanding() {
       className={styles.historyButton}
       onClick={() => dispatch({ type: 'SET_HISTORY_OPEN', payload: !state.historyOpen })}
     >
-      <ClockCounterClockwise size={16} weight="bold" />
+      <ClockCounterClockwise size={16} />
       History
     </button>
   );
@@ -248,6 +253,11 @@ export default function ChatLanding() {
                 exit={{ opacity: 0 }}
                 transition={transition}
               >
+                {showFullViewportLoader && (
+                  <div className={styles.generationLoaderFullViewport}>
+                    <GenerationLoader mode={state.mode} />
+                  </div>
+                )}
                 <motion.div
                   className={styles.imagineCanvasArea}
                   initial={{ opacity: 0, y: 24 }}

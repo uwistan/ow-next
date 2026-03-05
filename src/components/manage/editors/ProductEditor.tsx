@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, FloppyDisk } from '@phosphor-icons/react';
+import { Button } from '@/components/common/Button';
 import { MOCK_PRODUCTS } from '@/lib/mock-data';
 import ImageUploadZone from './ImageUploadZone';
 import styles from './EditorLayout.module.css';
@@ -26,13 +27,13 @@ export default function ProductEditor({ productId }: ProductEditorProps) {
   const [images, setImages] = useState<string[]>(existing ? [existing.image] : []);
 
   const handleSave = () => {
-    router.push('/');
+    router.push('/manage');
   };
 
   return (
     <div className={styles.page}>
       <div className={styles.topBar}>
-        <button className={styles.backBtn} onClick={() => router.push('/')}>
+        <button className={styles.backBtn} onClick={() => router.push('/manage')}>
           <ArrowLeft size={16} />
           Back
         </button>
@@ -40,13 +41,12 @@ export default function ProductEditor({ productId }: ProductEditorProps) {
           {existing ? 'Edit Product' : 'New Product'}
         </h2>
         <div className={styles.actions}>
-          <button className={styles.btnSecondary} onClick={() => router.push('/')}>
+          <Button variant="secondary" size="sm" onClick={() => router.back()}>
             Cancel
-          </button>
-          <button className={styles.btnPrimary} onClick={handleSave}>
-            <FloppyDisk size={16} />
+          </Button>
+          <Button variant="primary" size="sm" icon={<FloppyDisk size={16} />} onClick={handleSave}>
             Save Product
-          </button>
+          </Button>
         </div>
       </div>
 

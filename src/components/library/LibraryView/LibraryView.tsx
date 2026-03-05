@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -12,8 +12,6 @@ import {
   Trash,
   PencilSimple,
   PaperPlaneRight,
-  CaretDown,
-  Check,
 } from '@phosphor-icons/react';
 import cn from 'classnames';
 import {
@@ -25,6 +23,8 @@ import {
   MOCK_CHARACTER_LOCATIONS,
 } from '@/lib/mock-data';
 import ContextMenu, { type MenuItem } from '@/components/common/ContextMenu/ContextMenu';
+import IconButton from '@/components/common/IconButton';
+import CustomSelect from '@/components/common/Select';
 import AssetLightbox from '@/components/chat/AssetLightbox/AssetLightbox';
 import { useChat } from '@/lib/chat-context';
 import styles from './LibraryView.module.css';
@@ -44,11 +44,7 @@ export default function LibraryView() {
   const [productStyleFilter, setProductStyleFilter] = useState('');
   const [characterFilter, setCharacterFilter] = useState('');
   const [locationFilter, setLocationFilter] = useState('');
-  const [openFilterId, setOpenFilterId] = useState<string | null>(null);
-  const [filterDropdownRect, setFilterDropdownRect] = useState<DOMRect | null>(null);
   const [search, setSearch] = useState('');
-  const filterChipsRef = useRef<HTMLDivElement>(null);
-  const filterDropdownRef = useRef<HTMLUListElement | null>(null);
   const [actionMenuOpen, setActionMenuOpen] = useState(false);
   const [actionMenuPosition, setActionMenuPosition] = useState({ x: 0, y: 0 });
   const actionMenuTriggerRef = useRef<HTMLButtonElement>(null);
@@ -87,34 +83,6 @@ export default function LibraryView() {
     setProductStyleFilter('');
     setCharacterFilter('');
     setLocationFilter('');
-    setOpenFilterId(null);
-  };
-
-  // Close filter dropdown when clicking outside (chips or dropdown)
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      const inChips = filterChipsRef.current?.contains(target);
-      const inDropdown = filterDropdownRef.current?.contains(target);
-      if (!inChips && !inDropdown) {
-        setOpenFilterId(null);
-        setFilterDropdownRect(null);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const openFilterDropdown = (filterId: string, e: React.MouseEvent) => {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    setFilterDropdownRect(rect);
-    setOpenFilterId((prev) => (prev === filterId ? null : filterId));
-  };
-
-  const selectFilterOption = (filterId: string, value: string, setter: (v: string) => void) => {
-    setter(value);
-    setOpenFilterId(null);
-    setFilterDropdownRect(null);
   };
 
   // Filtered assets, sorted by most recent first (only show liked assets)
@@ -342,232 +310,80 @@ export default function LibraryView() {
             />
           </div>
 
-          {/* Inline filter chips (Products / Characters) */}
+          {/* Inline filter selects (Products / Characters) — same styling as ratio select */}
           {styleFilter === 'style-3' && (
-            <div ref={filterChipsRef} className={styles.filterChips}>
-              <div className={styles.filterChipWrap}>
-                <button
-                  type="button"
-                  className={cn(styles.filterChip, productFilter && styles.filterChipActive)}
-                  onClick={(e) => openFilterDropdown('product', e)}
-                  aria-expanded={openFilterId === 'product'}
-                >
-                  Product · {productFilter ? MOCK_PRODUCTS.find((p) => p.id === productFilter)?.name ?? 'All' : 'All'}
-                  <CaretDown size={12} weight="bold" className={styles.filterChipCaret} />
-                </button>
-                {openFilterId === 'product' &&
-                  filterDropdownRect &&
-                  typeof document !== 'undefined' &&
-                  createPortal(
-                    <ul
-                      ref={filterDropdownRef}
-                      className={styles.filterDropdown}
-                      style={{
-                        left: filterDropdownRect.left,
-                        top: filterDropdownRect.bottom + 4,
-                        minWidth: filterDropdownRect.width,
-                      }}
-                    >
-                      <li>
-                        <button
-                          type="button"
-                          className={cn(styles.filterDropdownItem, !productFilter && styles.filterDropdownItemActive)}
-                          onClick={() => selectFilterOption('product', '', setProductFilter)}
-                        >
-                          <span className={styles.filterDropdownIcon}>{!productFilter && <Check size={14} weight="bold" />}</span>
-                          All
-                        </button>
-                      </li>
-                      {MOCK_PRODUCTS.map((p) => (
-                        <li key={p.id}>
-                          <button
-                            type="button"
-                            className={cn(styles.filterDropdownItem, productFilter === p.id && styles.filterDropdownItemActive)}
-                            onClick={() => selectFilterOption('product', p.id, setProductFilter)}
-                          >
-                            <span className={styles.filterDropdownIcon}>{productFilter === p.id && <Check size={14} weight="bold" />}</span>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={p.image} alt="" className={styles.filterDropdownThumb} />
-                            {p.name}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>,
-                    document.body
-                  )}
-              </div>
-              <div className={styles.filterChipWrap}>
-                <button
-                  type="button"
-                  className={cn(styles.filterChip, productStyleFilter && styles.filterChipActive)}
-                  onClick={(e) => openFilterDropdown('style', e)}
-                  aria-expanded={openFilterId === 'style'}
-                >
-                  Style · {productStyleFilter ? MOCK_PRODUCT_STYLES.find((s) => s.id === productStyleFilter)?.name ?? 'All' : 'All'}
-                  <CaretDown size={12} weight="bold" className={styles.filterChipCaret} />
-                </button>
-                {openFilterId === 'style' &&
-                  filterDropdownRect &&
-                  typeof document !== 'undefined' &&
-                  createPortal(
-                    <ul
-                      ref={filterDropdownRef}
-                      className={styles.filterDropdown}
-                      style={{
-                        left: filterDropdownRect.left,
-                        top: filterDropdownRect.bottom + 4,
-                        minWidth: filterDropdownRect.width,
-                      }}
-                    >
-                      <li>
-                        <button
-                          type="button"
-                          className={cn(styles.filterDropdownItem, !productStyleFilter && styles.filterDropdownItemActive)}
-                          onClick={() => selectFilterOption('style', '', setProductStyleFilter)}
-                        >
-                          <span className={styles.filterDropdownIcon}>{!productStyleFilter && <Check size={14} weight="bold" />}</span>
-                          All
-                        </button>
-                      </li>
-                      {MOCK_PRODUCT_STYLES.map((s) => (
-                        <li key={s.id}>
-                          <button
-                            type="button"
-                            className={cn(styles.filterDropdownItem, productStyleFilter === s.id && styles.filterDropdownItemActive)}
-                            onClick={() => selectFilterOption('style', s.id, setProductStyleFilter)}
-                          >
-                            <span className={styles.filterDropdownIcon}>{productStyleFilter === s.id && <Check size={14} weight="bold" />}</span>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={s.image} alt="" className={styles.filterDropdownThumb} />
-                            {s.name}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>,
-                    document.body
-                  )}
-              </div>
+            <div className={styles.filterChips}>
+              <CustomSelect
+                id="library-product-filter"
+                value={productFilter}
+                onValueChange={setProductFilter}
+                options={[
+                  { value: '', label: 'All' },
+                  ...MOCK_PRODUCTS.map((p) => ({ value: p.id, label: p.name, imageUrl: p.image })),
+                ]}
+                placeholder="Product · All"
+                triggerPrefix="Product · "
+                size="sm"
+                className={styles.filterSelect}
+              />
+              <CustomSelect
+                id="library-style-filter"
+                value={productStyleFilter}
+                onValueChange={setProductStyleFilter}
+                options={[
+                  { value: '', label: 'All' },
+                  ...MOCK_PRODUCT_STYLES.map((s) => ({ value: s.id, label: s.name, imageUrl: s.image })),
+                ]}
+                placeholder="Style · All"
+                triggerPrefix="Style · "
+                size="sm"
+                className={styles.filterSelect}
+              />
             </div>
           )}
           {styleFilter === 'style-4' && (
-            <div ref={filterChipsRef} className={styles.filterChips}>
-              <div className={styles.filterChipWrap}>
-                <button
-                  type="button"
-                  className={cn(styles.filterChip, characterFilter && styles.filterChipActive)}
-                  onClick={(e) => openFilterDropdown('character', e)}
-                  aria-expanded={openFilterId === 'character'}
-                >
-                  Character · {characterFilter ? MOCK_CHARACTERS.find((c) => c.id === characterFilter)?.name ?? 'All' : 'All'}
-                  <CaretDown size={12} weight="bold" className={styles.filterChipCaret} />
-                </button>
-                {openFilterId === 'character' &&
-                  filterDropdownRect &&
-                  typeof document !== 'undefined' &&
-                  createPortal(
-                    <ul
-                      ref={filterDropdownRef}
-                      className={styles.filterDropdown}
-                      style={{
-                        left: filterDropdownRect.left,
-                        top: filterDropdownRect.bottom + 4,
-                        minWidth: filterDropdownRect.width,
-                      }}
-                    >
-                      <li>
-                        <button
-                          type="button"
-                          className={cn(styles.filterDropdownItem, !characterFilter && styles.filterDropdownItemActive)}
-                          onClick={() => selectFilterOption('character', '', setCharacterFilter)}
-                        >
-                          <span className={styles.filterDropdownIcon}>{!characterFilter && <Check size={14} weight="bold" />}</span>
-                          All
-                        </button>
-                      </li>
-                      {MOCK_CHARACTERS.map((c) => (
-                        <li key={c.id}>
-                          <button
-                            type="button"
-                            className={cn(styles.filterDropdownItem, characterFilter === c.id && styles.filterDropdownItemActive)}
-                            onClick={() => selectFilterOption('character', c.id, setCharacterFilter)}
-                          >
-                            <span className={styles.filterDropdownIcon}>{characterFilter === c.id && <Check size={14} weight="bold" />}</span>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={c.image} alt="" className={styles.filterDropdownThumb} />
-                            {c.name}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>,
-                    document.body
-                  )}
-              </div>
-              <div className={styles.filterChipWrap}>
-                <button
-                  type="button"
-                  className={cn(styles.filterChip, locationFilter && styles.filterChipActive)}
-                  onClick={(e) => openFilterDropdown('location', e)}
-                  aria-expanded={openFilterId === 'location'}
-                >
-                  Location · {locationFilter ? MOCK_CHARACTER_LOCATIONS.find((l) => l.id === locationFilter)?.name ?? 'All' : 'All'}
-                  <CaretDown size={12} weight="bold" className={styles.filterChipCaret} />
-                </button>
-                {openFilterId === 'location' &&
-                  filterDropdownRect &&
-                  typeof document !== 'undefined' &&
-                  createPortal(
-                    <ul
-                      ref={filterDropdownRef}
-                      className={styles.filterDropdown}
-                      style={{
-                        left: filterDropdownRect.left,
-                        top: filterDropdownRect.bottom + 4,
-                        minWidth: filterDropdownRect.width,
-                      }}
-                    >
-                      <li>
-                        <button
-                          type="button"
-                          className={cn(styles.filterDropdownItem, !locationFilter && styles.filterDropdownItemActive)}
-                          onClick={() => selectFilterOption('location', '', setLocationFilter)}
-                        >
-                          <span className={styles.filterDropdownIcon}>{!locationFilter && <Check size={14} weight="bold" />}</span>
-                          All
-                        </button>
-                      </li>
-                      {MOCK_CHARACTER_LOCATIONS.map((loc) => (
-                        <li key={loc.id}>
-                          <button
-                            type="button"
-                            className={cn(styles.filterDropdownItem, locationFilter === loc.id && styles.filterDropdownItemActive)}
-                            onClick={() => selectFilterOption('location', loc.id, setLocationFilter)}
-                          >
-                            <span className={styles.filterDropdownIcon}>{locationFilter === loc.id && <Check size={14} weight="bold" />}</span>
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={loc.image} alt="" className={styles.filterDropdownThumb} />
-                            {loc.name}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>,
-                    document.body
-                  )}
-              </div>
+            <div className={styles.filterChips}>
+              <CustomSelect
+                id="library-character-filter"
+                value={characterFilter}
+                onValueChange={setCharacterFilter}
+                options={[
+                  { value: '', label: 'All' },
+                  ...MOCK_CHARACTERS.map((c) => ({ value: c.id, label: c.name, imageUrl: c.image })),
+                ]}
+                placeholder="Character · All"
+                triggerPrefix="Character · "
+                size="sm"
+                className={styles.filterSelect}
+              />
+              <CustomSelect
+                id="library-location-filter"
+                value={locationFilter}
+                onValueChange={setLocationFilter}
+                options={[
+                  { value: '', label: 'All' },
+                  ...MOCK_CHARACTER_LOCATIONS.map((loc) => ({ value: loc.id, label: loc.name, imageUrl: loc.image })),
+                ]}
+                placeholder="Location · All"
+                triggerPrefix="Location · "
+                size="sm"
+                className={styles.filterSelect}
+              />
             </div>
           )}
 
           {/* Action menu */}
           <div className={styles.actionMenuWrap}>
-            <button
+            <IconButton
               ref={actionMenuTriggerRef}
-              type="button"
-              className={styles.actionMenuBtn}
+              variant="filled"
+              size="md"
               onClick={openActionMenu}
               aria-label="Style actions"
               aria-expanded={actionMenuOpen}
             >
-              <DotsThree size={20} weight="bold" />
-            </button>
+              <DotsThree size={20} />
+            </IconButton>
             {typeof document !== 'undefined' &&
               actionMenuOpen &&
               createPortal(
@@ -614,7 +430,7 @@ export default function LibraryView() {
                     <div className={styles.masonryTopRow}>
                       {asset.type === 'video' && (
                         <span className={styles.typeBadge}>
-                          <VideoCamera size={11} weight="fill" />
+                          <VideoCamera size={11} />
                           Video
                         </span>
                       )}
@@ -636,7 +452,7 @@ export default function LibraryView() {
                       className={styles.masonryDotsBtn}
                       onClick={(e) => handleDotsClick(e, asset.id)}
                     >
-                      <DotsThree size={18} weight="bold" />
+                      <DotsThree size={18} />
                     </button>
                   </div>
                 </div>
@@ -695,7 +511,7 @@ export default function LibraryView() {
                 disabled={!libraryModifyPrompt.trim()}
                 aria-label="Apply and open session"
               >
-                <PaperPlaneRight size={16} weight="fill" />
+                <PaperPlaneRight size={16} />
               </button>
             </div>
           </motion.div>,

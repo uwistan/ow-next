@@ -8,6 +8,7 @@ import {
   PencilSimple,
   PaperPlaneRight,
 } from '@phosphor-icons/react';
+import { Button } from '@/components/common/Button';
 import styles from './AssetLightbox.module.css';
 
 /* ── Types ──────────────────────────────────────────────────────────── */
@@ -186,22 +187,22 @@ export default function AssetLightbox({
         </div>
 
         <div className={styles.actionBar}>
-          <button
-            type="button"
-            className={styles.actionBtn}
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={<DownloadSimple size={16} />}
             onClick={handleDownload}
           >
-            <DownloadSimple size={16} />
-            <span>Download</span>
-          </button>
-          <button
-            type="button"
-            className={styles.actionBtn}
+            Download
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            icon={<PencilSimple size={16} />}
             onClick={handleModifyClick}
           >
-            <PencilSimple size={16} />
-            <span>Modify</span>
-          </button>
+            Modify
+          </Button>
         </div>
 
         {showModifyPanel && (

@@ -139,31 +139,6 @@
   padding: var(--spacing-xs) 0;
 }
 
-.actionBtn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(8px);
-  color: var(--color-white);
-  font-size: 13px;
-  font-weight: var(--font-weight-medium);
-  font-family: var(--font-family-default);
-  border: none;
-  cursor: pointer;
-  transition: background var(--transition-fast);
-}
-
-.actionBtn:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-.actionBtnSaved {
-  color: var(--color-signal-green-500);
-}
-
 /* ── Modify Panel ─────────────────────────────────────────────────────── */
 
 .modifyBackdrop {

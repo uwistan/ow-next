@@ -46,7 +46,7 @@ export const MOCK_IMAGES = Array.from({ length: 12 }, (_, i) => ({
     'Urban street photography in black and white',
     'Surreal floating objects in a dream-like space',
   ][i],
-  aspectRatio: (['1:1', '16:9', '9:16', '4:3'] as const)[i % 4],
+  aspectRatio: (['16:9', '1:1', '4:5'] as const)[i % 3],
   liked: i % 3 === 0,
   createdAt: new Date(Date.now() - i * 3600000).toISOString(),
 }));
@@ -225,7 +225,7 @@ export const MOCK_BRAND_STYLES: BrandStyle[] = [
       'https://picsum.photos/seed/style-characters-2/400/300',
       'https://picsum.photos/seed/style-characters-3/400/300',
     ],
-    isImageStyle: true,
+    isImageStyle: false,
   },
 ];
 

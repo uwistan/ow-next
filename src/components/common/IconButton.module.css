@@ -2,9 +2,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all var(--transition-default);
   flex-shrink: 0;
   color: var(--color-gray-600);
 }
@@ -25,8 +25,8 @@
 }
 
 .md {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
 }
 
 /* Variants */
@@ -39,9 +39,21 @@
 }
 
 .filled {
-  background-color: var(--color-gray-100);
+  background: var(--color-white);
+  box-shadow: var(--shadow-md);
 }
 
 .filled:hover {
-  background-color: var(--color-gray-200);
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+.danger {
+  color: var(--color-element-toast-error-text);
+}
+
+.ghost.danger:hover,
+.filled.danger:hover {
+  background: var(--color-element-toast-error-fill);
+  color: var(--color-element-toast-error-text);
 }

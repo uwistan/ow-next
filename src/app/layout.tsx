@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { Toaster } from 'sonner';
 import { ppMori } from '@/fonts/fonts';
 import './globals.css';
 import styles from './layout.module.css';
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn(inter.className, ppMori.variable)}>
         <main className={styles.main}>{children}</main>
+        <Toaster richColors position="bottom-right" />
       </body>
     </html>
   );

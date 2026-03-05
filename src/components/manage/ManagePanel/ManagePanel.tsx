@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { X, Plus } from '@phosphor-icons/react';
+import { Button } from '@/components/common/Button';
 import styles from './ManagePanel.module.css';
 
 interface ManagePanelProps {
@@ -45,10 +46,11 @@ export default function ManagePanel({
         </div>
 
         {onCreateNew && (
-          <button className={styles.createBtn} onClick={onCreateNew}>
-            <Plus size={16} />
-            {createLabel}
-          </button>
+          <div className={styles.createBtnWrap}>
+            <Button variant="primary" size="sm" icon={<Plus size={16} />} onClick={onCreateNew}>
+              {createLabel}
+            </Button>
+          </div>
         )}
 
         <div className={styles.list}>{children}</div>

@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { PencilSimple, Trash } from '@phosphor-icons/react';
+import { Button } from '@/components/common/Button';
+import IconButton from '@/components/common/IconButton';
 import ManagerModal from './ManagerModal';
 import FormOverlay from './FormOverlay';
 import ImageUploadZone from '@/components/manage/editors/ImageUploadZone';
@@ -23,8 +25,9 @@ type LocationFormMode = {
 } | null;
 
 export default function CharactersModal() {
-  const { dispatch } = useChat();
+  const { state, dispatch } = useChat();
   const [activeTab, setActiveTab] = useState<TabId>('characters');
+  const [formOnlyMode, setFormOnlyMode] = useState(false);
 
   // Character form overlay
   const [characterForm, setCharacterForm] = useState<CharacterFormMode>(null);
@@ -46,6 +49,7 @@ export default function CharactersModal() {
     dispatch({ type: 'SET_MANAGER_MODAL', payload: null });
     setCharacterForm(null);
     setLocationForm(null);
+    setFormOnlyMode(false);
   };
 
   const openCharacterForm = (character?: { id: string; name: string; role: string; image: string }) => {
@@ -59,6 +63,10 @@ export default function CharactersModal() {
   };
 
   const closeCharacterForm = () => {
+    if (formOnlyMode) {
+      dispatch({ type: 'SET_MANAGER_MODAL', payload: null });
+      return;
+    }
     setCharacterForm(null);
     setCharacterName('');
     setCharacterImages([]);
@@ -79,6 +87,10 @@ export default function CharactersModal() {
   };
 
   const closeLocationForm = () => {
+    if (formOnlyMode) {
+      dispatch({ type: 'SET_MANAGER_MODAL', payload: null });
+      return;
+    }
     setLocationForm(null);
     setLocationName('');
     setLocationImages([]);
@@ -94,10 +106,170 @@ export default function CharactersModal() {
     closeLocationForm();
   };
 
+  const formInit = state.managerModalFormInit;
+  useEffect(() => {
+    if (formInit?.modal === 'characters') {
+      setFormOnlyMode(true);
+      if (formInit.tab === 'characters') {
+        const item = formInit.action === 'edit' && formInit.item
+          ? (formInit.item as { id: string; name: string; role: string; image: string })
+          : undefined;
+        openCharacterForm(item);
+      } else {
+        const item = formInit.action === 'edit' && formInit.item
+          ? (formInit.item as { id: string; name: string; description: string; image: string; previews: string[] })
+          : undefined;
+        openLocationForm(item);
+      }
+      dispatch({ type: 'SET_MANAGER_MODAL_FORM_INIT', payload: null });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- formInit is the trigger
+  }, [formInit?.modal, formInit?.action, formInit?.tab, formInit?.item]);
+
   const tabs = [
     { id: 'characters' as TabId, label: 'Characters' },
     { id: 'locations' as TabId, label: 'Locations' },
   ];
+
+  if (formOnlyMode) {
+    if (!characterForm && !locationForm) return null;
+    if (characterForm) {
+      return (
+        <AnimatePresence>
+          <FormOverlay
+            key="character-form"
+            title={characterForm.character ? 'Edit Character' : 'Add Character'}
+            onClose={closeCharacterForm}
+          >
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel}>Character Name</label>
+              <input
+                className={styles.fieldInput}
+                value={characterName}
+                onChange={(e) => setCharacterName(e.target.value)}
+                placeholder="e.g. Sarah Chen"
+              />
+              <label className={styles.fieldLabel} style={{ marginTop: 12 }}>
+                Reference Images
+              </label>
+              <CharacterImageUpload
+                images={characterImages}
+                onChange={setCharacterImages}
+                maxImages={50}
+                label="Drop images here or click to upload"
+              />
+              <div className={styles.sectionTitle} style={{ marginTop: 20, marginBottom: 8 }}>
+                Character Traits
+              </div>
+              <label className={styles.fieldLabel}>Outfit</label>
+              <input
+                className={styles.fieldInput}
+                value={outfit}
+                onChange={(e) => setOutfit(e.target.value)}
+                placeholder="What does the person wear?"
+              />
+              <label className={styles.fieldLabel} style={{ marginTop: 12 }}>
+                Age
+              </label>
+              <input
+                className={styles.fieldInput}
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                placeholder="e.g. 30s, 45"
+              />
+              <label className={styles.fieldLabel} style={{ marginTop: 12 }}>
+                Mood
+              </label>
+              <input
+                className={styles.fieldInput}
+                value={mood}
+                onChange={(e) => setMood(e.target.value)}
+                placeholder="e.g. confident, friendly"
+              />
+              <label className={styles.fieldLabel} style={{ marginTop: 12 }}>
+                Height
+              </label>
+              <input
+                className={styles.fieldInput}
+                value={height}
+                onChange={(e) => setHeight(e.target.value)}
+                placeholder="e.g. tall, average"
+              />
+              <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
+                <button className={styles.btnPrimary} onClick={handleSaveCharacter}>
+                  Save Character
+                </button>
+                <button
+                  className={styles.btnPrimary}
+                  style={{ background: 'var(--color-gray-200)', color: 'var(--color-black)' }}
+                  onClick={closeCharacterForm}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </FormOverlay>
+        </AnimatePresence>
+      );
+    }
+    if (locationForm) {
+      return (
+        <AnimatePresence>
+          <FormOverlay
+            key="location-form"
+            title={locationForm.location ? 'Edit Location' : 'Add Location'}
+            onClose={closeLocationForm}
+          >
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel}>Location Name</label>
+              <input
+                className={styles.fieldInput}
+                value={locationName}
+                onChange={(e) => setLocationName(e.target.value)}
+                placeholder="e.g. Office, Studio"
+              />
+              <label className={styles.fieldLabel} style={{ marginTop: 12 }}>
+                Reference Images
+              </label>
+              <ImageUploadZone
+                images={locationImages}
+                onChange={setLocationImages}
+                maxImages={10}
+                label="Drop images here or click to upload"
+                sublabel="Up to 10 images (PNG, JPG, WebP)"
+              />
+              <label className={styles.fieldLabel} style={{ marginTop: 12 }}>
+                Do&apos;s
+              </label>
+              <textarea
+                className={styles.fieldTextarea}
+                value={locationDos}
+                onChange={(e) => setLocationDos(e.target.value)}
+                placeholder="What is important for this location"
+              />
+              <label className={styles.fieldLabel} style={{ marginTop: 12 }}>
+                Don&apos;ts
+              </label>
+              <textarea
+                className={styles.fieldTextarea}
+                value={locationDonts}
+                onChange={(e) => setLocationDonts(e.target.value)}
+                placeholder="What should definitely not happen for this location"
+              />
+              <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
+                <Button variant="primary" size="sm" onClick={handleSaveLocation}>
+                  Save Location
+                </Button>
+                <Button variant="secondary" size="sm" onClick={closeLocationForm}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </FormOverlay>
+        </AnimatePresence>
+      );
+    }
+  }
 
   return (
     <>
@@ -114,9 +286,9 @@ export default function CharactersModal() {
             <p className={styles.sectionDescription}>
               Upload reference images with descriptions and add character traits.
             </p>
-            <button className={styles.btnPrimary} onClick={() => openCharacterForm()} style={{ marginBottom: 16 }}>
+            <Button variant="primary" size="sm" onClick={() => openCharacterForm()} style={{ marginBottom: 16 }}>
               Add Character
-            </button>
+            </Button>
             {MOCK_CHARACTERS.length > 0 ? (
               <div className={styles.list}>
                 {MOCK_CHARACTERS.map((char) => (
@@ -132,12 +304,12 @@ export default function CharactersModal() {
                       <span className={styles.listItemMeta}>{char.role}</span>
                     </div>
                     <div className={styles.listItemActions} onClick={(e) => e.stopPropagation()}>
-                      <button className={styles.actionBtn} title="Edit" onClick={() => openCharacterForm(char)}>
+                      <IconButton variant="ghost" size="sm" title="Edit" onClick={() => openCharacterForm(char)}>
                         <PencilSimple size={14} />
-                      </button>
-                      <button className={`${styles.actionBtn} ${styles.actionBtnDanger}`} title="Delete">
+                      </IconButton>
+                      <IconButton variant="ghost" size="sm" color="danger" title="Delete">
                         <Trash size={14} />
-                      </button>
+                      </IconButton>
                     </div>
                   </div>
                 ))}
@@ -171,12 +343,12 @@ export default function CharactersModal() {
                       <span className={styles.listItemMeta}>{loc.description}</span>
                     </div>
                     <div className={styles.listItemActions} onClick={(e) => e.stopPropagation()}>
-                      <button className={styles.actionBtn} title="Edit" onClick={() => openLocationForm(loc)}>
+                      <IconButton variant="ghost" size="sm" title="Edit" onClick={() => openLocationForm(loc)}>
                         <PencilSimple size={14} />
-                      </button>
-                      <button className={`${styles.actionBtn} ${styles.actionBtnDanger}`} title="Delete">
+                      </IconButton>
+                      <IconButton variant="ghost" size="sm" color="danger" title="Delete">
                         <Trash size={14} />
-                      </button>
+                      </IconButton>
                     </div>
                   </div>
                 ))}
@@ -192,7 +364,7 @@ export default function CharactersModal() {
       </ManagerModal>
 
       <AnimatePresence>
-        {characterForm && (
+        {characterForm && !formOnlyMode && (
           <FormOverlay
             key="character-form"
             title={characterForm.character ? 'Edit Character' : 'Add Character'}
@@ -270,7 +442,7 @@ export default function CharactersModal() {
       </AnimatePresence>
 
       <AnimatePresence>
-        {locationForm && (
+        {locationForm && !formOnlyMode && (
           <FormOverlay
             key="location-form"
             title={locationForm.location ? 'Edit Location' : 'Add Location'}
@@ -313,16 +485,12 @@ export default function CharactersModal() {
                 placeholder="What should definitely not happen for this location"
               />
               <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
-                <button className={styles.btnPrimary} onClick={handleSaveLocation}>
+                <Button variant="primary" size="sm" onClick={handleSaveLocation}>
                   Save Location
-                </button>
-                <button
-                  className={styles.btnPrimary}
-                  style={{ background: 'var(--color-gray-200)', color: 'var(--color-black)' }}
-                  onClick={closeLocationForm}
-                >
+                </Button>
+                <Button variant="secondary" size="sm" onClick={closeLocationForm}>
                   Cancel
-                </button>
+                </Button>
               </div>
             </div>
           </FormOverlay>

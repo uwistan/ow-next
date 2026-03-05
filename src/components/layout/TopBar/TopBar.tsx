@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   GearSix,
   Palette,
@@ -14,7 +15,7 @@ import BrandSwitcher from '@/components/layout/BrandSwitcher/BrandSwitcher';
 import FlipToggle from '@/components/layout/FlipToggle/FlipToggle';
 import { MOCK_USER } from '@/lib/mock-data';
 import { useIsAdmin } from '@/lib/permissions';
-import { useChat, ManagePanelType, ManagerModalType } from '@/lib/chat-context';
+import { useChat, ManagePanelType } from '@/lib/chat-context';
 import styles from './TopBar.module.css';
 
 interface MenuItemDef {
@@ -25,13 +26,13 @@ interface MenuItemDef {
   danger?: boolean;
   adminOnly?: boolean;
   managePanel?: ManagePanelType;
-  managerModal?: ManagerModalType;
 }
 
 export default function TopBar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const isAdmin = useIsAdmin();
+  const router = useRouter();
   const { dispatch } = useChat();
   // #region agent log
   fetch('http://127.0.0.1:7242/ingest/9e12a5bc-bcf8-4863-ba85-1864bc6b6f1f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'TopBar.tsx:render',message:'TopBar rendered',data:{isAdmin},timestamp:Date.now(),hypothesisId:'B'})}).catch(()=>{});
@@ -41,9 +42,9 @@ export default function TopBar() {
     { id: 'account', label: 'Account Settings', icon: <GearSix size={16} /> },
     { id: 'brand', label: 'Brand Settings', icon: <Palette size={16} /> },
     { id: 'divider-1', divider: true, adminOnly: true },
-    { id: 'styles', label: 'Image Styles', icon: <Swatches size={16} />, adminOnly: true, managerModal: 'imageStyle' },
-    { id: 'products', label: 'Manage Products', icon: <Package size={16} />, adminOnly: true, managerModal: 'products' },
-    { id: 'characters', label: 'Manage Characters', icon: <UserCircle size={16} />, adminOnly: true, managerModal: 'characters' },
+    { id: 'styles', label: 'Image Styles', icon: <Swatches size={16} />, adminOnly: true, managePanel: 'styles' },
+    { id: 'products', label: 'Manage Products', icon: <Package size={16} />, adminOnly: true, managePanel: 'products' },
+    { id: 'characters', label: 'Manage Characters', icon: <UserCircle size={16} />, adminOnly: true, managePanel: 'characters' },
     { id: 'divider-2', divider: true },
     { id: 'logout', label: 'Sign Out', icon: <SignOut size={16} />, danger: true },
   ], []);
@@ -67,10 +68,10 @@ export default function TopBar() {
 
   const handleItemClick = (item: MenuItemDef) => {
     setUserMenuOpen(false);
-    if (item.managerModal) {
-      dispatch({ type: 'SET_MANAGER_MODAL', payload: item.managerModal });
-    } else if (item.managePanel) {
+    if (item.managePanel) {
+      dispatch({ type: 'SET_ACTIVE_VIEW', payload: 'manage' });
       dispatch({ type: 'SET_MANAGE_PANEL', payload: item.managePanel });
+      router.push('/manage');
     }
   };
 
@@ -90,13 +91,13 @@ export default function TopBar() {
             className={styles.avatarButton}
             onClick={() => setUserMenuOpen((o) => !o)}
           >
-            <Avatar src={MOCK_USER.avatarUrl} name={MOCK_USER.name} size="sm" />
+            <Avatar name={MOCK_USER.name} size="sm" />
           </button>
 
           {userMenuOpen && (
             <div className={styles.userMenu}>
               <div className={styles.menuHeader}>
-                <Avatar src={MOCK_USER.avatarUrl} name={MOCK_USER.name} size="sm" />
+                <Avatar name={MOCK_USER.name} size="sm" />
                 <div className={styles.menuHeaderInfo}>
                   <span className={styles.menuHeaderName}>{MOCK_USER.name}</span>
                   <span className={styles.menuHeaderEmail}>{MOCK_USER.email}</span>

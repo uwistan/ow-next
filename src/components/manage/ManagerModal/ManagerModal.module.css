@@ -3,7 +3,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 500;
 }
 
@@ -139,24 +139,6 @@
   line-height: var(--line-height-normal);
 }
 
-.btnPrimary {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: var(--spacing-xs) var(--spacing-md);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  background: var(--color-black);
-  color: var(--color-white);
-  cursor: pointer;
-  transition: opacity var(--transition-fast);
-}
-
-.btnPrimary:hover {
-  opacity: 0.85;
-}
-
 .sectionTitle {
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-semibold);
@@ -234,34 +216,12 @@
   opacity: 1;
 }
 
-.actionBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-sm);
-  color: var(--color-gray-500);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.actionBtn:hover {
-  background: var(--color-gray-200);
-  color: var(--color-black);
-}
-
-.actionBtnDanger:hover {
-  background: rgba(231, 76, 60, 0.1);
-  color: #e74c3c;
-}
-
 /* ── Form Overlay (nested modal for add/edit) ──────────────────────── */
 
 .formOverlayBackdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 550;
 }
 
@@ -307,6 +267,22 @@
   flex: 1;
   overflow-y: auto;
   padding: var(--spacing-lg);
+}
+
+.btnPrimary {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-white);
+  background: var(--color-black);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
 }
 
 /* ── Empty ────────────────────────────────────────────────────────── */

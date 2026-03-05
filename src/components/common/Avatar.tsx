@@ -1,31 +1,20 @@
 import cn from 'classnames';
 import styles from './Avatar.module.css';
 
-interface AvatarProps {
-  src?: string;
+type AvatarProps = {
   name?: string;
   size?: 'sm' | 'md' | 'lg';
   className?: string;
+};
+
+function getFirstLetter(name: string) {
+  return (name?.trim().charAt(0) || '?').toUpperCase();
 }
 
-function getInitials(name: string) {
-  return name
-    .split(' ')
-    .map((w) => w[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2);
-}
-
-export default function Avatar({ src, name, size = 'md', className }: AvatarProps) {
+export default function Avatar({ name, size = 'md', className }: AvatarProps) {
   return (
     <div className={cn(styles.avatar, styles[size], className)}>
-      {src ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={name || 'Avatar'} className={styles.image} />
-      ) : (
-        <span className={styles.initials}>{name ? getInitials(name) : '?'}</span>
-      )}
+      <span className={styles.initials}>{getFirstLetter(name || '')}</span>
     </div>
   );
 }

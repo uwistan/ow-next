@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { AnimatePresence } from 'framer-motion';
 import TopBar from '@/components/layout/TopBar/TopBar';
 import ViewTransition from '@/components/layout/ViewTransition/ViewTransition';
@@ -7,9 +8,7 @@ import ChatLanding from '@/components/chat/ChatLanding/ChatLanding';
 import EditCanvas from '@/components/chat/EditCanvas/EditCanvas';
 import ChatHistory from '@/components/chat/ChatHistory/ChatHistory';
 import LibraryView from '@/components/library/LibraryView/LibraryView';
-import StylesList from '@/components/manage/ManagePanel/StylesList';
-import ProductsList from '@/components/manage/ManagePanel/ProductsList';
-import CharactersList from '@/components/manage/ManagePanel/CharactersList';
+import ManageListView from '@/components/manage/ManageListView/ManageListView';
 import ImageStyleModal from '@/components/manage/ManagerModal/ImageStyleModal';
 import ProductsModal from '@/components/manage/ManagerModal/ProductsModal';
 import CharactersModal from '@/components/manage/ManagerModal/CharactersModal';
@@ -52,49 +51,39 @@ function LibraryPanel() {
   );
 }
 
-function ManagePanelSwitch() {
-  const { state } = useChat();
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/9e12a5bc-bcf8-4863-ba85-1864bc6b6f1f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'layout.tsx:ManagePanelSwitch',message:'ManagePanelSwitch rendered',data:{activeManagePanel:state.activeManagePanel},timestamp:Date.now(),hypothesisId:'C'})}).catch(()=>{});
-  // #endregion
+function ManagePanel() {
   return (
-    <AnimatePresence>
-      {state.activeManagePanel === 'styles' && <StylesList />}
-      {state.activeManagePanel === 'products' && <ProductsList />}
-      {state.activeManagePanel === 'characters' && <CharactersList />}
-    </AnimatePresence>
+    <div className={styles.libraryView}>
+      <ManageListView />
+    </div>
   );
 }
 
-function ManagerModalSwitch() {
+function AppShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const { state } = useChat();
-  return (
-    <AnimatePresence>
-      {state.activeManagerModal === 'imageStyle' && <ImageStyleModal key="imageStyle" />}
-      {state.activeManagerModal === 'products' && <ProductsModal key="products" />}
-      {state.activeManagerModal === 'characters' && <CharactersModal key="characters" />}
-    </AnimatePresence>
-  );
-}
-
-function AppShell() {
-  const { state } = useChat();
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/9e12a5bc-bcf8-4863-ba85-1864bc6b6f1f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'layout.tsx:AppShell',message:'AppShell rendered',data:{activeView:state.activeView,mode:state.mode},timestamp:Date.now(),hypothesisId:'A'})}).catch(()=>{});
-  // #endregion
+  const isManageRoute = pathname === '/manage' || pathname?.startsWith('/manage/');
 
   return (
     <div className={styles.shell}>
       <TopBar />
-      <ViewTransition
-        createView={<CreateView />}
-        libraryView={<LibraryPanel />}
-      />
+      {isManageRoute ? (
+        <main className={styles.manageOutlet}>{children}</main>
+      ) : (
+        <ViewTransition
+          createView={<CreateView />}
+          libraryView={<LibraryPanel />}
+          manageView={<ManagePanel />}
+        />
+      )}
       <AnimatePresence>
         {state.historyOpen && <ChatHistory />}
       </AnimatePresence>
-      <ManagePanelSwitch />
-      <ManagerModalSwitch />
+      <AnimatePresence>
+        {state.activeManagerModal === 'imageStyle' && <ImageStyleModal key="imageStyle" />}
+        {state.activeManagerModal === 'products' && <ProductsModal key="products" />}
+        {state.activeManagerModal === 'characters' && <CharactersModal key="characters" />}
+      </AnimatePresence>
     </div>
   );
 }
@@ -103,8 +92,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <BrandProvider>
       <ChatProvider>
-        <AppShell />
-        {children}
+        <AppShell>{children}</AppShell>
       </ChatProvider>
     </BrandProvider>
   );

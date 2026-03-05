@@ -1,3 +1,4 @@
+/* Aligned with open-wonder LearnAndExplore: Box variant="grey" + item layout */
 .boxes {
   display: flex;
   flex-wrap: nowrap;
@@ -7,36 +8,111 @@
   margin-top: var(--spacing-lg);
 }
 
-.box {
+.boxButton {
   flex: 1;
   min-width: 0;
-  position: relative;
+  min-height: 120px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  padding: var(--spacing-md);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-gray-200);
-  background: var(--color-white);
   text-align: left;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
 }
 
-.box:hover:not(.boxLocked) {
-  border-color: var(--color-gray-300);
-  background: var(--color-gray-50);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+.boxButton:hover .item:not(.boxLocked) {
+  background: var(--color-button-secondary-hoverfill);
+}
+
+.boxWrapper {
+  flex: 1;
+  min-width: 0;
+  min-height: 120px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  min-width: 0;
+  box-sizing: border-box;
+  transition: background var(--transition-fast);
+}
+
+.itemFill {
+  flex: 1;
+  width: 100%;
+  min-height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3xs);
+  min-width: 0;
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  box-sizing: border-box;
+}
+
+.headline {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xs);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-black);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.boxIcon {
+  display: flex;
+  align-items: center;
+  color: var(--color-button-secondary-defaulttext);
 }
 
 .boxActive {
-  border-color: var(--color-purplish-blue);
-  background: rgba(var(--color-purplish-blue-rgb), 0.06);
+  background: rgba(var(--color-purplish-blue-rgb), 0.08) !important;
+}
+
+.boxActive::after {
+  --gradient: linear-gradient(to top, var(--color-purplish-blue), rgba(var(--color-purplish-blue-rgb), 0.5)) !important;
 }
 
 .boxActive .boxIcon {
   color: var(--color-purplish-blue);
+}
+
+.boxLabel {
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+}
+
+.boxDesc {
+  font-size: var(--font-size-xs);
+  color: var(--color-copy-secondary);
+  line-height: var(--line-height-normal);
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.boxLocked .content {
+  padding-right: calc(var(--spacing-lg) + 4px);
 }
 
 .boxLocked {
@@ -46,24 +122,6 @@
 
 .boxLocked:hover {
   opacity: 0.85;
-}
-
-.boxIcon {
-  display: flex;
-  align-items: center;
-  color: var(--color-gray-600);
-}
-
-.boxLabel {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-black);
-}
-
-.boxDesc {
-  font-size: var(--font-size-xs);
-  color: var(--color-gray-500);
-  line-height: var(--line-height-normal);
 }
 
 .lockBadge {

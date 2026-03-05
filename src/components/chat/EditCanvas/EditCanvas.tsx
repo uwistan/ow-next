@@ -4,8 +4,10 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import { X, DownloadSimple, PencilSimple, PaperPlaneRight, Heart } from '@phosphor-icons/react';
+import { Button } from '@/components/common/Button';
 import { useChat } from '@/lib/chat-context';
 import { MOCK_FOLDERS } from '@/lib/mock-data';
+import GenerationLoader from './GenerationLoader';
 import styles from './EditCanvas.module.css';
 
 interface EditCanvasProps {
@@ -135,24 +137,30 @@ export default function EditCanvas({ embedded }: EditCanvasProps = {}) {
         <h3 className={styles.title}>Imagine Session</h3>
         <span className={styles.count}>
           {isGenerating
-            ? `Generating... ${assets.length}/4`
+            ? assets.length > 0
+              ? `Generating... ${assets.length}/4`
+              : 'Generating...'
             : `${assets.length} ${assets.length === 1 ? 'asset' : 'assets'}`}
         </span>
-        <button
-          className={styles.closeChatButton}
+        <Button
+          variant="secondary"
+          size="sm"
+          icon={<X size={14} />}
           onClick={() => dispatch({ type: 'EXIT_MODE' })}
           aria-label="Close and return to start"
         >
-          <X size={14} />
           Close
-        </button>
+        </Button>
       </div>
 
-      <div className={styles.dotGrid}>
-        {assets.length === 0 && !isGenerating ? (
-          <div className={styles.empty}>
-            <p>Generated assets will appear here</p>
-          </div>
+      <div
+        className={`${styles.dotGrid} ${assets.length === 0 && isGenerating && !embedded ? styles.dotGridLoaderActive : ''}`}
+      >
+        {assets.length === 0 && isGenerating && !embedded ? (
+          <GenerationLoader mode={state.mode} />
+        ) : assets.length === 0 && isGenerating && embedded ? (
+          /* Loader rendered by ChatLanding as full-viewport overlay */
+          null
         ) : (
           <div className={styles.assetGrid}>
             {assets.map((asset, i) => (
@@ -174,48 +182,50 @@ export default function EditCanvas({ embedded }: EditCanvasProps = {}) {
                 <img src={asset.url} alt={asset.prompt} className={styles.thumbImage} />
                 <div className={styles.thumbOverlay}>
                   <div className={styles.actionBar}>
-                    <button
-                      type="button"
-                      className={styles.actionBtn}
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      icon={<DownloadSimple size={14} />}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDownload(asset);
                       }}
                     >
-                      <DownloadSimple size={14} />
                       Download
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.actionBtn}
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      icon={
+                        <Heart
+                          size={14}
+                          weight={asset.savedToLibrary ? 'fill' : 'regular'}
+                        />
+                      }
                       onClick={(e) => {
                         e.stopPropagation();
                         handleSaveToLibrary(asset.id);
                       }}
                     >
-                      <Heart
-                        size={14}
-                        weight={asset.savedToLibrary ? 'fill' : 'regular'}
-                      />
                       {asset.savedToLibrary ? 'Saved' : 'Save to Library'}
-                    </button>
-                    <button
-                      type="button"
-                      className={styles.actionBtn}
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      icon={<PencilSimple size={14} />}
                       data-modify-trigger
                       onClick={(e) => {
                         e.stopPropagation();
                         openModifyPopover(asset, e);
                       }}
                     >
-                      <PencilSimple size={14} />
                       Modify
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 {asset.savedToLibrary && (
                   <span className={styles.savedBadge} aria-label="Saved to library">
-                    <Heart size={16} weight="fill" />
+                    <Heart size={16} weight={asset.savedToLibrary ? 'fill' : 'regular'} />
                   </span>
                 )}
               </motion.div>
@@ -274,7 +284,7 @@ export default function EditCanvas({ embedded }: EditCanvasProps = {}) {
                 disabled={!modifyPrompt.trim()}
                 aria-label="Apply"
               >
-                <PaperPlaneRight size={16} weight="fill" />
+                <PaperPlaneRight size={16} />
               </button>
             </div>
           </motion.div>,

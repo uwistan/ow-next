@@ -140,137 +140,19 @@
   margin-left: auto;
 }
 
-.actionMenuBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-sm);
-  background: var(--color-white);
-  color: var(--color-gray-600);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.actionMenuBtn:hover {
-  color: var(--color-black);
-  background: var(--color-gray-50);
-}
-
-.actionMenuBtn[aria-expanded='true'] {
-  color: var(--color-black);
-  background: var(--color-gray-100);
-}
-
-/* ── Filter Chips (Products / Characters inline sub-filters) ───────────── */
+/* ── Filter selects (Products / Characters) — same styling as ratio select ─ */
 
 .filterChips {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: var(--spacing-xs);
   flex: 0 0 auto;
   margin-left: var(--spacing-xs);
 }
 
-.filterChipWrap {
-  position: relative;
-}
-
-.filterChip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
-  background: var(--color-gray-100);
-  border: 1px solid var(--color-gray-200);
-  font-size: 12px;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-gray-600);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  white-space: nowrap;
-}
-
-.filterChip:hover {
-  background: var(--color-gray-200);
-  color: var(--color-black);
-  border-color: var(--color-gray-300);
-}
-
-.filterChipActive {
-  background: var(--color-black);
-  color: var(--color-white);
-  border-color: var(--color-black);
-}
-
-.filterChipActive:hover {
-  background: var(--color-gray-800);
-  color: var(--color-white);
-  border-color: var(--color-gray-800);
-}
-
-.filterChipCaret {
-  opacity: 0.7;
-  flex-shrink: 0;
-}
-
-.filterDropdown {
-  position: fixed;
-  z-index: 500;
-  list-style: none;
-  margin: 0;
-  padding: 4px;
-  min-width: 180px;
-  background: var(--color-white);
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.filterDropdownIcon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  flex-shrink: 0;
-}
-
-.filterDropdownThumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.filterDropdownItem {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 10px;
-  border: none;
-  border-radius: var(--radius-xs);
-  background: transparent;
-  font-size: 13px;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-gray-700);
-  text-align: left;
-  cursor: pointer;
-  transition: background var(--transition-fast);
-}
-
-.filterDropdownItem:hover {
-  background: var(--color-gray-100);
-}
-
-.filterDropdownItemActive {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-black);
+.filterSelect {
+  width: fit-content;
 }
 
 /* ── Grid Area ───────────────────────────────────────────────────────── */

@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { PencilSimple, Trash } from '@phosphor-icons/react';
-import cn from 'classnames';
 import { useChat } from '@/lib/chat-context';
+import IconButton from '@/components/common/IconButton';
 import { MOCK_PRODUCTS } from '@/lib/mock-data';
 import ManagePanel, { managePanelStyles as styles } from './ManagePanel';
 
@@ -49,18 +49,21 @@ export default function ProductsList() {
               <span className={styles.listItemMeta}>{product.category}</span>
             </div>
             <div className={styles.listItemActions}>
-              <button
-                className={styles.actionBtn}
+              <IconButton
+                variant="ghost"
+                size="sm"
                 onClick={(e) => { e.stopPropagation(); handleEdit(product.id); }}
               >
                 <PencilSimple size={14} />
-              </button>
-              <button
-                className={cn(styles.actionBtn, styles.actionBtnDanger)}
+              </IconButton>
+              <IconButton
+                variant="ghost"
+                size="sm"
+                color="danger"
                 onClick={(e) => e.stopPropagation()}
               >
                 <Trash size={14} />
-              </button>
+              </IconButton>
             </div>
           </button>
         ))

@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Sparkle, Package, UserCircle, ChatCircle, Lock } from '@phosphor-icons/react';
 import cn from 'classnames';
+import Box from '@/components/common/Box';
 import { useChat, CreativeMode } from '@/lib/chat-context';
 import { useBrand } from '@/lib/brand-context';
 import { isModeVisible } from '@/lib/mode-visibility';
@@ -38,10 +39,10 @@ const MODE_HEADLINES: Record<CreativeMode, { greeting: string; sub: string }> = 
 };
 
 const BOX_MODES: { id: CreativeMode; icon: React.ReactNode }[] = [
-  { id: 'imagine', icon: <Sparkle size={20} weight="fill" /> },
-  { id: 'product', icon: <Package size={20} weight="fill" /> },
-  { id: 'character', icon: <UserCircle size={20} weight="fill" /> },
-  { id: 'assistant', icon: <ChatCircle size={20} weight="fill" /> },
+  { id: 'imagine', icon: <Sparkle size={20} /> },
+  { id: 'product', icon: <Package size={20} /> },
+  { id: 'character', icon: <UserCircle size={20} /> },
+  { id: 'assistant', icon: <ChatCircle size={20} /> },
 ];
 
 const MODE_LABELS: Record<CreativeMode, string> = {
@@ -97,15 +98,26 @@ export default function ModeBoxes() {
             <button
               key={mode.id}
               type="button"
-              className={cn(
-                styles.box,
-                effectiveMode === mode.id && styles.boxActive
-              )}
+              className={styles.boxButton}
               onClick={() => dispatch({ type: 'SET_MODE', payload: mode.id })}
             >
-              <span className={styles.boxIcon}>{mode.icon}</span>
-              <span className={styles.boxLabel}>{label}</span>
-              <span className={styles.boxDesc}>{headline.sub}</span>
+              <Box
+                variant="grey"
+                noPadding
+                className={cn(
+                  styles.item,
+                  styles.itemFill,
+                  effectiveMode === mode.id && styles.boxActive
+                )}
+              >
+                <div className={styles.content}>
+                  <h4 className={styles.headline}>
+                    <span className={styles.boxIcon}>{mode.icon}</span>
+                    <span className={styles.boxLabel}>{label}</span>
+                  </h4>
+                  <p className={styles.boxDesc}>{headline.sub}</p>
+                </div>
+              </Box>
             </button>
           );
         }
@@ -114,16 +126,22 @@ export default function ModeBoxes() {
           <div
             key={mode.id}
             ref={(el) => { boxRefs.current[mode.id] = el; }}
-            className={cn(styles.box, styles.boxLocked)}
+            className={styles.boxWrapper}
             onMouseEnter={() => handleLockedHover(mode.id, true)}
             onMouseLeave={() => handleLockedHover(mode.id, false)}
           >
-            <span className={styles.boxIcon}>{mode.icon}</span>
-            <span className={styles.boxLabel}>{label}</span>
-            <span className={styles.boxDesc}>{headline.sub}</span>
-            <span className={styles.lockBadge}>
-              <Lock size={12} weight="bold" />
-            </span>
+            <Box variant="grey" noPadding className={cn(styles.item, styles.itemFill, styles.boxLocked)}>
+              <div className={styles.content}>
+                <h4 className={styles.headline}>
+                  <span className={styles.boxIcon}>{mode.icon}</span>
+                  <span className={styles.boxLabel}>{label}</span>
+                </h4>
+                <p className={styles.boxDesc}>{headline.sub}</p>
+              </div>
+              <span className={styles.lockBadge}>
+                <Lock size={12} />
+              </span>
+            </Box>
           </div>
         );
       })}

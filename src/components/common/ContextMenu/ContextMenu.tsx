@@ -200,7 +200,7 @@ export default function ContextMenu({
                 {item.label}
               </span>
               <span className={styles.itemChevron}>
-                <CaretRight size={12} weight="bold" />
+                <CaretRight size={12} />
               </span>
             </div>
           ) : (
@@ -231,7 +231,7 @@ export default function ContextMenu({
                   )}
                 >
                   {item.checked && (
-                    <Check size={10} weight="bold" className={styles.checkIcon} />
+                    <Check size={10} className={styles.checkIcon} />
                   )}
                 </span>
               )}
@@ -291,7 +291,6 @@ export default function ContextMenu({
                       {subItem.checked && (
                         <Check
                           size={10}
-                          weight="bold"
                           className={styles.checkIcon}
                         />
                       )}

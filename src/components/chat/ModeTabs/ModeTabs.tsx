@@ -8,11 +8,11 @@ import { isModeVisible } from '@/lib/mode-visibility';
 import styles from './ModeTabs.module.css';
 
 const TAB_MODES: { id: CreativeMode; icon: React.ReactNode; label: string }[] = [
-  { id: 'imagine', icon: <Sparkle size={16} weight="fill" />, label: 'Imagine' },
-  { id: 'product', icon: <Package size={16} weight="fill" />, label: 'Product' },
-  { id: 'character', icon: <UserCircle size={16} weight="fill" />, label: 'Character' },
-  { id: 'create', icon: <PaintBrush size={16} weight="fill" />, label: 'Create' },
-  { id: 'assistant', icon: <ChatCircle size={16} weight="fill" />, label: 'Chat' },
+  { id: 'imagine', icon: <Sparkle size={16} />, label: 'Imagine' },
+  { id: 'product', icon: <Package size={16} />, label: 'Product' },
+  { id: 'character', icon: <UserCircle size={16} />, label: 'Character' },
+  { id: 'create', icon: <PaintBrush size={16} />, label: 'Create' },
+  { id: 'assistant', icon: <ChatCircle size={16} />, label: 'Chat' },
 ];
 
 export default function ModeTabs() {

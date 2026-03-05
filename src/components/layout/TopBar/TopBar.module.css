@@ -2,13 +2,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 56px;
+  height: var(--header-height);
   padding: 0 var(--spacing-md);
   border-bottom: var(--border-default);
   background: var(--color-white);
   flex-shrink: 0;
   position: relative;
   z-index: 100;
+}
+
+@media (max-width: 768px) {
+  .bar {
+    padding: 0 var(--spacing-xs);
+  }
 }
 
 .left {
@@ -59,9 +65,9 @@
   right: 0;
   width: 260px;
   background: var(--color-white);
-  border: var(--border-default);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-md);
   z-index: 300;
   padding: var(--spacing-3xs);
   animation: menuFadeIn 150ms ease-out;
@@ -111,7 +117,7 @@
 
 .menuDivider {
   height: 1px;
-  background: var(--color-gray-200);
+  background: var(--color-dividerdefault);
   margin: var(--spacing-3xs) var(--spacing-xs);
 }
 
@@ -121,8 +127,8 @@
   align-items: center;
   gap: var(--spacing-xs);
   width: 100%;
-  padding: var(--spacing-2xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
+  padding: var(--dimension-8) var(--dimension-12);
+  border-radius: var(--dimension-cornerroundings-xs-corner);
   font-size: var(--font-size-sm);
   cursor: pointer;
   transition: background-color var(--transition-fast);
@@ -134,14 +140,14 @@
 }
 
 .menuItem:hover {
-  background: var(--color-gray-100);
+  background: var(--color-button-text-hoverfill);
   color: var(--color-black);
 }
 
 .menuItemDanger {
-  color: var(--color-signal-red-500);
+  color: var(--color-element-toast-error-text);
 }
 
 .menuItemDanger:hover {
-  background: rgba(239, 68, 68, 0.06);
+  background: var(--color-element-toast-error-fill);
 }

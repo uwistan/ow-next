@@ -27,6 +27,11 @@ body {
   min-height: 100.05vh;
 }
 
+html body[data-scroll-locked] {
+  overflow: visible !important;
+  margin-right: 0 !important;
+}
+
 /* Interactive elements */
 a {
   color: inherit;
@@ -115,4 +120,30 @@ svg::selection {
   to {
     opacity: 1;
   }
+}
+
+/* Prevent body scroll when mobile overlay is active */
+body.mobile-overlay-active {
+  overflow: hidden;
+}
+
+/* Assistant page mobile HTML styles */
+@media (max-width: 768px) {
+  html.assistant-page-mobile {
+    position: absolute;
+    overflow: hidden;
+    height: 100svh;
+    width: 100%;
+  }
+}
+
+[cmdk-overlay] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(100, 100, 100, 0.1);
+  backdrop-filter: blur(3px);
+  z-index: 1200;
 }

@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { PencilSimple, Trash } from '@phosphor-icons/react';
+import { Button } from '@/components/common/Button';
+import IconButton from '@/components/common/IconButton';
 import ManagerModal from './ManagerModal';
 import FormOverlay from './FormOverlay';
 import ImageUploadZone from '@/components/manage/editors/ImageUploadZone';
@@ -16,8 +18,9 @@ type StyleFormMode = {
 } | null;
 
 export default function ImageStyleModal() {
-  const { dispatch } = useChat();
+  const { state, dispatch } = useChat();
   const [styleForm, setStyleForm] = useState<StyleFormMode>(null);
+  const [formOnlyMode, setFormOnlyMode] = useState(false);
   const [name, setName] = useState('');
   const [images, setImages] = useState<string[]>([]);
   const [llmGuidance, setLlmGuidance] = useState('');
@@ -37,6 +40,10 @@ export default function ImageStyleModal() {
   };
 
   const closeStyleForm = () => {
+    if (formOnlyMode) {
+      dispatch({ type: 'SET_MANAGER_MODAL', payload: null });
+      return;
+    }
     setStyleForm(null);
     setName('');
     setImages([]);
@@ -47,7 +54,70 @@ export default function ImageStyleModal() {
     closeStyleForm();
   };
 
+  const formInit = state.managerModalFormInit;
+  useEffect(() => {
+    if (formInit?.modal === 'imageStyle') {
+      const item = formInit.action === 'edit' && formInit.item
+        ? (formInit.item as { id: string; name: string; description: string; image: string; previews: string[] })
+        : undefined;
+      setFormOnlyMode(true);
+      openStyleForm(item);
+      dispatch({ type: 'SET_MANAGER_MODAL_FORM_INIT', payload: null });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- formInit is the trigger
+  }, [formInit?.modal, formInit?.action, formInit?.item]);
+
   const stylesList = MOCK_IMAGE_STYLES;
+
+  if (formOnlyMode) {
+    if (!styleForm) return null;
+    return (
+      <AnimatePresence>
+        <FormOverlay
+          key="image-style-form"
+          title={styleForm.style ? 'Edit Image Style' : 'Add Image Style'}
+          onClose={closeStyleForm}
+        >
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>Name</label>
+            <input
+              className={styles.fieldInput}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. Photography, Illustration"
+            />
+            <label className={styles.fieldLabel} style={{ marginTop: 12 }}>
+              Reference Images
+            </label>
+            <ImageUploadZone
+              images={images}
+              onChange={setImages}
+              maxImages={15}
+              label="Drop images here or click to upload"
+              sublabel="Up to 15 images (PNG, JPG, WebP)"
+            />
+            <label className={styles.fieldLabel} style={{ marginTop: 12 }}>
+              LLM Guidance
+            </label>
+            <textarea
+              className={styles.fieldTextarea}
+              value={llmGuidance}
+              onChange={(e) => setLlmGuidance(e.target.value)}
+              placeholder="Describe the style for the AI model. What should it emphasize? What mood, colors, composition?"
+            />
+            <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
+              <Button variant="primary" size="sm" onClick={handleSave}>
+                Save Style
+              </Button>
+              <Button variant="secondary" size="sm" onClick={closeStyleForm}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </FormOverlay>
+      </AnimatePresence>
+    );
+  }
 
   return (
     <>
@@ -56,9 +126,9 @@ export default function ImageStyleModal() {
         <p className={styles.sectionDescription}>
           Create image styles with reference images and LLM guidance for generation.
         </p>
-        <button className={styles.btnPrimary} onClick={() => openStyleForm()} style={{ marginBottom: 16 }}>
+        <Button variant="primary" size="sm" onClick={() => openStyleForm()} style={{ marginBottom: 16 }}>
           Add Image Style
-        </button>
+        </Button>
         {stylesList.length > 0 ? (
           <div className={styles.list}>
             {stylesList.map((style) => (
@@ -70,12 +140,12 @@ export default function ImageStyleModal() {
                   <span className={styles.listItemMeta}>{style.description}</span>
                 </div>
                 <div className={styles.listItemActions} onClick={(e) => e.stopPropagation()}>
-                  <button className={styles.actionBtn} title="Edit" onClick={() => openStyleForm(style)}>
+                  <IconButton variant="ghost" size="sm" title="Edit" onClick={() => openStyleForm(style)}>
                     <PencilSimple size={14} />
-                  </button>
-                  <button className={`${styles.actionBtn} ${styles.actionBtnDanger}`} title="Delete">
+                  </IconButton>
+                  <IconButton variant="ghost" size="sm" color="danger" title="Delete">
                     <Trash size={14} />
-                  </button>
+                  </IconButton>
                 </div>
               </div>
             ))}
@@ -89,7 +159,7 @@ export default function ImageStyleModal() {
       </ManagerModal>
 
       <AnimatePresence>
-        {styleForm && (
+        {styleForm && !formOnlyMode && (
           <FormOverlay
             key="image-style-form"
             title={styleForm.style ? 'Edit Image Style' : 'Add Image Style'}
@@ -123,16 +193,12 @@ export default function ImageStyleModal() {
                 placeholder="Describe the style for the AI model. What should it emphasize? What mood, colors, composition?"
               />
               <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
-                <button className={styles.btnPrimary} onClick={handleSave}>
+                <Button variant="primary" size="sm" onClick={handleSave}>
                   Save Style
-                </button>
-                <button
-                  className={styles.btnPrimary}
-                  style={{ background: 'var(--color-gray-200)', color: 'var(--color-black)' }}
-                  onClick={closeStyleForm}
-                >
+                </Button>
+                <Button variant="secondary" size="sm" onClick={closeStyleForm}>
                   Cancel
-                </button>
+                </Button>
               </div>
             </div>
           </FormOverlay>

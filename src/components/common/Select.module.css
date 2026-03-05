@@ -1,0 +1,287 @@
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dimension-4);
+  width: fit-content;
+  text-align: left;
+  position: relative;
+}
+
+.label {
+  display: block;
+  font-size: var(--dimension-typography-interface-inputheadline-fontsize);
+  line-height: var(--dimension-typography-interface-inputheadline-lineheight);
+  font-weight: var(--number-typography-interface-inputheadline-fontweight);
+  color: var(--color-copy-primary);
+}
+
+.triggerButton {
+  width: fit-content;
+  text-align: left;
+  justify-content: space-between;
+  position: relative;
+}
+
+.triggerButtonInner {
+  width: 100%;
+}
+
+.triggerButtonContent {
+  width: 100%;
+  justify-content: space-between;
+  gap: var(--dimension-8);
+}
+
+.triggerButtonEllipsisText {
+  display: flex;
+  gap: var(--dimension-8);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-copy-secondary);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.triggerButton[data-popup-open] .chevron,
+.triggerButton[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
+}
+
+.triggerButtonLg {
+  width: 100%;
+}
+
+.positioner {
+  z-index: 1300;
+}
+
+.popup {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  min-width: var(--anchor-width, 200px);
+  max-height: 300px;
+  opacity: 1;
+  transform-origin: top;
+  animation: dropdownEnter 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--dimension-8);
+  padding: var(--dimension-8) var(--dimension-12);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.searchIcon {
+  color: var(--color-copy-secondary);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--dimension-typography-interface-body-fontsize);
+  line-height: var(--dimension-typography-interface-body-lineheight);
+  color: var(--color-copy-primary);
+  padding: var(--dimension-4) 0;
+}
+
+.searchInput::placeholder {
+  color: var(--color-copy-secondary);
+}
+
+.emptyState {
+  padding: var(--dimension-16) var(--dimension-12);
+  text-align: center;
+  color: var(--color-copy-secondary);
+  font-size: var(--dimension-typography-interface-body-fontsize);
+  line-height: var(--dimension-typography-interface-body-lineheight);
+}
+
+.emptyState:empty {
+  display: none;
+}
+
+.list {
+  padding: var(--dimension-8);
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: visible;
+  flex: 1;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.groupLabel {
+  padding: var(--dimension-4) var(--dimension-8);
+  font-size: var(--dimension-typography-interface-tag-s-fontsize);
+  line-height: var(--dimension-typography-interface-tag-s-lineheight);
+  font-weight: var(--number-typography-interface-tag-s-fontweight);
+  color: var(--color-copy-secondary);
+}
+
+.item {
+  position: relative;
+  border-radius: var(--dimension-cornerroundings-xs-corner);
+  padding-right: var(--dimension-32);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.item[data-highlighted]:not([data-disabled]) {
+  background: var(--color-button-text-hoverfill);
+}
+
+.item[data-selected] {
+  background: var(--color-button-text-hoverfill);
+}
+
+.item[data-selected][data-highlighted] {
+  border-color: var(--color-input-textinput-activeoutline);
+}
+
+.item[data-disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.itemImage {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.itemButton {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  pointer-events: none;
+  padding: 0 !important;
+}
+
+.itemButton,
+.itemButton:hover,
+.itemButton:active,
+.itemButton:focus {
+  border-radius: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.itemButtonInner,
+.itemButtonInner:hover,
+.itemButtonInner:active,
+.itemButtonInner:focus {
+  justify-content: flex-start;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.itemButtonContent {
+  text-align: left;
+  background: transparent !important;
+}
+
+.itemButtonEllipsisText {
+  text-align: left;
+  background: transparent !important;
+}
+
+.itemText {
+  width: 100%;
+}
+
+.itemIndicator {
+  position: absolute;
+  right: var(--dimension-12);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-copy-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scrollButton {
+  position: absolute;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-white);
+  color: var(--color-copy-secondary);
+  z-index: 1;
+  cursor: pointer;
+}
+
+.scrollButton:first-of-type {
+  top: 0;
+  border-top-left-radius: var(--radius-md);
+  border-top-right-radius: var(--radius-md);
+}
+
+.scrollButton:last-of-type {
+  bottom: 0;
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+}
+
+.scrollButton:hover {
+  background: var(--color-button-text-hoverfill);
+}
+
+@keyframes dropdownEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.errorMessage {
+  color: var(--color-copy-error);
+  font-size: var(--dimension-typography-interface-inputsubline-fontsize);
+  line-height: var(--dimension-typography-interface-inputsubline-lineheight);
+  margin-top: var(--dimension-4);
+}

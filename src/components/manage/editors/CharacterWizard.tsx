@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import cn from 'classnames';
+import { Button } from '@/components/common/Button';
 import Stepper from './Stepper';
 import styles from './EditorLayout.module.css';
 
@@ -287,27 +288,26 @@ export default function CharacterWizard({ onComplete, onCancel }: CharacterWizar
       </div>
 
       <div className={styles.wizardNav}>
-        <button
-          className={styles.btnSecondary}
+        <Button
+          variant="secondary"
+          size="sm"
           onClick={() => (step === 0 ? onCancel() : setStep(step - 1))}
         >
           {step === 0 ? 'Cancel' : 'Back'}
-        </button>
+        </Button>
         {step < WIZARD_STEPS.length - 1 ? (
-          <button
-            className={styles.btnPrimary}
+          <Button
+            variant="primary"
+            size="sm"
             onClick={() => setStep(step + 1)}
             disabled={!canNext}
           >
             Next
-          </button>
+          </Button>
         ) : (
-          <button
-            className={styles.btnPrimary}
-            onClick={() => onComplete(data)}
-          >
+          <Button variant="primary" size="sm" onClick={() => onComplete(data)}>
             Generate Character
-          </button>
+          </Button>
         )}
       </div>
     </>

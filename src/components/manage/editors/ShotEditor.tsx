@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, FloppyDisk } from '@phosphor-icons/react';
+import { Button } from '@/components/common/Button';
 import { MOCK_PRODUCT_STYLES } from '@/lib/mock-data';
 import ImageUploadZone from './ImageUploadZone';
 import styles from './EditorLayout.module.css';
@@ -20,13 +21,13 @@ export default function ShotEditor({ shotId }: ShotEditorProps) {
   const [images, setImages] = useState<string[]>(existing?.previews ?? []);
 
   const handleSave = () => {
-    router.push('/');
+    router.push('/manage');
   };
 
   return (
     <div className={styles.page}>
       <div className={styles.topBar}>
-        <button className={styles.backBtn} onClick={() => router.push('/')}>
+        <button className={styles.backBtn} onClick={() => router.back()}>
           <ArrowLeft size={16} />
           Back
         </button>
@@ -34,13 +35,12 @@ export default function ShotEditor({ shotId }: ShotEditorProps) {
           {existing ? 'Edit Shot Style' : 'New Shot Style'}
         </h2>
         <div className={styles.actions}>
-          <button className={styles.btnSecondary} onClick={() => router.push('/')}>
+          <Button variant="secondary" size="sm" onClick={() => router.back()}>
             Cancel
-          </button>
-          <button className={styles.btnPrimary} onClick={handleSave}>
-            <FloppyDisk size={16} />
+          </Button>
+          <Button variant="primary" size="sm" icon={<FloppyDisk size={16} />} onClick={handleSave}>
             Save Shot Style
-          </button>
+          </Button>
         </div>
       </div>
 

@@ -3,7 +3,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 500;
 }
 
@@ -59,24 +59,8 @@
 
 /* ── Create Button ───────────────────────────────────────────────── */
 
-.createBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+.createBtnWrap {
   margin: var(--spacing-sm) var(--spacing-md) 0;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  background: var(--color-black);
-  color: var(--color-white);
-  cursor: pointer;
-  transition: opacity var(--transition-fast);
-}
-
-.createBtn:hover {
-  opacity: 0.85;
 }
 
 /* ── List ─────────────────────────────────────────────────────────── */
@@ -153,28 +137,6 @@
 
 .listItem:hover .listItemActions {
   opacity: 1;
-}
-
-.actionBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-sm);
-  color: var(--color-gray-500);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.actionBtn:hover {
-  background: var(--color-gray-200);
-  color: var(--color-black);
-}
-
-.actionBtnDanger:hover {
-  background: rgba(231, 76, 60, 0.1);
-  color: #e74c3c;
 }
 
 /* ── Empty ────────────────────────────────────────────────────────── */

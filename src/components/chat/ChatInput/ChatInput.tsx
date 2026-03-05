@@ -1,19 +1,14 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   PaperPlaneRight,
   X,
-  CaretDown,
-  Image as ImageIcon,
   Check,
 } from '@phosphor-icons/react';
 import cn from 'classnames';
 import { useChat } from '@/lib/chat-context';
 import { setMentionMode } from '@/lib/mention-mode';
-import { useIsAdmin } from '@/lib/permissions';
 import {
   MOCK_BRAND_STYLES,
   MOCK_IMAGE_STYLES,
@@ -21,8 +16,15 @@ import {
   MOCK_CHARACTER_LOCATIONS,
   MOCK_AD_TEMPLATES,
 } from '@/lib/mock-data';
+import { Button } from '@/components/common/Button';
+import Box from '@/components/common/Box';
 import StyleChip from '@/components/chat/StyleChip/StyleChip';
 import PromptEditor, { type PromptEditorRef } from '@/components/chat/ChatInput/PromptEditor';
+import AspectRatioSelector from '@/components/common/AspectRatioSelector';
+import {
+  IMAGE_FORMATS_IMAGE_CREATION,
+  DEFAULT_FORMAT_IMAGE_CREATION,
+} from '@/lib/config/imageFormats';
 import styles from './ChatInput.module.css';
 
 /* ── Types ──────────────────────────────────────────────────────────── */
@@ -39,10 +41,6 @@ interface InlineTag {
   category: 'product' | 'character' | 'style' | 'format';
   onRemove: () => void;
 }
-
-/* ── Constants ──────────────────────────────────────────────────────── */
-
-const ASPECT_RATIOS = ['1:1', '16:9', '9:16', '4:3'] as const;
 
 /* ── Main Component ─────────────────────────────────────────────────── */
 
@@ -170,7 +168,7 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
               : 'Select a format below, then describe the ad you want to create';
 
   return (
-    <div className={cn(styles.wrapper, className)}>
+    <Box variant="white" noPadding className={cn(styles.wrapper, className)}>
       {/* Input area: inline tags + textarea */}
       <div className={styles.inputArea}>
         {inlineTags.length > 0 && (
@@ -210,21 +208,19 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
               rows={1}
             />
           )}
-          <button
-            className={cn(
-              styles.sendButton,
-              mode === 'imagine' && styles.sendButtonText,
-              canSend && styles.sendButtonActive
-            )}
-            onClick={handleSend}
+          <Button
+            variant="primary"
+            size="sm"
             disabled={!canSend}
+            icon={mode !== 'imagine' ? <PaperPlaneRight size={18} /> : undefined}
+            onClick={handleSend}
           >
             {mode === 'imagine'
               ? inImageSessionView
                 ? 'Create more'
                 : 'Create Images'
-              : <PaperPlaneRight size={18} weight="fill" />}
-          </button>
+              : ''}
+          </Button>
         </div>
       </div>
 
@@ -239,7 +235,7 @@ export default function ChatInput({ className, onSend }: ChatInputProps) {
           </div>
         </div>
       )}
-    </div>
+    </Box>
   );
 }
 
@@ -250,121 +246,52 @@ function ImaginePickers() {
   const opts = state.imagineOptions;
   const hasMessages = state.currentSession && state.currentSession.messages.length > 0;
   const inSessionView = state.mode === 'imagine' && hasMessages;
-  const [formatOpen, setFormatOpen] = useState(false);
-  const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
-  const formatTriggerRef = useRef<HTMLButtonElement>(null);
-  const formatPopoverRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (formatOpen && formatTriggerRef.current) {
-      const rect = formatTriggerRef.current.getBoundingClientRect();
-      setPopoverPosition({
-        top: rect.bottom + 8,
-        left: rect.left,
-      });
-    }
-  }, [formatOpen]);
-
-  useEffect(() => {
-    if (!formatOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        formatTriggerRef.current?.contains(e.target as Node) ||
-        formatPopoverRef.current?.contains(e.target as Node)
-      ) {
-        return;
-      }
-      setFormatOpen(false);
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [formatOpen]);
-
-  const formatPopoverContent = formatOpen && (
-    <AnimatePresence>
-      <motion.div
-        ref={formatPopoverRef}
-        className={styles.formatSelectPopover}
-        style={{ top: popoverPosition.top, left: popoverPosition.left }}
-        initial={{ opacity: 0, y: -4 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -4 }}
-        transition={{ duration: 0.15 }}
-      >
-        <div className={styles.formatSelectContent}>
-          <div className={styles.imagineFormatBlock}>
-            <span className={styles.imagineFormatLabel}>Aspect Ratio</span>
-            <div className={styles.aspectRatioRow}>
-              {ASPECT_RATIOS.map((r) => (
-                <button
-                  key={r}
-                  type="button"
-                  className={cn(
-                    styles.aspectRatioBtn,
-                    opts.aspectRatio === r && styles.aspectRatioBtnActive
-                  )}
-                  onClick={() =>
-                    dispatch({ type: 'SET_IMAGINE_OPTIONS', payload: { aspectRatio: r } })
-                  }
-                >
-                  <span
-                    className={cn(
-                      styles.aspectRatioIcon,
-                      styles[`aspectRatioIcon_${r.replace(':', '_')}`]
-                    )}
-                  />
-                  <span className={styles.aspectRatioLabel}>{r}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </AnimatePresence>
+  const isValidCreateFormat = IMAGE_FORMATS_IMAGE_CREATION.some(
+    (f) => f.aspectRatio === opts.aspectRatio
   );
+  const displayValue = isValidCreateFormat ? opts.aspectRatio : DEFAULT_FORMAT_IMAGE_CREATION.id;
 
   return (
-    <>
-      <div className={styles.pickerRow}>
-        <div className={styles.pickerRowLeft}>
-          {(inSessionView
-            ? MOCK_BRAND_STYLES.filter((s) => opts.brandStyle === s.id)
-            : MOCK_IMAGE_STYLES
-          ).map((s) => (
-            <StyleChip
-              key={s.id}
-              name={s.name}
-              image={s.image}
-              description={s.description}
-              previews={s.previews}
-              isActive={opts.brandStyle === s.id}
-              onClick={() =>
-                dispatch({
-                  type: 'SET_IMAGINE_OPTIONS',
-                  payload: { brandStyle: opts.brandStyle === s.id ? '' : s.id },
-                })
-              }
-            />
-          ))}
-        </div>
-        <div className={styles.formatSelectWrap}>
-          <button
-            ref={formatTriggerRef}
-            type="button"
-            className={styles.formatSelectTrigger}
-            onClick={() => setFormatOpen(!formatOpen)}
-          >
-            <ImageIcon size={14} weight="duotone" />
-            <span>{opts.aspectRatio}</span>
-            <CaretDown size={12} weight="bold" />
-          </button>
-        </div>
+    <div className={styles.pickerRow}>
+      <div className={styles.pickerRowLeft}>
+        {(inSessionView
+          ? MOCK_BRAND_STYLES.filter((s) => opts.brandStyle === s.id)
+          : MOCK_IMAGE_STYLES
+        ).map((s) => (
+          <StyleChip
+            key={s.id}
+            name={s.name}
+            image={s.image}
+            description={s.description}
+            previews={s.previews}
+            isActive={opts.brandStyle === s.id}
+            onClick={() =>
+              dispatch({
+                type: 'SET_IMAGINE_OPTIONS',
+                payload: { brandStyle: opts.brandStyle === s.id ? '' : s.id },
+              })
+            }
+          />
+        ))}
       </div>
-
-      {typeof document !== 'undefined' &&
-        formatPopoverContent &&
-        createPortal(formatPopoverContent, document.body)}
-    </>
+      <div className={styles.formatSelectWrap}>
+        <AspectRatioSelector
+          value={displayValue}
+          onChange={(format) =>
+            dispatch({
+              type: 'SET_IMAGINE_OPTIONS',
+              payload: {
+                aspectRatio: format.aspectRatio as '16:9' | '1:1' | '4:5',
+              },
+            })
+          }
+          type="create"
+          size="sm"
+          disabled={state.isGeneratingImages}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -435,20 +362,25 @@ function CreatePickers() {
       <div className={styles.pickerRow}>
         <span className={styles.pickerLabel}>Format</span>
         {MOCK_AD_TEMPLATES.map((t) => (
-          <button
+          <Button
             key={t.id}
-            className={cn(styles.chipButton, opts.adFormat === t.id && styles.chipButtonActive)}
+            variant="secondary"
+            size="sm"
+            icon={opts.adFormat === t.id ? <Check size={12} /> : undefined}
             onClick={() =>
               dispatch({
                 type: 'SET_CREATE_OPTIONS',
                 payload: { adFormat: opts.adFormat === t.id ? '' : t.id },
               })
             }
+            className={cn(
+              styles.chipButton,
+              opts.adFormat === t.id && styles.chipButtonActive
+            )}
           >
-            {opts.adFormat === t.id && <Check size={12} weight="bold" />}
             <span>{t.name}</span>
             <span className={styles.chipMeta}>{t.dimensions}</span>
-          </button>
+          </Button>
         ))}
       </div>
 

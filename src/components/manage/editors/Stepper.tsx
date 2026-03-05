@@ -31,7 +31,7 @@ export default function Stepper({ steps, currentStep, onStepClick }: StepperProp
                   isCompleted && styles.stepCircleCompleted
                 )}
               >
-                {isCompleted ? <Check size={14} weight="bold" /> : i + 1}
+                {isCompleted ? <Check size={14} /> : i + 1}
               </span>
               <span
                 className={cn(

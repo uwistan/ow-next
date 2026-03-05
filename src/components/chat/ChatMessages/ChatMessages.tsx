@@ -32,10 +32,10 @@ export default function ChatMessages({ messages, isGenerating }: ChatMessagesPro
           >
             <div className={styles.avatar}>
               {msg.role === 'user' ? (
-                <Avatar src={MOCK_USER.avatarUrl} name={MOCK_USER.name} size="sm" />
+                <Avatar name={MOCK_USER.name} size="sm" />
               ) : (
                 <div className={styles.botAvatar}>
-                  <Robot size={16} weight="fill" />
+                  <Robot size={16} />
                 </div>
               )}
             </div>

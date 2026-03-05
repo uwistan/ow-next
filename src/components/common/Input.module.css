@@ -1,7 +1,20 @@
-.wrapper {
+.wrapper,
+.formGroup {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-3xs);
+}
+
+.formGroup {
+  width: 100%;
+  text-align: left;
+  position: relative;
+}
+
+.copyButton {
+  position: absolute;
+  bottom: var(--spacing-xs);
+  right: var(--spacing-xs);
 }
 
 .label {
@@ -12,16 +25,17 @@
 
 .input {
   font-family: var(--font-family-default);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   color: var(--color-black);
   background: var(--color-white);
   border: var(--border-default);
-  border-radius: var(--radius-sm);
-  padding: var(--spacing-2xs) var(--spacing-xs);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
   outline: none;
   transition: border-color var(--transition-fast);
   line-height: var(--line-height-normal);
-  height: var(--button-height-sm);
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .input::placeholder {
@@ -29,14 +43,37 @@
 }
 
 .input:focus {
-  border-color: var(--color-purplish-blue);
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+  border-color: #3f9cff;
+}
+
+@media (max-width: 768px) {
+  .input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
 }
 
 .input.hasError {
   border-color: var(--color-signal-red-500);
 }
 
-.error {
+.input.hasError:focus,
+.inputError:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-error);
+}
+
+.inputError {
+  border-color: var(--color-signal-red-500);
+}
+
+.error,
+.errorMessage {
   font-size: var(--font-size-xs);
   color: var(--color-signal-red-500);
+}
+
+.errorMessage {
+  margin-top: var(--spacing-3xs);
 }

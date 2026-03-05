@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, FloppyDisk } from '@phosphor-icons/react';
 import cn from 'classnames';
+import { Button } from '@/components/common/Button';
 import { MOCK_CHARACTERS } from '@/lib/mock-data';
 import ImageUploadZone from './ImageUploadZone';
 import CharacterWizard from './CharacterWizard';
@@ -25,7 +26,7 @@ export default function CharacterEditor({ characterId }: CharacterEditorProps) {
   const [images, setImages] = useState<string[]>(existing ? [existing.image] : []);
 
   const handleSave = () => {
-    router.push('/');
+    router.push('/manage');
   };
 
   const handleWizardComplete = (data: { name: string; role: string }) => {
@@ -45,7 +46,7 @@ export default function CharacterEditor({ characterId }: CharacterEditorProps) {
   return (
     <div className={styles.page}>
       <div className={styles.topBar}>
-        <button className={styles.backBtn} onClick={() => router.push('/')}>
+        <button className={styles.backBtn} onClick={() => router.back()}>
           <ArrowLeft size={16} />
           Back
         </button>
@@ -53,14 +54,13 @@ export default function CharacterEditor({ characterId }: CharacterEditorProps) {
           {existing ? 'Edit Character' : 'New Character'}
         </h2>
         <div className={styles.actions}>
-          <button className={styles.btnSecondary} onClick={() => router.push('/')}>
+          <Button variant="secondary" size="sm" onClick={() => router.back()}>
             Cancel
-          </button>
+          </Button>
           {tab === 'upload' && (
-            <button className={styles.btnPrimary} onClick={handleSave}>
-              <FloppyDisk size={16} />
+            <Button variant="primary" size="sm" icon={<FloppyDisk size={16} />} onClick={handleSave}>
               Save Character
-            </button>
+            </Button>
           )}
         </div>
       </div>

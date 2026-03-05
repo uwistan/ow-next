@@ -125,9 +125,9 @@ export default function MentionPopover({
                 )}
               >
                 {item.type === 'product' ? (
-                  <Package size={10} weight="bold" />
+                  <Package size={10} />
                 ) : (
-                  <UserCircle size={10} weight="bold" />
+                  <UserCircle size={10} />
                 )}
                 {item.type === 'product' ? 'Product' : 'Character'}
               </span>

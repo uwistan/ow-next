@@ -1,0 +1,66 @@
+.container {
+  --radius: var(--radius-lg);
+  position: relative;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  user-select: none;
+  color: var(--color-button-secondary-defaulttext);
+  font-weight: var(--font-weight-medium);
+  padding: var(--spacing-3xs);
+}
+
+.sm {
+  font-size: var(--font-size-sm);
+  height: 39px;
+  --radius: var(--radius-md) !important;
+}
+
+.md {
+  font-size: var(--font-size-md);
+  --radius: 16px !important;
+}
+
+.input {
+  all: unset;
+  width: 3ch;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  font: inherit;
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--radius) - var(--spacing-3xs));
+  height: 29px;
+  width: 29px;
+  transition: all var(--transition-fast);
+}
+
+.button:not(:disabled):hover {
+  background-color: var(--color-gray-300);
+}
+
+.button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.suffix {
+  padding-right: var(--spacing-2xs);
+}

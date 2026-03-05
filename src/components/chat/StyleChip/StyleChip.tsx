@@ -103,7 +103,7 @@ export default function StyleChip({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={image} alt="" className={styles.thumbnail} />
         {name}
-        {isActive && <Check size={12} weight="bold" />}
+        {isActive && <Check size={12} />}
       </button>
 
       {/* #region agent log */}

@@ -1,11 +1,12 @@
 'use client';
 
 import { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
+import { usePathname } from 'next/navigation';
 
 // ── Types ──────────────────────────────────────────────────────────────
 
 export type CreativeMode = 'idle' | 'imagine' | 'product' | 'character' | 'create' | 'assistant';
-export type ActiveView = 'create' | 'library';
+export type ActiveView = 'create' | 'library' | 'manage';
 export type OutputType = 'image' | 'video';
 
 export interface ChatMessage {
@@ -36,7 +37,7 @@ export interface ChatSession {
 }
 
 export interface ImagineOptions {
-  aspectRatio: '1:1' | '16:9' | '9:16' | '4:3';
+  aspectRatio: '16:9' | '1:1' | '4:5';
   outputType: OutputType;
   duration: number;
   brandStyle: string;
@@ -60,6 +61,15 @@ export interface CreateOptions {
 export type ManagePanelType = 'styles' | 'products' | 'shots' | 'characters' | null;
 export type ManagerModalType = 'imageStyle' | 'products' | 'characters' | null;
 
+export type ManagerModalFormInit =
+  | {
+      modal: ManagerModalType;
+      action: 'create' | 'edit';
+      tab?: 'products' | 'styles' | 'characters' | 'locations';
+      item?: unknown;
+    }
+  | null;
+
 export interface ChatState {
   activeView: ActiveView;
   mode: CreativeMode;
@@ -70,6 +80,8 @@ export interface ChatState {
   isGeneratingImages: boolean;
   activeManagePanel: ManagePanelType;
   activeManagerModal: ManagerModalType;
+  /** When set, the opened modal shows the form overlay immediately (from ManageListView). */
+  managerModalFormInit: ManagerModalFormInit;
   imagineOptions: ImagineOptions;
   productOptions: ProductOptions;
   characterOptions: CharacterOptions;
@@ -103,6 +115,7 @@ type ChatAction =
   | { type: 'CLEAR_PENDING_MODIFY' }
   | { type: 'SET_MANAGE_PANEL'; payload: ManagePanelType }
   | { type: 'SET_MANAGER_MODAL'; payload: ManagerModalType }
+  | { type: 'SET_MANAGER_MODAL_FORM_INIT'; payload: ManagerModalFormInit }
   | { type: 'SET_GENERATING_IMAGES'; payload: boolean };
 
 // ── Initial State ──────────────────────────────────────────────────────
@@ -117,8 +130,9 @@ const initialState: ChatState = {
   isGeneratingImages: false,
   activeManagePanel: null,
   activeManagerModal: null,
+  managerModalFormInit: null,
   imagineOptions: {
-    aspectRatio: '1:1',
+    aspectRatio: '16:9',
     outputType: 'image',
     duration: 5,
     brandStyle: '',
@@ -382,6 +396,9 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
     case 'SET_MANAGER_MODAL':
       return { ...state, activeManagerModal: action.payload };
 
+    case 'SET_MANAGER_MODAL_FORM_INIT':
+      return { ...state, managerModalFormInit: action.payload };
+
     case 'SET_GENERATING_IMAGES':
       return { ...state, isGeneratingImages: action.payload };
 
@@ -404,6 +421,18 @@ const ChatContext = createContext<ChatContextValue>({
 
 export function ChatProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(chatReducer, initialState);
+  const pathname = usePathname();
+
+  // Sync activeView with URL
+  useEffect(() => {
+    if (pathname === '/library') {
+      dispatch({ type: 'SET_ACTIVE_VIEW', payload: 'library' });
+    } else if (pathname === '/') {
+      dispatch({ type: 'SET_ACTIVE_VIEW', payload: 'create' });
+    } else if (pathname === '/manage' || pathname?.startsWith('/manage/')) {
+      dispatch({ type: 'SET_ACTIVE_VIEW', payload: 'manage' });
+    }
+  }, [pathname]);
 
   // Load sessions from localStorage on mount
   useEffect(() => {

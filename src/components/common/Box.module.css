@@ -1,0 +1,67 @@
+.box {
+  --radius: var(--dimension-cornerroundings-m-corner);
+
+  position: relative;
+  border-radius: var(--radius);
+  padding: var(--spacing-md);
+  overflow: hidden;
+  background: var(--gradient);
+}
+
+.box::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  border: 1.5px solid transparent;
+
+  --bg-size: calc(100% + 3px);
+  --alpha: 0;
+
+  background: var(--gradient) center center / var(--bg-size) var(--bg-size);
+  -webkit-mask: linear-gradient(hsl(0 0% 100% / var(--alpha)), hsl(0 0% 100% / var(--alpha))), linear-gradient(hsl(0 0% 100%), hsl(0 0% 100%));
+  mask: linear-gradient(hsl(0 0% 100% / var(--alpha)), hsl(0 0% 100% / var(--alpha))), linear-gradient(hsl(0 0% 100%), hsl(0 0% 100%));
+  -webkit-mask-clip: padding-box, border-box;
+  mask-clip: padding-box, border-box;
+  -webkit-mask-composite: source-in, xor;
+  mask-composite: intersect;
+}
+
+.box.noPadding {
+  padding: 0;
+}
+
+.box.purple {
+  background: linear-gradient(to bottom, var(--color-paymentblocker-defaultbackgroundupper), var(--color-paymentblocker-defaultbackgroundlower));
+  color: var(--color-paymentblocker-copycolored);
+}
+
+.box.purple::after {
+  --gradient: linear-gradient(to top, var(--color-paymentblocker-defaultoutlinelower), var(--color-paymentblocker-defaultoutlineupper));
+}
+
+.box.grey {
+  --gradient: linear-gradient(
+    to top,
+    var(--color-button-secondary-defaultbackgroundlower),
+    var(--color-button-secondary-defaultbackgroundupper)
+  );
+}
+
+.box.grey::after {
+  --gradient: linear-gradient(
+    to top,
+    var(--color-button-secondary-defaultoutlinelower),
+    var(--color-button-secondary-defaultoutlineupper)
+  );
+}
+
+.box.white {
+  background: var(--color-white);
+}
+
+.box.default::after,
+.box.white::after {
+  --gradient: linear-gradient(to top, #c9c9c9, #d9d9d94d);
+}
